@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://kk-coach-groups-dashboard.happyrachelzhou.chatgpt.site'),
   title: 'KK桌球 · 助教带组看板',
   description: 'KK桌球可视化数据平台助教带组分析看板',
   openGraph: {
