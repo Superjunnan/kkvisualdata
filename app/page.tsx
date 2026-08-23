@@ -54,7 +54,8 @@ function LineChart({ title, secondaryTitle, primary, secondary, labels, money = 
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const max = money ? 20000 : 4;
-  const normalize = (value: number) => Math.max(4, Math.min(93, 92 - (value / max) * 82));
+  const normalize = (value: number) => Number(Math.max(4, Math.min(93, 92 - (value / max) * 82)).toFixed(4));
+  const pct = (value: number) => `${Number(value.toFixed(4))}%`;
   const buildSegments = (series: number[], className: string) => series.slice(0, -1).map((value, index) => {
     const x1 = (index / (series.length - 1)) * 100;
     const x2 = ((index + 1) / (series.length - 1)) * 100;
@@ -67,7 +68,7 @@ function LineChart({ title, secondaryTitle, primary, secondary, labels, money = 
     const scaledDy = dy * 0.5;
     const length = Math.sqrt(dx * dx + scaledDy * scaledDy);
     const angle = Math.atan2(scaledDy, dx) * (180 / Math.PI);
-    return <span key={`${className}-${index}`} className={`chart-segment ${className}`} style={{ left: `${x1}%`, top: `${y1}%`, width: `${length}%`, transform: `rotate(${angle}deg)` }} />;
+    return <span key={`${className}-${index}`} className={`chart-segment ${className}`} style={{ left: pct(x1), top: pct(y1), width: pct(length), transform: `rotate(${Number(angle.toFixed(4))}deg)` }} />;
   });
 
   return (
@@ -80,11 +81,11 @@ function LineChart({ title, secondaryTitle, primary, secondary, labels, money = 
         <div className="axis-labels">{(money ? ['2万', '1.5万', '1万', '5000', '0'] : ['4', '3', '2', '1', '0']).map((item) => <span key={item}>{item}</span>)}</div>
         <div className="plot">
           <div className="grid-lines"><span /><span /><span /><span /><span /></div>
-          {money && <div className="chart-area" style={{ clipPath: `polygon(${primary.map((v, i) => `${(i / (primary.length - 1)) * 100}% ${normalize(v)}%`).join(',')}, 100% 100%, 0 100%)` }} />}
+          {money && <div className="chart-area" style={{ clipPath: `polygon(${primary.map((v, i) => `${pct((i / (primary.length - 1)) * 100)} ${pct(normalize(v))}`).join(',')}, 100% 100%, 0 100%)` }} />}
           <div className="series">{buildSegments(primary, 'primary-line')}{buildSegments(secondary, 'secondary-line')}</div>
-          {primary.map((value, index) => <button className="chart-hit" key={`hit-${index}`} style={{ left: `${(index / (primary.length - 1)) * 100}%`, top: `${normalize(value)}%` }} onMouseEnter={() => setHovered(index)} onMouseLeave={() => setHovered(null)} onFocus={() => setHovered(index)} onBlur={() => setHovered(null)} aria-label={`${labels[index]}，基础课${money ? `¥${value.toLocaleString()}` : `${value.toFixed(2)}小时`}`} />)}
-          {secondary.map((value, index) => <i key={`secondary-dot-${index}`} className="secondary-dot" style={{ left: `${(index / (secondary.length - 1)) * 100}%`, top: `${normalize(value)}%` }} />)}
-          {hovered !== null && <div className="chart-tooltip" style={{ left: `${Math.min(88, Math.max(6, (hovered / (primary.length - 1)) * 100))}%`, top: `${Math.max(4, normalize(primary[hovered]) - 28)}%` }}><b>{labels[hovered]}</b><span><i className="dot blue" />基础课 <strong>{money ? `¥${primary[hovered].toLocaleString()}` : `${primary[hovered].toFixed(2)}h`}</strong></span><span><i className="dot green" />增值营收 <strong>{money ? `¥${secondary[hovered].toLocaleString()}` : `${secondary[hovered].toFixed(2)}h`}</strong></span></div>}
+          {primary.map((value, index) => <button className="chart-hit" key={`hit-${index}`} style={{ left: pct((index / (primary.length - 1)) * 100), top: pct(normalize(value)) }} onMouseEnter={() => setHovered(index)} onMouseLeave={() => setHovered(null)} onFocus={() => setHovered(index)} onBlur={() => setHovered(null)} aria-label={`${labels[index]}，基础课${money ? `¥${value.toLocaleString()}` : `${value.toFixed(2)}小时`}`} />)}
+          {secondary.map((value, index) => <i key={`secondary-dot-${index}`} className="secondary-dot" style={{ left: pct((index / (secondary.length - 1)) * 100), top: pct(normalize(value)) }} />)}
+          {hovered !== null && <div className="chart-tooltip" style={{ left: pct(Math.min(88, Math.max(6, (hovered / (primary.length - 1)) * 100))), top: pct(Math.max(4, normalize(primary[hovered]) - 28)) }}><b>{labels[hovered]}</b><span><i className="dot blue" />基础课 <strong>{money ? `¥${primary[hovered].toLocaleString()}` : `${primary[hovered].toFixed(2)}h`}</strong></span><span><i className="dot green" />增值营收 <strong>{money ? `¥${secondary[hovered].toLocaleString()}` : `${secondary[hovered].toFixed(2)}h`}</strong></span></div>}
         </div>
         <div className="x-axis">{labels.filter((_, i) => i % 2 === 0 || i === labels.length - 1).map((label) => <span key={label}>{label}</span>)}</div>
       </div>
