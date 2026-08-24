@@ -3,8 +3,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kk-coach-groups-dashboard.happyrachelzhou.chatgpt.site'),
-  title: 'KK桌球 · 助教带组看板',
-  description: 'KK桌球可视化数据平台助教带组分析看板',
+  title: 'KK桌球 · 可视化数据平台',
+  description: 'KK桌球门店经营、助教带组、台桌实况与会员营销可视化看板',
   openGraph: {
     title: 'KK桌球 · 助教带组看板',
     description: '助教等级、业绩趋势与小组排行一屏掌握',

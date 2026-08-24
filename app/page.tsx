@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import DashboardPage from './dashboard-pages';
 
 type RangeKey = '昨日' | '本月' | '本年' | '指定时间';
 type SortKey = '业绩时长' | '增值营收时长';
@@ -117,14 +118,14 @@ export default function Home() {
   const selectRange = (value: RangeKey) => { setRange(value); setCustomOpen(value === '指定时间'); showToast(value === '指定时间' ? '请选择开始和结束日期' : `已切换到${value}数据`); };
 
   return (
-    <main className={`app-shell ${collapsed ? 'sidebar-collapsed' : ''}`}>
+    <main className={`app-shell ${collapsed ? 'sidebar-collapsed' : ''} ${activeMenu === '实时大屏' ? 'realtime-mode' : ''}`}>
       <aside className="sidebar">
-        <div className="brand"><span className="brand-mark"><i>K</i></span>{!collapsed && <span><b>KK桌球</b><small>可视化数据平台</small></span>}<button className="collapse-button" onClick={() => setCollapsed(!collapsed)} aria-label={collapsed ? '展开导航' : '收起导航'}>☷</button></div>
-        <nav className="nav" aria-label="主导航">{sideGroups.map((group) => <section key={group.title} className="nav-section"><button className={`nav-heading ${activeMenu === group.title ? 'active' : ''}`} onClick={() => { setActiveMenu(group.title); if (!group.items.length) showToast(`${group.title}模块正在演示`); }}><span>{group.icon}</span>{!collapsed && <b>{group.title}</b>}{!collapsed && group.items.length > 0 && <i>⌃</i>}</button>{!collapsed && group.items.length > 0 && <div className="nav-children">{group.items.map((item) => <button key={item} className={activeMenu === item ? 'selected' : ''} onClick={() => { setActiveMenu(item); item !== '助教带组' && showToast(`${item}模块已选中`); }}>{item}</button>)}</div>}</section>)}</nav>
+        <div className="brand"><span className="brand-mark logo-mark"><img src="/kk-logo-transparent.png" alt="" /></span>{!collapsed && <span><b>KK桌球</b><small>可视化数据平台</small></span>}<button className="collapse-button" onClick={() => setCollapsed(!collapsed)} aria-label={collapsed ? '展开导航' : '收起导航'}>☷</button></div>
+        <nav className="nav" aria-label="主导航">{sideGroups.map((group) => <section key={group.title} className="nav-section"><button className={`nav-heading ${activeMenu === group.title ? 'active' : ''}`} onClick={() => setActiveMenu(group.title)}><span>{group.icon}</span>{!collapsed && <b>{group.title}</b>}{!collapsed && group.items.length > 0 && <i>⌃</i>}</button>{!collapsed && group.items.length > 0 && <div className="nav-children">{group.items.map((item) => <button key={item} className={activeMenu === item ? 'selected' : ''} onClick={() => setActiveMenu(item)}>{item}</button>)}</div>}</section>)}</nav>
         <button className="profile" onClick={() => showToast('管理员账号')}><span>A</span>{!collapsed && <b>admin</b>}</button>
       </aside>
 
-      <section className="workspace">
+      {activeMenu === '助教带组' ? <section className="workspace">
         <header className="topbar">
           <div className="title-row"><h1>助教带组看板</h1><div className="sync-status">T+1数据&nbsp; 数据更新至2026-08-23 08:00 <button aria-label="全屏" onClick={() => document.documentElement.requestFullscreen?.()}>⛶</button></div></div>
           <div className="filters">
@@ -156,7 +157,7 @@ export default function Home() {
             <section className="panel loss-panel"><div className="panel-heading"><h2>保底亏损榜单</h2><Info tip="助教保底金额高于实际业绩时，差额会进入此榜单。" /></div><div className="loss-columns"><span>助教</span><span>小组名称</span><button>助教亏损额 ◆</button></div><div className="empty-state"><span>ℹ</span><b>当前门店暂无亏损数据</b><small>经营状态健康，继续保持</small></div></section>
           </aside>
         </div>
-      </section>
+      </section> : <DashboardPage page={activeMenu} onToast={showToast} onNavigate={setActiveMenu} />}
       {selectedGroup && <div className="modal-backdrop" onMouseDown={(e) => e.currentTarget === e.target && setSelectedGroup(null)}><section className="detail-modal" role="dialog" aria-modal="true" aria-label={`${selectedGroup.name}组内详情`}><button className="modal-close" onClick={() => setSelectedGroup(null)} aria-label="关闭">×</button><div className="detail-accent" style={{ background: selectedGroup.tone }} /><small>GROUP OVERVIEW</small><h2>{selectedGroup.name}</h2><p>负责人 {selectedGroup.owner} · 共 {selectedGroup.count} 名助教</p><div className="detail-kpis"><div><small>总业绩时长</small><strong>{selectedGroup.total}</strong></div><div><small>人均业绩时长</small><strong>{selectedGroup.average}</strong></div></div><h3>本月转化</h3><div className="detail-bars"><span><b style={{ width: `${Math.min(100, selectedGroup.bookings * 6)}%`, background: selectedGroup.tone }} />预定 {selectedGroup.bookings}单</span><span><b style={{ width: `${Math.min(100, selectedGroup.fruit * 2)}%`, background: selectedGroup.tone }} />水果 {selectedGroup.fruit}份</span><span><b style={{ width: `${Math.max(8, selectedGroup.raffle * 14)}%`, background: selectedGroup.tone }} />拉新 {selectedGroup.raffle}人</span></div><button className="primary-action" onClick={() => { setSelectedGroup(null); showToast('组内成员列表已加载'); }}>查看成员名单</button></section></div>}
       {toast && <div className="toast" role="status"><span>✓</span>{toast}</div>}
     </main>
