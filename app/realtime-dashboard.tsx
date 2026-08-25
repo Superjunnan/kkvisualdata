@@ -29,11 +29,35 @@ type DirectoryRegion = {
   preparingStores: number;
   stores: DirectoryStore[];
 };
+type AdministrativeFeature = {
+  type: 'Feature';
+  properties: { name?: string; adcode?: number; center?: [number, number]; centroid?: [number, number]; [key: string]: unknown };
+  geometry: { type: string; coordinates: unknown };
+};
+type AdministrativeGeoJson = { type: 'FeatureCollection'; features: AdministrativeFeature[] };
 
 type RegionRankItem = DirectoryRegion & { target: number; actual: number; progress: number };
 type StoreRankItem = DirectoryStore & { area: BusinessAreaName; region: string; progress: number };
+const administrativeMapCache = new Map<BusinessAreaName, AdministrativeGeoJson>();
 
 const businessAreas: BusinessAreaName[] = ['浙江大区', '苏皖大区', '总部直管'];
+const areaProvinceAdcodes: Record<BusinessAreaName, string[]> = {
+  浙江大区: ['330000'],
+  苏皖大区: ['320000', '340000'],
+  总部直管: ['310000', '350000', '370000', '420000', '430000', '440000', '450000', '460000', '500000', '510000', '520000'],
+};
+const areaCityPalettes: Record<BusinessAreaName, string[]> = {
+  浙江大区: ['#83c7b2', '#72baa4', '#96d0bd', '#68ad99', '#a8d7c8'],
+  苏皖大区: ['#cbd6c2', '#b7c8ad', '#d8e0d1', '#aebfa4', '#c2cfb8'],
+  总部直管: ['#d9b181', '#cda06c', '#e0bd93', '#bf9060', '#d4a675'],
+};
+const regionAdministrativeNames: Record<string, string[]> = {
+  杭州一区: ['杭州市'], 杭州二区: ['杭州市'], 杭州三区: ['杭州市'], 金华区域: ['金华市', '绍兴市'], 宁波一区: ['宁波市'], 宁波二区: ['宁波市'], 绍兴区域: ['绍兴市'],
+  常州区域: ['常州市', '湖州市'], 合肥区域: ['合肥市'], 南京区域: ['南京市', '镇江市'], 苏州一区: ['苏州市'], 苏州二区: ['苏州市'], 无锡区域: ['无锡市', '南通市', '苏州市'],
+  川渝区域: ['成都市', '渝北区', '渝中区'], 东莞区域: ['东莞市'], 佛山区域: ['佛山市', '中山市', '珠海市'], 福州区域: ['福州市'], 广州区域: ['广州市', '肇庆市'], 海口区域: ['海口市'],
+  泉州区域: ['泉州市', '莆田市'], 厦门区域: ['厦门市'], 上海一区: ['浦东新区', '杨浦区'], 上海二区: ['奉贤区', '金山区', '闵行区', '青浦区', '松江区', '徐汇区'],
+  上海三区: ['宝山区', '嘉定区', '静安区', '普陀区', '徐汇区'], 上海四区: ['宝山区', '嘉定区'], 深圳区域: ['深圳市'], 武汉区域: ['武汉市'], 长沙区域: ['长沙市'], 总经办代管: ['贵阳市', '南宁市', '青岛市'],
+};
 const directoryRegions: DirectoryRegion[] = storeDirectorySource.areas.flatMap((area) => area.regions.map((region) => ({
   ...region,
   area: area.name as BusinessAreaName,
@@ -95,6 +119,69 @@ const areaBubbles = [
   { name: '苏皖大区', value: [118.35, 32.2] },
   { name: '总部直管', value: [108.9, 27.1] },
 ] as const;
+
+function ScopeCascader({ selectedArea, selectedRegion, onSelectArea, onSelectRegion, compact = false }: {
+  selectedArea: AreaName;
+  selectedRegion: string | null;
+  onSelectArea: (area: AreaName) => void;
+  onSelectRegion: (regionName: string) => void;
+  compact?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [activeArea, setActiveArea] = useState<BusinessAreaName>(selectedArea === '全国' ? '浙江大区' : selectedArea);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const currentArea = storeDirectorySource.areas.find((area) => area.name === activeArea);
+  const pathLabel = selectedArea === '全国' ? '全国' : `${selectedArea} / ${selectedRegion ?? '全部区域'}`;
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnOutside = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [open]);
+
+  const toggle = () => {
+    if (!open && selectedArea !== '全国') setActiveArea(selectedArea);
+    setOpen((current) => !current);
+  };
+  const selectNationwide = () => {
+    onSelectArea('全国');
+    setOpen(false);
+  };
+  const selectAllRegions = () => {
+    onSelectArea(activeArea);
+    setOpen(false);
+  };
+  const selectRegion = (regionName: string) => {
+    onSelectRegion(regionName);
+    setOpen(false);
+  };
+
+  return <div ref={rootRef} className={`rt2-cascader ${compact ? 'compact' : ''}`}>
+    <button className="rt2-cascader-trigger" type="button" aria-haspopup="dialog" aria-expanded={open} onClick={toggle}>
+      <span>{compact ? '地图范围' : '⌾'}</span><b>{pathLabel}</b><i>{open ? '⌃' : '⌄'}</i>
+    </button>
+    {open && <div className="rt2-cascader-menu" role="dialog" aria-label="全国、大区及二级区域分级选择">
+      <section className="rt2-cascader-level rt2-cascader-areas"><small>选择大区</small>
+        <button type="button" className={selectedArea === '全国' ? 'selected' : ''} onClick={selectNationwide}><b>全国</b><i>全部经营范围</i></button>
+        {businessAreas.map((area) => <button type="button" key={area} className={activeArea === area ? 'active' : ''} onMouseEnter={() => setActiveArea(area)} onFocus={() => setActiveArea(area)} onClick={() => setActiveArea(area)}><b>{area}</b><i>›</i></button>)}
+      </section>
+      <section className="rt2-cascader-level rt2-cascader-regions"><small>{activeArea} · 二级区域</small>
+        <button type="button" className={selectedArea === activeArea && !selectedRegion ? 'selected' : ''} onClick={selectAllRegions}><b>全部二级区域</b><i>{currentArea?.regions.length ?? 0} 个</i></button>
+        <div>{currentArea?.regions.map((region) => <button type="button" key={region.name} className={selectedRegion === region.name ? 'selected' : ''} onClick={() => selectRegion(region.name)}><b>{region.name}</b><i>{region.operatingStores} 家</i></button>)}</div>
+      </section>
+    </div>}
+  </div>;
+}
 
 const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
 const revenue = [8420, 8860, 9580, 10240, 10980, 11860, 13220, 14680, 15160, 15840, 16620, 17450];
@@ -256,6 +343,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
   const [regionRankMode, setRegionRankMode] = useState<'red' | 'black'>('red');
   const [selectedArea, setSelectedArea] = useState<AreaName>('全国');
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [administrativeMap, setAdministrativeMap] = useState<{ area: BusinessAreaName; geoJson: AdministrativeGeoJson } | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [regionPaused, setRegionPaused] = useState(false);
   const [rankingPaused, setRankingPaused] = useState(false);
@@ -284,7 +372,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     };
   }, [scopedRegions, storePool]);
   const scopeLabel = selectedRegion ?? selectedArea;
-  const mapTitle = selectedRegion ? `${selectedRegion}及门店分布` : `${selectedArea}区域及门店分布`;
+  const mapTitle = selectedRegion ? `${selectedRegion}门店及城市边界` : selectedArea === '全国' ? '全国区域及门店分布' : `${selectedArea}城市及二级区域分布`;
   const baseMetrics = areaMetrics[selectedArea];
   const baseAnnualGoal = annualGoals[selectedArea];
   const selectedRegionRecord = selectedRegion ? regionDirectoryByName.get(selectedRegion) : undefined;
@@ -337,12 +425,41 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     if (rankingScrollRef.current) rankingScrollRef.current.scrollTop = 0;
   }, [selectedArea, selectedRegion]);
 
+  useEffect(() => {
+    if (selectedArea === '全国') return;
+    let cancelled = false;
+    const cached = administrativeMapCache.get(selectedArea);
+    if (cached) {
+      Promise.resolve().then(() => {
+        if (!cancelled) setAdministrativeMap({ area: selectedArea, geoJson: cached });
+      });
+      return () => { cancelled = true; };
+    }
+    Promise.all(areaProvinceAdcodes[selectedArea].map(async (adcode) => {
+      const response = await fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${adcode}_full.json`);
+      if (!response.ok) throw new Error(`行政边界数据加载失败：${adcode}`);
+      return response.json() as Promise<AdministrativeGeoJson>;
+    })).then((collections) => {
+      if (cancelled) return;
+      const geoJson: AdministrativeGeoJson = { type: 'FeatureCollection', features: collections.flatMap((collection) => collection.features) };
+      administrativeMapCache.set(selectedArea, geoJson);
+      setAdministrativeMap({ area: selectedArea, geoJson });
+    }).catch(() => undefined);
+    return () => { cancelled = true; };
+  }, [selectedArea]);
+
   const mapOption = useMemo<EChartsOption>(() => {
     echarts.registerMap('kk-china', chinaGeoJson as never);
     const areaConfig = selectedArea === '全国' ? null : areaGroups[selectedArea];
+    const detailedGeoJson = selectedArea !== '全国' && administrativeMap?.area === selectedArea ? administrativeMap.geoJson : null;
+    const mapName = detailedGeoJson ? `kk-cities-${selectedArea}` : 'kk-china';
+    if (detailedGeoJson) echarts.registerMap(mapName, detailedGeoJson as never);
     const regionView = selectedRegion ? regionMapViews[selectedRegion] : undefined;
-    const areaView: { center?: [number, number]; zoom: number } = regionView ?? (selectedArea === '浙江大区' ? { center: [120.15, 29.8], zoom: 4 } : selectedArea === '苏皖大区' ? { center: [118.8, 31.8], zoom: 3 } : selectedArea === '总部直管' ? { center: [112.8, 27.1], zoom: 1.35 } : { center: undefined, zoom: .92 });
+    const areaView: { center?: [number, number]; zoom: number } = detailedGeoJson
+      ? regionView ? { center: regionView.center, zoom: selectedRegion === '川渝区域' || selectedRegion === '总经办代管' ? 1.8 : 3.1 } : selectedArea === '浙江大区' ? { center: [120.15, 29.35], zoom: 1.03 } : selectedArea === '苏皖大区' ? { center: [118.8, 32], zoom: 1.02 } : { center: [112, 27.3], zoom: .94 }
+      : regionView ?? (selectedArea === '浙江大区' ? { center: [120.15, 29.8], zoom: 4 } : selectedArea === '苏皖大区' ? { center: [118.8, 31.8], zoom: 3 } : selectedArea === '总部直管' ? { center: [112.8, 27.1], zoom: 1.35 } : { center: undefined, zoom: .92 });
     const areaEntries = Object.entries(areaGroups) as [BusinessAreaName, (typeof areaGroups)[BusinessAreaName]][];
+    const selectedAdministrativeNames = selectedRegion ? regionAdministrativeNames[selectedRegion] ?? [] : [];
     const activeRegions = regionPerformance.filter((region) => selectedArea !== '全国' && region.area === selectedArea && (!selectedRegion || region.name === selectedRegion)).map((region) => {
       const fallbackCenter = areaBubbles.find((area) => area.name === region.area)?.value ?? [110, 30];
       const view = regionMapViews[region.name] ?? { center: [...fallbackCenter] as [number, number], zoom: 1.5 };
@@ -364,17 +481,30 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
           if (params.name && params.name in areaGroups) return `${params.name}<br/>点击聚焦该大区经营数据`;
           const region = params.name ? regionDirectoryByName.get(params.name) : undefined;
           if (region) return `${region.name}<br/>${region.area}<br/>营业门店：${region.operatingStores} 家 · 门店总数：${region.totalStores} 家<br/>点击筛选该二级区域`;
+          if (detailedGeoJson && params.name) {
+            const relatedRegions = directoryRegions.filter((item) => item.area === selectedArea && (regionAdministrativeNames[item.name] ?? []).includes(params.name as string));
+            return `${params.name}<br/>${selectedArea} · 市级行政边界${relatedRegions.length ? `<br/>二级区域：${relatedRegions.map((item) => item.name).join('、')}` : ''}`;
+          }
           const value = params.name ? provinceProgress[params.name] : undefined;
           return `${params.name ?? ''}<br/>目标完成率：${value ? `${value}%` : '暂无门店'}`;
         },
       },
       geo: {
-        map: 'kk-china', roam: true, scaleLimit: { min: .55, max: 7 }, center: areaView.center, zoom: areaView.zoom, top: 16, bottom: 8, left: 8, right: 8,
+        map: mapName, roam: true, scaleLimit: { min: .55, max: 9 }, center: areaView.center, zoom: areaView.zoom, top: 16, bottom: 8, left: 8, right: 8,
         label: { show: false },
         itemStyle: { areaColor: '#7f918a', borderColor: '#bdcbc6', borderWidth: .8, shadowColor: 'rgba(5,36,29,.16)', shadowBlur: 6 },
         emphasis: { label: { show: true, color: '#102f28', fontSize: 12, fontWeight: 700 }, itemStyle: { areaColor: '#a7b7b1', borderColor: '#f5fffc', shadowBlur: 14 } },
         select: { itemStyle: { areaColor: areaConfig?.color ?? '#4ebc9d' }, label: { color: '#fff' } },
-        regions: Object.keys(provinceProgress).map((name) => {
+        regions: detailedGeoJson && selectedArea !== '全国' ? detailedGeoJson.features.map((feature, index) => {
+          const name = feature.properties.name ?? '';
+          const highlighted = !selectedRegion || selectedAdministrativeNames.includes(name);
+          const palette = areaCityPalettes[selectedArea];
+          return {
+            name,
+            itemStyle: { areaColor: selectedRegion && highlighted ? areaGroups[selectedArea].color : palette[index % palette.length], borderColor: highlighted ? '#effffb' : '#9fb5ae', borderWidth: highlighted ? 1.3 : .65, opacity: selectedRegion && !highlighted ? .3 : 1 },
+            label: { show: selectedRegion ? highlighted : selectedArea !== '总部直管', color: '#effffb', fontSize: selectedRegion ? 10 : 8.5, fontWeight: selectedRegion ? 700 : 550, textShadowColor: '#12352d', textShadowBlur: 4 },
+          };
+        }) : Object.keys(provinceProgress).map((name) => {
           const provinceArea = areaEntries.find(([, config]) => config.provinces.includes(name))?.[0];
           const active = provinceArea === selectedArea;
           const tone = active && !selectedRegion ? 'color' : 'light';
@@ -396,7 +526,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         emphasis: { scale: 1.18 }, zlevel: 4,
       }],
     };
-  }, [selectedArea, selectedRegion]);
+  }, [administrativeMap, selectedArea, selectedRegion]);
 
   const revenueOption = useMemo<EChartsOption>(() => ({
     animationDuration: 700,
@@ -463,6 +593,20 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       onToast(`已筛选${region.area} · ${region.name}，共 ${region.operatingStores} 家营业门店`);
       return;
     }
+    if (selectedArea !== '全国') {
+      const relatedRegions = directoryRegions.filter((item) => item.area === selectedArea && (regionAdministrativeNames[item.name] ?? []).includes(name));
+      if (relatedRegions.length === 1) {
+        const matchedRegion = relatedRegions[0];
+        setSelectedRegion(matchedRegion.name);
+        setRegionRankMode('red');
+        onToast(`${name}已定位到${matchedRegion.name}，共 ${matchedRegion.operatingStores} 家营业门店`);
+        return;
+      }
+      if (relatedRegions.length > 1) {
+        onToast(`${name}包含${relatedRegions.map((item) => item.name).join('、')}，请从分级筛选选择`);
+        return;
+      }
+    }
     const area = (Object.entries(areaGroups) as [BusinessAreaName, (typeof areaGroups)[BusinessAreaName]][]).find(([, config]) => config.provinces.includes(name) || config.cities.includes(name))?.[0];
     if (area) {
       setSelectedArea(area);
@@ -470,7 +614,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       setRegionRankMode('red');
     }
     onToast(`${name}经营数据已选中${area ? ` · ${area}` : ''}`);
-  }, [onToast]);
+  }, [onToast, selectedArea]);
   const effectiveRegionRankMode = regionHasRankModes ? regionRankMode : 'red';
   const orderedRegions = [...regionListPool].sort((a, b) => effectiveRegionRankMode === 'red' ? b.progress - a.progress : a.progress - b.progress);
   let regionRanking = orderedRegions.slice(0, regionHasRankModes ? 10 : orderedRegions.length);
@@ -497,24 +641,6 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     setRegionRankMode('red');
     onToast(`已筛选${region.area} · ${region.name}，共 ${region.operatingStores} 家营业门店`);
   };
-  const scopeValue = selectedRegion ? `region:${selectedRegion}` : selectedArea === '全国' ? 'national' : `area:${selectedArea}`;
-  const selectScopeValue = (value: string, source: 'header' | 'map' = 'header') => {
-    if (value === 'national') {
-      selectAreaScope('全国', source === 'map' ? '地图已恢复全国经营数据' : '已切换全国经营数据');
-      return;
-    }
-    const [level, name] = value.split(':');
-    if (level === 'area' && businessAreas.includes(name as BusinessAreaName)) {
-      selectAreaScope(name as BusinessAreaName, source === 'map' ? `地图已聚焦${name}` : `已切换${name}经营数据`);
-      return;
-    }
-    if (level === 'region') selectRegionScope(name);
-  };
-  const scopeOptions = storeDirectorySource.areas.map((area) => <optgroup key={area.name} label={area.name}>
-    <option value={`area:${area.name}`}>{area.name}（全部二级区域）</option>
-    {area.regions.map((region) => <option key={region.name} value={`region:${region.name}`}>　└ {region.name}</option>)}
-  </optgroup>);
-
   const selectRankMode = (mode: 'red' | 'black') => {
     setRankMode(mode);
     if (rankingScrollRef.current) rankingScrollRef.current.scrollTop = 0;
@@ -540,7 +666,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
 
   return <section ref={boardRef} className="realtime-board realtime-v2">
     <header className="rt2-header">
-      <div className="rt-actions"><label className="rt2-scope-select rt2-hierarchical-scope"><span>⌾</span><select aria-label="全国、大区及二级区域分级选择" value={scopeValue} onChange={(event) => selectScopeValue(event.target.value)}><option value="national">全国</option>{scopeOptions}</select></label><button className="rt2-fullscreen-button" onClick={toggleFullscreen}>{isFullscreen ? '↙ 退出全屏' : '⛶ 全屏'}</button>{!isFullscreen && <button onClick={onBack}>← 返回业务看板</button>}</div>
+      <div className="rt-actions"><ScopeCascader selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} /><button className="rt2-fullscreen-button" onClick={toggleFullscreen}>{isFullscreen ? '↙ 退出全屏' : '⛶ 全屏'}</button>{!isFullscreen && <button onClick={onBack}>← 返回业务看板</button>}</div>
       <h1><span className="brand-mark logo-mark rt2-title-logo"><img src="/kk-logo-transparent.png?v=20260824" alt="KK品牌 Logo" /></span><span>KK实时经营大屏<small>REAL-TIME BUSINESS COMMAND CENTER</small></span></h1>
       <div className="rt2-clock"><b>{clock}</b><small><i /> 每 30s 自动刷新</small></div>
     </header>
@@ -579,12 +705,12 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
           <section className="rt2-panel"><div className="rt2-goal-ring monthly" style={{ '--ring-progress': `${Math.min(monthlyPercent, 100)}%` } as CSSProperties}><b>{monthlyPercent.toFixed(1)}%</b></div><div><small>{scopeLabel} · {monthNames[monthCount - 1]}经营目标</small><strong>¥ {monthlyAmount.toFixed(2)} 亿</strong><span>目标金额　¥{(currentRevenueTarget / 10000).toFixed(2)} 亿</span><em className={monthlyDelta >= 0 ? '' : 'negative'}>{monthlyDelta >= 0 ? `超出目标 +${monthlyDelta.toLocaleString()} 万` : `距目标 ${Math.abs(monthlyDelta).toLocaleString()} 万`}</em></div></section>
         </div>
         <section className="rt2-panel rt2-map-panel">
-          <div className="rt2-section-head"><h2>{mapTitle}</h2><span>点击二级区域气泡筛选 · 滚轮缩放</span></div>
+          <div className="rt2-section-head"><h2>{mapTitle}</h2><span>{selectedArea === '全国' ? '点击大区气泡筛选 · 滚轮缩放' : '市级行政边界 · 点击二级区域气泡'}</span></div>
           <div className="rt2-map-body">
             <EChartCanvas option={mapOption} className="rt2-china-map" onPointClick={handleMapClick} />
-            <label className="rt2-map-scope-select"><span>地图范围</span><select aria-label="地图全国、大区及二级区域分级选择" value={scopeValue} onChange={(event) => selectScopeValue(event.target.value, 'map')}><option value="national">全国</option>{scopeOptions}</select></label>
+            <ScopeCascader compact selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} />
             <div className="rt2-map-stats"><span>大区<b>{selectedArea === '全国' ? 3 : 1}</b></span><span>区域<b>{summary.regions}</b></span><span>营业门店<b>{summary.stores}</b></span><span>筹备中<b>{summary.preparing}</b></span></div>
-            <div className="rt2-map-legend"><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span></div>
+            <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />市级行政边界</span><span><i className="point" />二级区域</span></>}</div>
             <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
               <b className="rt2-sea-title">南海诸岛</b>
               <span className="rt2-sea-group dongsha" aria-hidden="true"><i /></span>
