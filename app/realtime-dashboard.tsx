@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, RefObject } from 'react';
 import * as echarts from 'echarts/core';
-import { BarChart, EffectScatterChart, LineChart, LinesChart, ScatterChart } from 'echarts/charts';
+import { BarChart, EffectScatterChart, LineChart } from 'echarts/charts';
 import { GeoComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import type { EChartsOption } from 'echarts';
 import chinaGeoJson from 'china-map-geojson/lib/china.js';
 import storeDirectorySource from './data/store-directory.json';
 
-echarts.use([BarChart, EffectScatterChart, LineChart, LinesChart, ScatterChart, GeoComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.use([BarChart, EffectScatterChart, LineChart, GeoComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 type RealtimeDashboardProps = {
   onToast: (message: string) => void;
@@ -20,7 +20,7 @@ type RealtimeDashboardProps = {
 type ChartClick = { name?: string };
 type AreaName = '全国' | '浙江大区' | '苏皖大区' | '总部直管';
 type BusinessAreaName = Exclude<AreaName, '全国'>;
-type DirectoryStore = { name: string; stage: string; address: string };
+type DirectoryStore = { name: string; stage: string };
 type DirectoryRegion = {
   name: string;
   area: BusinessAreaName;
@@ -89,100 +89,6 @@ const regionMapViews: Record<string, RegionMapView> = {
   福州区域: { center: [119.3, 26.07], zoom: 5.3 }, 泉州区域: { center: [118.68, 24.87], zoom: 4.9 }, 厦门区域: { center: [118.09, 24.48], zoom: 5.4 },
   武汉区域: { center: [114.31, 30.59], zoom: 5.3 }, 长沙区域: { center: [112.94, 28.23], zoom: 5.3 }, 海口区域: { center: [110.2, 20.04], zoom: 5.2 }, 川渝区域: { center: [105.4, 30.15], zoom: 3.4 }, 总经办代管: { center: [112.1, 28.4], zoom: 1.8 },
 };
-
-type GeoPoint = [number, number];
-type RegionGridCell = {
-  name: string;
-  area: BusinessAreaName;
-  label: string;
-  center: GeoPoint;
-  stores: number;
-  coordinates: GeoPoint[];
-};
-
-const cityCoordinates: Record<string, GeoPoint> = {
-  杭州: [120.155, 30.274], 绍兴: [120.582, 29.998], 宁波: [121.55, 29.874], 金华: [119.65, 29.079],
-  南京: [118.797, 32.06], 苏州: [120.585, 31.299], 常州: [119.974, 31.811], 无锡: [120.312, 31.491], 张家港: [120.555, 31.876], 镇江: [119.425, 32.188], 南通: [120.895, 31.981], 合肥: [117.227, 31.821],
-  上海: [121.474, 31.23], 广州: [113.264, 23.129], 深圳: [114.057, 22.543], 佛山: [113.122, 23.021], 东莞: [113.752, 23.021], 中山: [113.392, 22.517], 珠海: [113.576, 22.27],
-  福州: [119.296, 26.075], 泉州: [118.675, 24.875], 莆田: [119.007, 25.454], 厦门: [118.089, 24.479], 武汉: [114.305, 30.593], 长沙: [112.938, 28.228], 海口: [110.199, 20.044],
-  青岛: [120.382, 36.067], 南宁: [108.366, 22.817], 贵阳: [106.63, 26.647], 成都: [104.066, 30.572], 重庆: [106.551, 29.563],
-};
-const areaFallbackCenters: Record<BusinessAreaName, GeoPoint> = {
-  浙江大区: [120.35, 29.35],
-  苏皖大区: [118.35, 32.2],
-  总部直管: [108.9, 27.1],
-};
-const cityNamesByLength = Object.keys(cityCoordinates).sort((a, b) => b.length - a.length);
-
-function stableFraction(label: string, seed: number) {
-  let hash = 2166136261 + seed * 1013;
-  for (const character of label) {
-    hash ^= character.charCodeAt(0);
-    hash = Math.imul(hash, 16777619);
-  }
-  return (hash >>> 0) / 4294967295;
-}
-
-function resolveStoreGridPoint(store: DirectoryStore, region: DirectoryRegion) {
-  const source = `${store.name} ${store.address}`;
-  const city = cityNamesByLength.find((name) => source.includes(name));
-  const districtMatch = store.address.match(/(?:市|自治州|地区)([^省市]+?(?:区|县|市))/) ?? store.address.match(/([^省市]+?(?:区|县|市))/);
-  const district = districtMatch?.[1] ?? '';
-  const fallback = regionMapViews[region.name]?.center ?? areaFallbackCenters[region.area];
-  const base = city ? cityCoordinates[city] : fallback;
-  const gridKey = `${region.name}|${city ?? '其他'}|${district || '城区'}`;
-  const gridOffsetX = (stableFraction(gridKey, 3) - .5) * .18;
-  const gridOffsetY = (stableFraction(gridKey, 7) - .5) * .14;
-  const storeOffsetX = (stableFraction(store.name, 11) - .5) * .025;
-  const storeOffsetY = (stableFraction(store.address || store.name, 17) - .5) * .02;
-  return {
-    key: `${city ?? region.name}|${district || '门店网格'}`,
-    label: `${city ?? region.name}${district ? ` · ${district}` : ''}`,
-    point: [base[0] + gridOffsetX + storeOffsetX, base[1] + gridOffsetY + storeOffsetY] as GeoPoint,
-  };
-}
-
-const regionGridCells: RegionGridCell[] = directoryRegions.flatMap((region) => {
-  const groupedStores = new Map<string, { label: string; points: GeoPoint[] }>();
-  region.stores.forEach((store) => {
-    const resolved = resolveStoreGridPoint(store, region);
-    const group = groupedStores.get(resolved.key) ?? { label: resolved.label, points: [] };
-    group.points.push(resolved.point);
-    groupedStores.set(resolved.key, group);
-  });
-  return [...groupedStores.values()].map((group) => {
-    const center: GeoPoint = [
-      group.points.reduce((total, point) => total + point[0], 0) / group.points.length,
-      group.points.reduce((total, point) => total + point[1], 0) / group.points.length,
-    ];
-    const halfWidth = .045 + Math.min(.035, Math.sqrt(group.points.length) * .009);
-    const halfHeight = .032 + Math.min(.025, Math.sqrt(group.points.length) * .007);
-    return {
-      name: region.name,
-      area: region.area,
-      label: group.label,
-      center,
-      stores: group.points.length,
-      coordinates: [
-        [center[0] - halfWidth, center[1] - halfHeight],
-        [center[0] + halfWidth, center[1] - halfHeight],
-        [center[0] + halfWidth, center[1] + halfHeight],
-        [center[0] - halfWidth, center[1] + halfHeight],
-        [center[0] - halfWidth, center[1] - halfHeight],
-      ],
-    };
-  });
-});
-
-const regionGridCenters = new Map(directoryRegions.map((region) => {
-  const cells = regionGridCells.filter((cell) => cell.name === region.name);
-  const fallback = regionMapViews[region.name]?.center ?? [110, 30];
-  const center: GeoPoint = cells.length ? [
-    cells.reduce((total, cell) => total + cell.center[0] * cell.stores, 0) / cells.reduce((total, cell) => total + cell.stores, 0),
-    cells.reduce((total, cell) => total + cell.center[1] * cell.stores, 0) / cells.reduce((total, cell) => total + cell.stores, 0),
-  ] : fallback;
-  return [region.name, center];
-}));
 
 const areaBubbles = [
   { name: '浙江大区', value: [120.35, 29.35] },
@@ -433,60 +339,28 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
   const mapOption = useMemo<EChartsOption>(() => {
     echarts.registerMap('kk-china', chinaGeoJson as never);
     const areaConfig = selectedArea === '全国' ? null : areaGroups[selectedArea];
-    const selectedGridCells = selectedRegion ? regionGridCells.filter((cell) => cell.name === selectedRegion) : [];
-    const selectedGridCenter = selectedRegion ? regionGridCenters.get(selectedRegion) : undefined;
-    const selectedGridSpan = selectedGridCells.length ? Math.max(
-      Math.max(...selectedGridCells.map((cell) => cell.center[0])) - Math.min(...selectedGridCells.map((cell) => cell.center[0])),
-      (Math.max(...selectedGridCells.map((cell) => cell.center[1])) - Math.min(...selectedGridCells.map((cell) => cell.center[1]))) * 1.25,
-    ) : 0;
-    const regionView = selectedGridCenter ? { center: selectedGridCenter, zoom: Math.max(2.4, Math.min(8.5, 7.6 / (selectedGridSpan + .7))) } : undefined;
+    const regionView = selectedRegion ? regionMapViews[selectedRegion] : undefined;
     const areaView: { center?: [number, number]; zoom: number } = regionView ?? (selectedArea === '浙江大区' ? { center: [120.15, 29.8], zoom: 4 } : selectedArea === '苏皖大区' ? { center: [118.8, 31.8], zoom: 3 } : selectedArea === '总部直管' ? { center: [112.8, 27.1], zoom: 1.35 } : { center: undefined, zoom: .92 });
     const areaEntries = Object.entries(areaGroups) as [BusinessAreaName, (typeof areaGroups)[BusinessAreaName]][];
-    const activeRegions = selectedArea === '全国' ? [] : regionPerformance.filter((region) => region.area === selectedArea && (!selectedRegion || region.name === selectedRegion)).map((region) => {
-      const center = regionGridCenters.get(region.name) ?? regionMapViews[region.name]?.center ?? areaFallbackCenters[region.area];
+    const activeRegions = regionPerformance.filter((region) => (selectedArea === '全国' || region.area === selectedArea) && (!selectedRegion || region.name === selectedRegion)).map((region) => {
+      const fallbackCenter = areaBubbles.find((area) => area.name === region.area)?.value ?? [110, 30];
+      const view = regionMapViews[region.name] ?? { center: [...fallbackCenter] as [number, number], zoom: 1.5 };
       return {
         name: region.name,
-        value: [...center, region.operatingStores],
+        value: [...view.center, region.operatingStores],
         itemStyle: { color: areaGroups[region.area].color, borderColor: '#effffb', borderWidth: selectedRegion === region.name ? 2 : 1, shadowColor: areaGroups[region.area].color, shadowBlur: selectedRegion === region.name ? 18 : 8 },
       };
     });
-    const bubbleData = selectedArea === '全国' ? areaBubbles.map((area) => ({
+    const bubbleData = areaBubbles.map((area) => ({
       name: area.name,
-      value: [...area.value, 26],
-      itemStyle: { color: areaGroups[area.name].color, borderColor: '#f7fffc', borderWidth: 2, shadowColor: areaGroups[area.name].color, shadowBlur: 14 },
-    })) : [];
-    const activeGridCells = selectedArea === '全国' ? [] : regionGridCells.filter((cell) => cell.area === selectedArea && (!selectedRegion || cell.name === selectedRegion));
-    const gridCellData = activeGridCells.map((cell) => ({
-      name: cell.name,
-      value: [...cell.center, cell.stores],
-      gridLabel: cell.label,
-      stores: cell.stores,
-      itemStyle: {
-        color: 'rgba(112,214,181,.2)',
-        borderColor: selectedRegion === cell.name ? '#dcfff5' : areaGroups[cell.area].color,
-        borderWidth: selectedRegion === cell.name ? 1.8 : 1.2,
-        shadowColor: areaGroups[cell.area].color,
-        shadowBlur: selectedRegion === cell.name ? 10 : 4,
-      },
+      value: [...area.value, selectedArea === area.name ? 34 : 24],
+      itemStyle: { color: areaGroups[area.name].color, borderColor: '#f7fffc', borderWidth: 2, opacity: selectedRegion && selectedArea !== area.name ? .28 : 1, shadowColor: areaGroups[area.name].color, shadowBlur: 14 },
     }));
-    const gridLineData = activeGridCells.flatMap((cell) => {
-      const [bottomLeft, bottomRight, , topLeft] = cell.coordinates;
-      const color = areaGroups[cell.area].color;
-      const lineStyle = { color, width: selectedRegion === cell.name ? 1.9 : 1.25, opacity: selectedRegion === cell.name ? .96 : .72 };
-      const middleX = (bottomLeft[0] + bottomRight[0]) / 2;
-      const middleY = (bottomLeft[1] + topLeft[1]) / 2;
-      return [
-        { name: cell.name, value: cell.stores, coords: cell.coordinates, lineStyle },
-        { name: cell.name, value: cell.stores, coords: [[middleX, bottomLeft[1]], [middleX, topLeft[1]]], lineStyle: { ...lineStyle, width: .7, opacity: .4 } },
-        { name: cell.name, value: cell.stores, coords: [[bottomLeft[0], middleY], [bottomRight[0], middleY]], lineStyle: { ...lineStyle, width: .7, opacity: .4 } },
-      ];
-    });
     return {
       tooltip: {
         trigger: 'item', backgroundColor: 'rgba(5,31,25,.96)', borderColor: '#2d7562', textStyle: { color: '#e9fff8' },
-        formatter: (params: { name?: string; value?: number | number[]; seriesName?: string; data?: { gridLabel?: string; stores?: number } }) => {
+        formatter: (params: { name?: string; value?: number | number[] }) => {
           if (params.name && params.name in areaGroups) return `${params.name}<br/>点击聚焦该大区经营数据`;
-          if (params.seriesName === '门店地址网格单元' && params.data?.gridLabel) return `${params.name}<br/>${params.data.gridLabel}<br/>网格营业门店：${params.data.stores ?? 0} 家<br/>点击筛选该二级区域`;
           const region = params.name ? regionDirectoryByName.get(params.name) : undefined;
           if (region) return `${region.name}<br/>${region.area}<br/>营业门店：${region.operatingStores} 家 · 门店总数：${region.totalStores} 家<br/>点击筛选该二级区域`;
           const value = params.name ? provinceProgress[params.name] : undefined;
@@ -494,37 +368,25 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         },
       },
       geo: {
-        map: 'kk-china', roam: true, scaleLimit: { min: .55, max: 10 }, center: areaView.center, zoom: areaView.zoom, top: 16, bottom: 8, left: 8, right: 8,
+        map: 'kk-china', roam: true, scaleLimit: { min: .55, max: 7 }, center: areaView.center, zoom: areaView.zoom, top: 16, bottom: 8, left: 8, right: 8,
         label: { show: false },
         itemStyle: { areaColor: '#7f918a', borderColor: '#bdcbc6', borderWidth: .8, shadowColor: 'rgba(5,36,29,.16)', shadowBlur: 6 },
         emphasis: { label: { show: true, color: '#102f28', fontSize: 12, fontWeight: 700 }, itemStyle: { areaColor: '#a7b7b1', borderColor: '#f5fffc', shadowBlur: 14 } },
         select: { itemStyle: { areaColor: areaConfig?.color ?? '#4ebc9d' }, label: { color: '#fff' } },
         regions: Object.keys(provinceProgress).map((name) => {
           const provinceArea = areaEntries.find(([, config]) => config.provinces.includes(name))?.[0];
-          const active = provinceArea === selectedArea && !selectedRegion;
+          const active = provinceArea === selectedArea;
           const areaColor = provinceArea ? areaGroups[provinceArea][active ? 'color' : 'light'] : '#7f918a';
-          return { name, itemStyle: { areaColor, borderColor: active ? '#f5fffc' : '#bdcbc6', borderWidth: active ? 1.7 : .75, opacity: areaConfig && provinceArea !== selectedArea ? .64 : 1 } };
+          return { name, itemStyle: { areaColor, borderColor: active ? '#f5fffc' : '#bdcbc6', borderWidth: active ? 1.7 : .75, opacity: areaConfig && !active ? .72 : 1 } };
         }),
       },
       series: [{
-        name: '门店地址网格单元', type: 'scatter', coordinateSystem: 'geo', data: gridCellData, symbol: 'rect',
-        symbolSize: (value: number[]) => {
-          const edge = Math.max(23, Math.min(39, 20 + Math.sqrt(value[2]) * 6));
-          return [edge, edge * .74];
-        },
-        label: { show: Boolean(selectedRegion), formatter: (params: { data?: { gridLabel?: string } }) => params.data?.gridLabel ?? '', position: 'bottom', distance: 3, color: '#dffaf2', fontSize: 8, textShadowColor: '#06251f', textShadowBlur: 4 },
-        emphasis: { scale: 1.18, itemStyle: { borderColor: '#fff', borderWidth: 2, opacity: 1 } }, zlevel: 2,
-      }, {
-        name: '门店地址网格', type: 'lines', coordinateSystem: 'geo', polyline: true, data: gridLineData,
-        lineStyle: { color: '#65d5b0', width: 1.2, opacity: .74 },
-        emphasis: { lineStyle: { width: 2.4, opacity: 1 } }, zlevel: 2,
-      }, {
         name: '二级区域门店', type: 'effectScatter', coordinateSystem: 'geo', data: activeRegions,
         symbolSize: (value: number[]) => Math.max(8, Math.min(18, 7 + Math.sqrt(value[2]) * 2.2)),
         rippleEffect: { brushType: 'stroke', scale: 3 },
         label: { show: selectedArea !== '全国', formatter: '{b}', position: 'right', color: '#effffb', fontSize: selectedRegion ? 12 : 9, fontWeight: selectedRegion ? 700 : 500, textShadowColor: '#06251f', textShadowBlur: 4 },
         itemStyle: { color: '#d0a15d', shadowColor: '#d0a15d', shadowBlur: 9 },
-        emphasis: { scale: 1.35 }, zlevel: 3,
+        emphasis: { scale: 1.35 }, zlevel: 2,
       }, {
         name: '大区气泡', type: 'effectScatter', coordinateSystem: 'geo', data: bubbleData,
         symbolSize: (value: number[]) => value[2], rippleEffect: { brushType: 'stroke', scale: 2.2 },
@@ -634,26 +496,6 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     setRegionRankMode('red');
     onToast(`已筛选${region.area} · ${region.name}，共 ${region.operatingStores} 家营业门店`);
   };
-  const scopeSelectionValue = selectedRegion ? `region:${selectedRegion}` : selectedArea === '全国' ? 'national' : `area:${selectedArea}`;
-  const selectHierarchicalScope = (value: string, source: '顶部' | '地图') => {
-    if (value === 'national') {
-      selectAreaScope('全国', `${source}筛选已切换全国经营数据`);
-      return;
-    }
-    if (value.startsWith('area:')) {
-      const area = value.slice(5) as AreaName;
-      selectAreaScope(area, `${source}已聚焦${area}`);
-      return;
-    }
-    if (value.startsWith('region:')) selectRegionScope(value.slice(7));
-  };
-  const hierarchicalScopeOptions = () => <>
-    <option value="national">全国</option>
-    {storeDirectorySource.areas.map((area) => <optgroup key={area.name} label={area.name}>
-      <option value={`area:${area.name}`}>{area.name} · 全部二级区域</option>
-      {area.regions.map((region) => <option key={region.name} value={`region:${region.name}`}>　└ {region.name}</option>)}
-    </optgroup>)}
-  </>;
 
   const selectRankMode = (mode: 'red' | 'black') => {
     setRankMode(mode);
@@ -680,7 +522,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
 
   return <section ref={boardRef} className="realtime-board realtime-v2">
     <header className="rt2-header">
-      <div className="rt-actions"><label className="rt2-scope-select rt2-hierarchical-scope">⌾<select aria-label="经营范围分级筛选" value={scopeSelectionValue} onChange={(event) => selectHierarchicalScope(event.target.value, '顶部')}>{hierarchicalScopeOptions()}</select></label><button className="rt2-fullscreen-button" onClick={toggleFullscreen}>{isFullscreen ? '↙ 退出全屏' : '⛶ 全屏'}</button>{!isFullscreen && <button onClick={onBack}>← 返回业务看板</button>}</div>
+      <div className="rt-actions"><div className="rt2-filter-group"><label className="rt2-scope-select">⌾<select aria-label="全国及大区选择" value={selectedArea} onChange={(event) => selectAreaScope(event.target.value as AreaName)}><option value="全国">全国</option><option value="浙江大区">浙江大区</option><option value="苏皖大区">苏皖大区</option><option value="总部直管">总部直管</option></select></label><label className="rt2-scope-select rt2-region-scope">⌖<select aria-label="二级区域选择" value={selectedRegion ?? ''} onChange={(event) => selectRegionScope(event.target.value)}><option value="">全部二级区域</option>{selectedArea === '全国' ? storeDirectorySource.areas.map((area) => <optgroup key={area.name} label={area.name}>{area.regions.map((region) => <option key={region.name} value={region.name}>{region.name}</option>)}</optgroup>) : directoryRegions.filter((region) => region.area === selectedArea).map((region) => <option key={region.name} value={region.name}>{region.name}</option>)}</select></label></div><button className="rt2-fullscreen-button" onClick={toggleFullscreen}>{isFullscreen ? '↙ 退出全屏' : '⛶ 全屏'}</button>{!isFullscreen && <button onClick={onBack}>← 返回业务看板</button>}</div>
       <h1><span className="brand-mark logo-mark rt2-title-logo"><img src="/kk-logo-transparent.png?v=20260824" alt="KK品牌 Logo" /></span><span>KK实时经营大屏<small>REAL-TIME BUSINESS COMMAND CENTER</small></span></h1>
       <div className="rt2-clock"><b>{clock}</b><small><i /> 每 30s 自动刷新</small></div>
     </header>
@@ -719,12 +561,12 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
           <section className="rt2-panel"><div className="rt2-goal-ring monthly" style={{ '--ring-progress': `${Math.min(monthlyPercent, 100)}%` } as CSSProperties}><b>{monthlyPercent.toFixed(1)}%</b></div><div><small>{scopeLabel} · {monthNames[monthCount - 1]}经营目标</small><strong>¥ {monthlyAmount.toFixed(2)} 亿</strong><span>目标金额　¥{(currentRevenueTarget / 10000).toFixed(2)} 亿</span><em className={monthlyDelta >= 0 ? '' : 'negative'}>{monthlyDelta >= 0 ? `超出目标 +${monthlyDelta.toLocaleString()} 万` : `距目标 ${Math.abs(monthlyDelta).toLocaleString()} 万`}</em></div></section>
         </div>
         <section className="rt2-panel rt2-map-panel">
-          <div className="rt2-section-head"><h2>{mapTitle}</h2><span>点击地址网格筛选 · 滚轮缩放</span></div>
+          <div className="rt2-section-head"><h2>{mapTitle}</h2><span>点击二级区域气泡筛选 · 滚轮缩放</span></div>
           <div className="rt2-map-body">
             <EChartCanvas option={mapOption} className="rt2-china-map" onPointClick={handleMapClick} />
-            <label className="rt2-map-scope-select">⌖<select aria-label="地图范围分级筛选" value={scopeSelectionValue} onChange={(event) => selectHierarchicalScope(event.target.value, '地图')}>{hierarchicalScopeOptions()}</select></label>
+            <div className="rt2-area-switch" aria-label="地图大区筛选">{(['全国', '浙江大区', '苏皖大区', '总部直管'] as AreaName[]).map((area) => <button key={area} className={selectedArea === area ? 'active' : ''} style={area === '全国' ? undefined : { '--area-color': areaGroups[area].color } as CSSProperties} onClick={() => selectAreaScope(area, `地图已聚焦${area}`)}>{area}</button>)}</div>
             <div className="rt2-map-stats"><span>大区<b>{selectedArea === '全国' ? 3 : 1}</b></span><span>区域<b>{summary.regions}</b></span><span>营业门店<b>{summary.stores}</b></span><span>筹备中<b>{summary.preparing}</b></span></div>
-            <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="grid" />门店地址网格</span></>}</div>
+            <div className="rt2-map-legend"><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span></div>
             <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
               <b className="rt2-sea-title">南海诸岛</b>
               <span className="rt2-sea-group dongsha" aria-hidden="true"><i /></span>
