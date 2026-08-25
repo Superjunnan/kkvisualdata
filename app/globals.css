@@ -188,6 +188,7 @@ body { font-family:Inter,"SF Pro Display","PingFang SC","Microsoft YaHei",Arial,
 .rt2-cascader-trigger>b { overflow:hidden; font-size:11px; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
 .rt2-cascader-trigger>i { color:#a6c6bd; font-size:10px; font-style:normal; }
 .rt2-cascader-menu { position:absolute; z-index:40; top:40px; left:0; width:486px; display:grid; grid-template-columns:148px minmax(0,1fr); padding:7px; overflow:hidden; color:#dff4ee; background:linear-gradient(145deg,rgba(10,45,38,.985),rgba(5,29,25,.992)); border:1px solid #417364; border-radius:8px; box-shadow:0 18px 42px rgba(0,0,0,.38),inset 0 0 22px rgba(78,159,135,.05); backdrop-filter:blur(12px); }
+.rt2-cascader-menu.with-stores { width:730px; grid-template-columns:148px 230px minmax(0,1fr); }
 .rt2-cascader-level { min-width:0; padding:4px; }
 .rt2-cascader-level+section { border-left:1px solid rgba(91,139,126,.32); }
 .rt2-cascader-level>small { height:23px; display:block; padding:2px 7px; color:#789e94; font-size:9px; letter-spacing:.4px; }
@@ -196,8 +197,10 @@ body { font-family:Inter,"SF Pro Display","PingFang SC","Microsoft YaHei",Arial,
 .rt2-cascader-level button.selected { color:#eafff8!important; background:linear-gradient(90deg,rgba(53,159,127,.35),rgba(53,159,127,.16))!important; border-color:#4da88d!important; box-shadow:inset 2px 0 #61d4b1; }
 .rt2-cascader-level button b { overflow:hidden; font-weight:650; text-overflow:ellipsis; white-space:nowrap; }
 .rt2-cascader-level button i { color:#7fa49a; font-size:8.5px; font-style:normal; white-space:nowrap; }
-.rt2-cascader-regions>div { max-height:264px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:2px; overflow-y:auto; scrollbar-width:none; }
-.rt2-cascader-regions>div::-webkit-scrollbar { display:none; }
+.rt2-cascader-regions>div,.rt2-cascader-stores>div { max-height:264px; display:grid; grid-template-columns:minmax(0,1fr); gap:2px; overflow-y:auto; scrollbar-width:none; }
+.rt2-cascader-regions>div::-webkit-scrollbar,.rt2-cascader-stores>div::-webkit-scrollbar { display:none; }
+.rt2-cascader-stores button b { max-width:100%; }
+.rt2-cascader-stores>div button { justify-content:flex-start; }
 .rt2-cascader.compact { position:absolute; z-index:9; top:8px; left:50%; transform:translateX(-50%); }
 .rt2-cascader.compact .rt2-cascader-trigger { width:264px; background:rgba(7,35,30,.86)!important; border-color:#315e52!important; backdrop-filter:blur(5px); }
 .rt2-cascader.compact .rt2-cascader-menu { left:50%; width:466px; transform:translateX(-50%); }
@@ -356,6 +359,7 @@ body { font-family:Inter,"SF Pro Display","PingFang SC","Microsoft YaHei",Arial,
   .realtime-v2 .rt-actions button { padding-inline:8px; font-size:10px; }
   .rt2-cascader-trigger { width:194px; }
   .rt2-cascader-menu { width:452px; grid-template-columns:136px minmax(0,1fr); }
+  .rt2-cascader-menu.with-stores { width:660px; grid-template-columns:136px 210px minmax(0,1fr); }
   .rt2-layout { grid-template-columns:minmax(276px,26.5%) minmax(390px,1fr) minmax(298px,28.5%); gap:7px; }
   .rt2-section-head { padding-inline:9px; }
   .rt2-section-head h2 { font-size:14px; }
