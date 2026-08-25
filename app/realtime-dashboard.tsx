@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, RefObject } from 'react';
 import * as echarts from 'echarts/core';
-import { BarChart, EffectScatterChart, LineChart } from 'echarts/charts';
+import { BarChart, EffectScatterChart, LineChart, ScatterChart } from 'echarts/charts';
 import { GeoComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import type { EChartsOption } from 'echarts';
 import chinaGeoJson from 'china-map-geojson/lib/china.js';
 import storeDirectorySource from './data/store-directory.json';
 
-echarts.use([BarChart, EffectScatterChart, LineChart, GeoComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.use([BarChart, EffectScatterChart, LineChart, ScatterChart, GeoComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 type RealtimeDashboardProps = {
   onToast: (message: string) => void;
@@ -20,7 +20,7 @@ type RealtimeDashboardProps = {
 type ChartClick = { name?: string };
 type AreaName = '全国' | '浙江大区' | '苏皖大区' | '总部直管';
 type BusinessAreaName = Exclude<AreaName, '全国'>;
-type DirectoryStore = { name: string; stage: string; address?: string };
+type DirectoryStore = { name: string; stage: string; address?: string; tableCount?: number };
 type DirectoryRegion = {
   name: string;
   area: BusinessAreaName;
@@ -89,6 +89,7 @@ const storePerformance: StoreRankItem[] = directoryRegions.flatMap((region) => r
 })));
 
 const regionDirectoryByName = new Map(directoryRegions.map((region) => [region.name, region]));
+const storeDirectoryByName = new Map(directoryRegions.flatMap((region) => region.stores.map((store) => [store.name, store] as const)));
 const areaOperatingStores = Object.fromEntries(businessAreas.map((area) => [area, directoryRegions.filter((region) => region.area === area).reduce((total, region) => total + region.operatingStores, 0)])) as Record<BusinessAreaName, number>;
 const areaAverageProgress = Object.fromEntries(businessAreas.map((area) => {
   const stores = storePerformance.filter((store) => store.area === area);
@@ -507,15 +508,31 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       ? selectedRegion ? { center: selectedMapCenter, zoom: selectedRegionZoom } : selectedArea === '浙江大区' ? { center: [120.15, 29.35], zoom: 1.03 } : selectedArea === '苏皖大区' ? { center: [118.8, 32], zoom: 1.02 } : { center: [112, 27.3], zoom: .94 }
       : regionView ?? (selectedArea === '浙江大区' ? { center: [120.15, 29.8], zoom: 4 } : selectedArea === '苏皖大区' ? { center: [118.8, 31.8], zoom: 3 } : selectedArea === '总部直管' ? { center: [112.8, 27.1], zoom: 1.35 } : { center: undefined, zoom: .92 });
     const areaEntries = Object.entries(areaGroups) as [BusinessAreaName, (typeof areaGroups)[BusinessAreaName]][];
-    const activeRegions = regionPerformance.filter((region) => selectedArea !== '全国' && region.area === selectedArea && (!selectedRegion || region.name === selectedRegion)).map((region) => {
+    const activeRegions = regionPerformance.filter((region) => selectedArea !== '全国' && !selectedRegion && region.area === selectedArea).map((region) => {
       const fallbackCenter = areaBubbles.find((area) => area.name === region.area)?.value ?? [110, 30];
       const view = regionMapViews[region.name] ?? { center: [...fallbackCenter] as [number, number], zoom: 1.5 };
       return {
         name: region.name,
-        value: [...(selectedRegion === region.name && selectedMapCenter ? selectedMapCenter : view.center), region.operatingStores],
-        itemStyle: { color: areaGroups[region.area].color, borderColor: '#effffb', borderWidth: selectedRegion === region.name ? 2 : 1, shadowColor: areaGroups[region.area].color, shadowBlur: selectedRegion === region.name ? 18 : 8 },
+        value: [...view.center, region.operatingStores],
+        itemStyle: { color: areaGroups[region.area].color, borderColor: '#effffb', borderWidth: 1, shadowColor: areaGroups[region.area].color, shadowBlur: 8 },
       };
     });
+    const storePoints = selectedRegionRecord && detailedGeoJson ? selectedRegionRecord.stores.map((store, index) => {
+      const matchedFeature = detailedGeoJson.features.find((feature) => {
+        const districtName = feature.properties.name ?? '';
+        return Boolean(districtName && store.address?.includes(districtName));
+      });
+      const basePoint = matchedFeature ? featurePoint(matchedFeature) : selectedMapCenter ?? regionView?.center;
+      if (!basePoint) return null;
+      const hash = [...store.name].reduce((sum, character, characterIndex) => sum + character.charCodeAt(0) * (characterIndex + 11), 0);
+      const angle = (hash % 360) * Math.PI / 180;
+      const radius = .018 + (index % 4) * .009;
+      return {
+        name: store.name,
+        value: [basePoint[0] + Math.cos(angle) * radius, basePoint[1] + Math.sin(angle) * radius, store.tableCount ?? 0],
+        itemStyle: { color: '#f0a24d', borderColor: '#fff9ed', borderWidth: 1.4, shadowColor: '#f0a24d', shadowBlur: 10 },
+      };
+    }).filter((store): store is NonNullable<typeof store> => Boolean(store)) : [];
     const bubbleData = selectedArea === '全国' ? areaBubbles.map((area) => ({
       name: area.name,
       value: [...area.value, 24],
@@ -526,6 +543,8 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         trigger: 'item', backgroundColor: 'rgba(5,31,25,.96)', borderColor: '#2d7562', textStyle: { color: '#e9fff8' },
         formatter: (params: { name?: string; value?: number | number[] }) => {
           if (params.name && params.name in areaGroups) return `${params.name}<br/>经营范围`;
+          const store = params.name ? storeDirectoryByName.get(params.name) : undefined;
+          if (store) return `${store.name}<br/>台桌数：${store.tableCount ? `${store.tableCount} 张` : '待补充'}<br/>经营阶段：${store.stage}<br/>地址：${store.address ?? '暂无地址'}`;
           const region = params.name ? regionDirectoryByName.get(params.name) : undefined;
           if (region) return `${region.name}<br/>${region.area}<br/>营业门店：${region.operatingStores} 家 · 门店总数：${region.totalStores} 家`;
           if (detailedGeoJson && params.name) {
@@ -561,12 +580,17 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         }),
       },
       series: [{
-        name: '二级区域门店', type: 'effectScatter', coordinateSystem: 'geo', data: activeRegions,
+        name: '二级区域', type: 'effectScatter', coordinateSystem: 'geo', data: activeRegions,
         symbolSize: (value: number[]) => Math.max(8, Math.min(18, 7 + Math.sqrt(value[2]) * 2.2)),
         rippleEffect: { brushType: 'stroke', scale: 3 },
-        label: { show: selectedArea !== '全国', formatter: '{b}', position: 'right', color: '#effffb', fontSize: selectedRegion ? 12 : 9, fontWeight: selectedRegion ? 700 : 500, textShadowColor: '#06251f', textShadowBlur: 4 },
+        label: { show: selectedArea !== '全国', formatter: '{b}', position: 'right', color: '#effffb', fontSize: 9, fontWeight: 500, textShadowColor: '#06251f', textShadowBlur: 4 },
         itemStyle: { color: '#d0a15d', shadowColor: '#d0a15d', shadowBlur: 9 },
         emphasis: { scale: 1.35 }, zlevel: 2,
+      }, {
+        name: '门店网点', type: 'scatter', coordinateSystem: 'geo', data: storePoints,
+        symbol: 'circle', symbolSize: (value: number[]) => Math.max(7, Math.min(12, 5 + Math.sqrt(Math.max(1, value[2])) * .8)),
+        label: { show: false },
+        emphasis: { scale: 1.55, itemStyle: { borderWidth: 2, shadowBlur: 18 } }, zlevel: 5,
       }, {
         name: '大区气泡', type: 'effectScatter', coordinateSystem: 'geo', data: bubbleData,
         symbolSize: (value: number[]) => value[2], rippleEffect: { brushType: 'stroke', scale: 2.2 },
@@ -626,6 +650,11 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     };
   }, [summary]);
   const handleMapClick = useCallback((name: string) => {
+    const store = storeDirectoryByName.get(name);
+    if (store) {
+      onToast(`${store.name} · ${store.tableCount ? `${store.tableCount} 张台桌` : '台桌数待补充'} · ${store.stage}`);
+      return;
+    }
     if (name === '浙江大区' || name === '苏皖大区' || name === '总部直管') {
       setSelectedArea(name);
       setSelectedRegion(null);
@@ -758,7 +787,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
             <EChartCanvas option={mapOption} className="rt2-china-map" onPointClick={handleMapClick} />
             <ScopeCascader compact selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} />
             <div className="rt2-map-stats"><span>大区<b>{selectedArea === '全国' ? 3 : 1}</b></span><span>区域<b>{summary.regions}</b></span><span>营业门店<b>{summary.stores}</b></span><span>筹备中<b>{summary.preparing}</b></span></div>
-            <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />{selectedRegion ? '区县行政边界' : '市级行政边界'}</span><span><i className="point" />二级区域</span></>}</div>
+            <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />{selectedRegion ? '区县行政边界' : '市级行政边界'}</span><span><i className="point" />{selectedRegion ? '门店网点' : '二级区域'}</span></>}</div>
             <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
               <b className="rt2-sea-title">南海诸岛</b>
               <span className="rt2-sea-group dongsha" aria-hidden="true"><i /></span>

@@ -14,27 +14,32 @@
             {
               "name": "杭州金沙天街店",
               "stage": "正常期",
-              "address": "浙江省杭州市钱塘区金沙大道"
+              "address": "浙江省杭州市钱塘区金沙大道",
+              "tableCount": 39
             },
             {
               "name": "杭州九堡金海城店",
               "stage": "竞争期",
-              "address": "浙江省杭州市上城区杭海路"
+              "address": "浙江省杭州市上城区杭海路",
+              "tableCount": 39
             },
             {
               "name": "杭州七堡花园城店",
               "stage": "竞争期",
-              "address": "浙江省杭州市上城区九和路"
+              "address": "浙江省杭州市上城区九和路",
+              "tableCount": 29
             },
             {
               "name": "杭州上城天虹店",
               "stage": "正常期",
-              "address": "浙江省杭州市上城区顺福路303号"
+              "address": "浙江省杭州市上城区顺福路303号",
+              "tableCount": 35
             },
             {
               "name": "杭州下沙金沙湖店",
               "stage": "竞争期",
-              "address": "浙江省杭州市钱塘区天城东路230号"
+              "address": "浙江省杭州市钱塘区天城东路230号",
+              "tableCount": 51
             }
           ]
         },
@@ -47,27 +52,32 @@
             {
               "name": "杭州拱墅万达店",
               "stage": "正常期",
-              "address": "浙江省杭州市拱墅区祥泰街"
+              "address": "浙江省杭州市拱墅区祥泰街",
+              "tableCount": 41
             },
             {
               "name": "杭州临平欢乐城店",
               "stage": "竞争期",
-              "address": "浙江省杭州市临平区迎宾路"
+              "address": "浙江省杭州市临平区迎宾路",
+              "tableCount": 50
             },
             {
               "name": "杭州西溪银泰店",
               "stage": "正常期",
-              "address": "浙江省杭州市西湖区弘德路"
+              "address": "浙江省杭州市西湖区弘德路",
+              "tableCount": 39
             },
             {
               "name": "杭州余杭宝龙店",
               "stage": "正常期",
-              "address": "浙江省杭州市余杭区余杭塘路"
+              "address": "浙江省杭州市余杭区余杭塘路",
+              "tableCount": 51
             },
             {
               "name": "杭州余杭万达店",
               "stage": "正常期",
-              "address": "浙江省杭州市余杭区文一西路"
+              "address": "浙江省杭州市余杭区文一西路",
+              "tableCount": 42
             }
           ]
         },
@@ -80,22 +90,26 @@
             {
               "name": "杭州滨江宝龙店",
               "stage": "正常期",
-              "address": "浙江省杭州市滨江区火炬大道"
+              "address": "浙江省杭州市滨江区火炬大道",
+              "tableCount": 55
             },
             {
               "name": "杭州滨江乐游城店",
               "stage": "正常期",
-              "address": "浙江省杭州市滨江区滨和路"
+              "address": "浙江省杭州市滨江区滨和路",
+              "tableCount": 50
             },
             {
               "name": "杭州萧山加州店",
               "stage": "竞争期",
-              "address": "浙江省杭州市萧山区金鸡路"
+              "address": "浙江省杭州市萧山区金鸡路",
+              "tableCount": 32
             },
             {
               "name": "杭州萧山金帝店",
               "stage": "竞争期",
-              "address": "浙江省杭州市萧山区市心中路"
+              "address": "浙江省杭州市萧山区市心中路",
+              "tableCount": 47
             }
           ]
         },
@@ -108,27 +122,32 @@
             {
               "name": "金华金义宝龙店",
               "stage": "正常期",
-              "address": "浙江省金华市金东区金港大道"
+              "address": "浙江省金华市金东区金港大道",
+              "tableCount": 38
             },
             {
               "name": "金华义乌万达店",
               "stage": "正常期",
-              "address": "浙江省金华市义乌市新科路"
+              "address": "浙江省金华市义乌市新科路",
+              "tableCount": 38
             },
             {
               "name": "金华义乌旺地广场店",
               "stage": "竞争期",
-              "address": "浙江省金华市义乌市工人北路"
+              "address": "浙江省金华市义乌市工人北路",
+              "tableCount": 51
             },
             {
               "name": "金华义乌新光汇店",
               "stage": "竞争期",
-              "address": "浙江省金华市义乌市福田路"
+              "address": "浙江省金华市义乌市福田路",
+              "tableCount": 36
             },
             {
               "name": "绍兴诸暨宝龙店",
               "stage": "正常期",
-              "address": "浙江省绍兴市诸暨市艮塔西路"
+              "address": "浙江省绍兴市诸暨市艮塔西路",
+              "tableCount": 52
             }
           ]
         },
@@ -141,32 +160,38 @@
             {
               "name": "宁波慈溪爱琴海店",
               "stage": "竞争期",
-              "address": "浙江省宁波市慈溪市新城大道北路辅路"
+              "address": "浙江省宁波市慈溪市新城大道北路辅路",
+              "tableCount": 33
             },
             {
               "name": "宁波慈溪银泰店",
               "stage": "正常期",
-              "address": "浙江省宁波市慈溪市糖坊路78号"
+              "address": "浙江省宁波市慈溪市糖坊路78号",
+              "tableCount": 52
             },
             {
               "name": "宁波高新宝龙店",
               "stage": "竞争期",
-              "address": "浙江省宁波市鄞州区创苑路"
+              "address": "浙江省宁波市鄞州区创苑路",
+              "tableCount": 31
             },
             {
               "name": "宁波鄞州培罗成店",
               "stage": "正常期",
-              "address": "浙江省宁波市鄞州区金和路下应段277号"
+              "address": "浙江省宁波市鄞州区金和路下应段277号",
+              "tableCount": 37
             },
             {
               "name": "宁波鄞州万达店",
               "stage": "竞争期",
-              "address": "浙江省宁波市鄞州区四明中路999号1B-36号"
+              "address": "浙江省宁波市鄞州区四明中路999号1B-36号",
+              "tableCount": 32
             },
             {
               "name": "宁波鄞州银泰店",
               "stage": "正常期",
-              "address": "浙江省宁波市鄞州区陈姜线"
+              "address": "浙江省宁波市鄞州区陈姜线",
+              "tableCount": 45
             }
           ]
         },
@@ -179,32 +204,38 @@
             {
               "name": "宁波北仑博地店",
               "stage": "正常期",
-              "address": "浙江省宁波市北仑区灵江路"
+              "address": "浙江省宁波市北仑区灵江路",
+              "tableCount": 41
             },
             {
               "name": "宁波北仑银泰店",
               "stage": "正常期",
-              "address": "浙江省宁波市北仑区中河路427号"
+              "address": "浙江省宁波市北仑区中河路427号",
+              "tableCount": 42
             },
             {
               "name": "宁波江北缤纷城店",
               "stage": "正常期",
-              "address": "浙江省宁波市江北区人民路186号"
+              "address": "浙江省宁波市江北区人民路186号",
+              "tableCount": 34
             },
             {
               "name": "宁波鄞州港隆店",
               "stage": "正常期",
-              "address": "浙江省宁波市鄞州区明新路"
+              "address": "浙江省宁波市鄞州区明新路",
+              "tableCount": 36
             },
             {
               "name": "宁波鄞州宏泰店",
               "stage": "竞争期",
-              "address": "浙江省宁波市鄞州区宁穿路1202号宏泰广场"
+              "address": "浙江省宁波市鄞州区宁穿路1202号宏泰广场",
+              "tableCount": 37
             },
             {
               "name": "宁波鄞州k11店",
               "stage": "正常期",
-              "address": "浙江省宁波市鄞州区铸坊街"
+              "address": "浙江省宁波市鄞州区铸坊街",
+              "tableCount": 40
             }
           ]
         },
@@ -217,37 +248,44 @@
             {
               "name": "绍兴柯桥宝龙店",
               "stage": "竞争期",
-              "address": "浙江省绍兴市柯桥区湖中路11号"
+              "address": "浙江省绍兴市柯桥区湖中路11号",
+              "tableCount": 33
             },
             {
               "name": "绍兴柯桥蓝天店",
               "stage": "正常期",
-              "address": "浙江省绍兴市柯桥区群贤路1857号"
+              "address": "浙江省绍兴市柯桥区群贤路1857号",
+              "tableCount": 49
             },
             {
               "name": "绍兴上虞大通店",
               "stage": "竞争期",
-              "address": "浙江省绍兴市上虞区市民大道"
+              "address": "浙江省绍兴市上虞区市民大道",
+              "tableCount": 32
             },
             {
               "name": "绍兴上虞万达店",
               "stage": "正常期",
-              "address": "浙江省绍兴市上虞区称山北路"
+              "address": "浙江省绍兴市上虞区称山北路",
+              "tableCount": 49
             },
             {
               "name": "绍兴越城世茂店",
               "stage": "正常期",
-              "address": "浙江省绍兴市越城区范蠡路16号"
+              "address": "浙江省绍兴市越城区范蠡路16号",
+              "tableCount": 39
             },
             {
               "name": "绍兴越城苏宁店",
               "stage": "正常期",
-              "address": "浙江省绍兴市越城区横湖路"
+              "address": "浙江省绍兴市越城区横湖路",
+              "tableCount": 43
             },
             {
               "name": "绍兴越城迎恩门店",
               "stage": "正常期",
-              "address": "浙江省绍兴市越城区浴龙路"
+              "address": "浙江省绍兴市越城区浴龙路",
+              "tableCount": 37
             }
           ]
         }
@@ -265,32 +303,38 @@
             {
               "name": "常州飞龙吾悦店",
               "stage": "正常期",
-              "address": "江苏省常州市新北区飞龙中路"
+              "address": "江苏省常州市新北区飞龙中路",
+              "tableCount": 50
             },
             {
               "name": "常州金坛吾悦店",
               "stage": "竞争期",
-              "address": "江苏省常州市金坛区横一路"
+              "address": "江苏省常州市金坛区横一路",
+              "tableCount": 46
             },
             {
               "name": "常州溧阳万达店",
               "stage": "竞争期",
-              "address": "江苏省常州市溧阳市南大街"
+              "address": "江苏省常州市溧阳市南大街",
+              "tableCount": 36
             },
             {
               "name": "常州龙湖天街店",
               "stage": "正常期",
-              "address": "江苏省常州市钟楼区勤业路"
+              "address": "江苏省常州市钟楼区勤业路",
+              "tableCount": 46
             },
             {
               "name": "常州武进万达店",
               "stage": "竞争期",
-              "address": "江苏省常州市武进区花园街"
+              "address": "江苏省常州市武进区花园街",
+              "tableCount": 40
             },
             {
               "name": "湖州长兴万达店",
               "stage": "正常期",
-              "address": "浙江省湖州市长兴县忻湖路"
+              "address": "浙江省湖州市长兴县忻湖路",
+              "tableCount": 35
             }
           ]
         },
@@ -303,22 +347,26 @@
             {
               "name": "合肥百大心悦城店",
               "stage": "竞争期",
-              "address": "安徽省合肥市包河区紫云路辅路"
+              "address": "安徽省合肥市包河区紫云路辅路",
+              "tableCount": 45
             },
             {
               "name": "合肥包河方圆荟店",
               "stage": "正常期",
-              "address": "安徽省合肥市包河区福州路"
+              "address": "安徽省合肥市包河区福州路",
+              "tableCount": 32
             },
             {
               "name": "合肥包河万达店",
               "stage": "竞争期",
-              "address": "安徽省合肥市包河区包河金街"
+              "address": "安徽省合肥市包河区包河金街",
+              "tableCount": 39
             },
             {
               "name": "合肥天鹅湖万达店",
               "stage": "竞争期",
-              "address": "安徽省合肥市蜀山区天鹅湖金街6-124号"
+              "address": "安徽省合肥市蜀山区天鹅湖金街6-124号",
+              "tableCount": 41
             }
           ]
         },
@@ -331,32 +379,38 @@
             {
               "name": "丹阳吾悦广场店",
               "stage": "竞争期",
-              "address": "江苏省镇江市丹阳市金陵西路辅路"
+              "address": "江苏省镇江市丹阳市金陵西路辅路",
+              "tableCount": 34
             },
             {
               "name": "南京河西天街店",
               "stage": "正常期",
-              "address": "江苏省南京市建邺区云龙山路"
+              "address": "江苏省南京市建邺区云龙山路",
+              "tableCount": 43
             },
             {
               "name": "南京建邺万达店",
               "stage": "筹备期",
-              "address": "浙江省杭州市萧山区建设三路"
+              "address": "浙江省杭州市萧山区建设三路",
+              "tableCount": 0
             },
             {
               "name": "南京同曦百货店",
               "stage": "正常期",
-              "address": "江苏省南京市江宁区双龙大道672号"
+              "address": "江苏省南京市江宁区双龙大道672号",
+              "tableCount": 52
             },
             {
               "name": "南京喜玛拉雅店",
               "stage": "正常期",
-              "address": "江苏省南京市雨花台区博爱街"
+              "address": "江苏省南京市雨花台区博爱街",
+              "tableCount": 48
             },
             {
               "name": "镇江宝龙店",
               "stage": "正常期",
-              "address": "江苏省镇江市丹徒区金谷东路"
+              "address": "江苏省镇江市丹徒区金谷东路",
+              "tableCount": 42
             }
           ]
         },
@@ -369,27 +423,32 @@
             {
               "name": "苏州昆山金鹰店",
               "stage": "正常期",
-              "address": "江苏省苏州市昆山市金鹰国际步行街"
+              "address": "江苏省苏州市昆山市金鹰国际步行街",
+              "tableCount": 32
             },
             {
               "name": "苏州昆山天虹店",
               "stage": "竞争期",
-              "address": "江苏省苏州市昆山市珑庭路"
+              "address": "江苏省苏州市昆山市珑庭路",
+              "tableCount": 47
             },
             {
               "name": "苏州吴中久光店",
               "stage": "免费期",
-              "address": "江苏省苏州市吴中区旺墩路"
+              "address": "江苏省苏州市吴中区旺墩路",
+              "tableCount": 34
             },
             {
               "name": "苏州吴中天虹店",
               "stage": "筹备期",
-              "address": "浙江省杭州市萧山区建设三路"
+              "address": "浙江省杭州市萧山区建设三路",
+              "tableCount": 0
             },
             {
               "name": "苏州吴中尹山湖店",
               "stage": "免费期",
-              "address": "江苏省苏州市吴中区清禾路"
+              "address": "江苏省苏州市吴中区清禾路",
+              "tableCount": 40
             }
           ]
         },
@@ -402,22 +461,26 @@
             {
               "name": "苏州姑苏星光耀店",
               "stage": "正常期",
-              "address": "江苏省苏州市姑苏区虎池路路1583号"
+              "address": "江苏省苏州市姑苏区虎池路路1583号",
+              "tableCount": 45
             },
             {
               "name": "苏州石路天虹店",
               "stage": "竞争期",
-              "address": "江苏省苏州市姑苏区金门路"
+              "address": "江苏省苏州市姑苏区金门路",
+              "tableCount": 49
             },
             {
               "name": "苏州吴江吾悦店",
               "stage": "竞争期",
-              "address": "江苏省苏州市吴江区吾悦大道"
+              "address": "江苏省苏州市吴江区吾悦大道",
+              "tableCount": 49
             },
             {
               "name": "苏州胥江龙湖店",
               "stage": "竞争期",
-              "address": "江苏省苏州市姑苏区胥波路"
+              "address": "江苏省苏州市姑苏区胥波路",
+              "tableCount": 38
             }
           ]
         },
@@ -430,32 +493,38 @@
             {
               "name": "南通如皋万达店",
               "stage": "正常期",
-              "address": "江苏省南通市如皋市解放东路"
+              "address": "江苏省南通市如皋市解放东路",
+              "tableCount": 35
             },
             {
               "name": "无锡滨湖万达店",
               "stage": "会员免费期",
-              "address": "江苏省无锡市滨湖区万千巷"
+              "address": "江苏省无锡市滨湖区万千巷",
+              "tableCount": 45
             },
             {
               "name": "无锡梁溪崇安寺店",
               "stage": "正常期",
-              "address": "江苏省无锡市梁溪区方巷11号"
+              "address": "江苏省无锡市梁溪区方巷11号",
+              "tableCount": 51
             },
             {
               "name": "无锡梁溪方圆荟店",
               "stage": "正常期",
-              "address": "江苏省无锡市梁溪区贡湖大道23号"
+              "address": "江苏省无锡市梁溪区贡湖大道23号",
+              "tableCount": 46
             },
             {
               "name": "张家港万达店",
               "stage": "竞争期",
-              "address": "江苏省苏州市张家港市长泾路307号"
+              "address": "江苏省苏州市张家港市长泾路307号",
+              "tableCount": 41
             },
             {
               "name": "张家港吾悦店",
               "stage": "竞争期",
-              "address": "江苏省苏州市张家港市S340"
+              "address": "江苏省苏州市张家港市S340",
+              "tableCount": 41
             }
           ]
         }
@@ -473,37 +542,44 @@
             {
               "name": "成都成华王府井店",
               "stage": "正常期",
-              "address": "四川省成都市武侯区科华中路辅路"
+              "address": "四川省成都市武侯区科华中路辅路",
+              "tableCount": 45
             },
             {
               "name": "成都九方花园城店",
               "stage": "正常期",
-              "address": "四川省成都市武侯区府城大道中段"
+              "address": "四川省成都市武侯区府城大道中段",
+              "tableCount": 39
             },
             {
               "name": "成都苏宁店",
               "stage": "正常期",
-              "address": "四川省成都市武侯区泰和一街"
+              "address": "四川省成都市武侯区泰和一街",
+              "tableCount": 39
             },
             {
               "name": "成都SM店",
               "stage": "正常期",
-              "address": "四川省成都市成华区建兴路"
+              "address": "四川省成都市成华区建兴路",
+              "tableCount": 34
             },
             {
               "name": "重庆渝北爱琴海店",
               "stage": "免费期",
-              "address": "重庆市渝北区人和隧道"
+              "address": "重庆市渝北区人和隧道",
+              "tableCount": 36
             },
             {
               "name": "重庆渝北爱融荟店",
               "stage": "正常期",
-              "address": "重庆市渝北区新南路429号"
+              "address": "重庆市渝北区新南路429号",
+              "tableCount": 33
             },
             {
               "name": "重庆渝中印象城店",
               "stage": "正常期",
-              "address": "重庆市渝中区嘉陵江滨江路"
+              "address": "重庆市渝中区嘉陵江滨江路",
+              "tableCount": 31
             }
           ]
         },
@@ -516,32 +592,38 @@
             {
               "name": "东莞东城万达店",
               "stage": "正常期",
-              "address": "广东省东莞市东纵路"
+              "address": "广东省东莞市东纵路",
+              "tableCount": 34
             },
             {
               "name": "东莞厚街万达店",
               "stage": "正常期",
-              "address": "广东省东莞市体育路"
+              "address": "广东省东莞市体育路",
+              "tableCount": 53
             },
             {
               "name": "东莞虎门万达店",
               "stage": "正常期",
-              "address": "广东省东莞市社岗南路"
+              "address": "广东省东莞市社岗南路",
+              "tableCount": 53
             },
             {
               "name": "东莞汇一城店",
               "stage": "竞争期",
-              "address": "广东省东莞市鸿福路190号"
+              "address": "广东省东莞市鸿福路190号",
+              "tableCount": 46
             },
             {
               "name": "东莞长安鸿海店",
               "stage": "正常期",
-              "address": "广东省东莞市东门中路61号"
+              "address": "广东省东莞市东门中路61号",
+              "tableCount": 37
             },
             {
               "name": "东莞长安万达店",
               "stage": "正常期",
-              "address": "广东省东莞市东门中路"
+              "address": "广东省东莞市东门中路",
+              "tableCount": 36
             }
           ]
         },
@@ -554,37 +636,44 @@
             {
               "name": "佛山南海万达店",
               "stage": "竞争期",
-              "address": "广东省佛山市南海区永胜西路"
+              "address": "广东省佛山市南海区永胜西路",
+              "tableCount": 44
             },
             {
               "name": "佛山顺德海骏达店",
               "stage": "竞争期",
-              "address": "广东省佛山市顺德区京桂线"
+              "address": "广东省佛山市顺德区京桂线",
+              "tableCount": 55
             },
             {
               "name": "佛山天虹店",
               "stage": "正常期",
-              "address": "广东省佛山市禅城区X518(旧)"
+              "address": "广东省佛山市禅城区X518(旧)",
+              "tableCount": 38
             },
             {
               "name": "中山古镇华丰汇店",
               "stage": "竞争期",
-              "address": "广东省中山市富兴南路"
+              "address": "广东省中山市富兴南路",
+              "tableCount": 42
             },
             {
               "name": "中山天悦城店",
               "stage": "正常期",
-              "address": "广东省中山市翠景街"
+              "address": "广东省中山市翠景街",
+              "tableCount": 41
             },
             {
               "name": "中山小榄汇丰城店",
               "stage": "正常期",
-              "address": "广东省中山市怡丰东路"
+              "address": "广东省中山市怡丰东路",
+              "tableCount": 48
             },
             {
               "name": "珠海香洲宝龙店",
               "stage": "竞争期",
-              "address": "广东省珠海市香洲区科技一路"
+              "address": "广东省珠海市香洲区科技一路",
+              "tableCount": 47
             }
           ]
         },
@@ -597,27 +686,32 @@
             {
               "name": "福州仓山欢乐颂店",
               "stage": "竞争期",
-              "address": "福建省福州市仓山区浦上大道"
+              "address": "福建省福州市仓山区浦上大道",
+              "tableCount": 40
             },
             {
               "name": "福州晋安东二环泰禾店",
               "stage": "竞争期",
-              "address": "福建省福州市晋安区化工路辅路"
+              "address": "福建省福州市晋安区化工路辅路",
+              "tableCount": 40
             },
             {
               "name": "福州世欧广场店",
               "stage": "竞争期",
-              "address": "福建省福州市晋安区晋连路1号"
+              "address": "福建省福州市晋安区晋连路1号",
+              "tableCount": 43
             },
             {
               "name": "福州台江市民广场店",
               "stage": "正常期",
-              "address": "福建省福州市台江区长汀街"
+              "address": "福建省福州市台江区长汀街",
+              "tableCount": 40
             },
             {
               "name": "福州台江万达店",
               "stage": "正常期",
-              "address": "福建省福州市台江区曙光路158-2号"
+              "address": "福建省福州市台江区曙光路158-2号",
+              "tableCount": 49
             }
           ]
         },
@@ -630,57 +724,68 @@
             {
               "name": "广州白云嘉丰店",
               "stage": "免费期",
-              "address": "广东省广州市白云区鹤龙二路68号"
+              "address": "广东省广州市白云区鹤龙二路68号",
+              "tableCount": 50
             },
             {
               "name": "广州番禺万科里店",
               "stage": "正常期",
-              "address": "广东省广州市番禺区盛兴大街79号基盛万科里中央公园B区"
+              "address": "广东省广州市番禺区盛兴大街79号基盛万科里中央公园B区",
+              "tableCount": 47
             },
             {
               "name": "广州番禺旺地广场店",
               "stage": "正常期",
-              "address": "广东省广州市番禺区汇智二路212号"
+              "address": "广东省广州市番禺区汇智二路212号",
+              "tableCount": 43
             },
             {
               "name": "广州海珠万达店",
               "stage": "正常期",
-              "address": "广东省广州市海珠区广州大道南978号"
+              "address": "广东省广州市海珠区广州大道南978号",
+              "tableCount": 53
             },
             {
               "name": "广州海珠燕汇店",
               "stage": "正常期",
-              "address": "广东省广州市海珠区江燕路108-2号"
+              "address": "广东省广州市海珠区江燕路108-2号",
+              "tableCount": 33
             },
             {
               "name": "广州荔湾柴宝里店",
               "stage": "正常期",
-              "address": "广东省广州市荔湾区西湾路"
+              "address": "广东省广州市荔湾区西湾路",
+              "tableCount": 43
             },
             {
               "name": "广州南沙环宇城店",
               "stage": "正常期",
-              "address": "广东省广州市南沙区美心路"
+              "address": "广东省广州市南沙区美心路",
+              "tableCount": 30
             },
             {
               "name": "广州南沙万达店",
               "stage": "正常期",
-              "address": "广东省广州市南沙区环市大道中28号"
+              "address": "广东省广州市南沙区环市大道中28号",
+              "tableCount": 43
             },
             {
               "name": "广州天河电脑城店",
               "stage": "竞争期",
-              "address": "广东省广州市天河区天河路500号"
+              "address": "广东省广州市天河区天河路500号",
+              "tableCount": 50
             },
             {
               "name": "广州天河天誉店",
               "stage": "正常期",
-              "address": "广东省广州市天河区林和中路154号"
+              "address": "广东省广州市天河区林和中路154号",
+              "tableCount": 46
             },
             {
               "name": "肇庆鼎湖万达店",
               "stage": "正常期",
-              "address": "广东省肇庆市鼎湖区东进大道"
+              "address": "广东省肇庆市鼎湖区东进大道",
+              "tableCount": 35
             }
           ]
         },
@@ -693,17 +798,20 @@
             {
               "name": "海口龙湖天街店",
               "stage": "正常期",
-              "address": "海南省海口市龙华区博巷三路"
+              "address": "海南省海口市龙华区博巷三路",
+              "tableCount": 39
             },
             {
               "name": "海口龙华阳光城店",
               "stage": "正常期",
-              "address": "海南省海口市龙华区金龙路"
+              "address": "海南省海口市龙华区金龙路",
+              "tableCount": 56
             },
             {
               "name": "海口琼山日月店",
               "stage": "正常期",
-              "address": "海南省海口市琼山区大英山西五街"
+              "address": "海南省海口市琼山区大英山西五街",
+              "tableCount": 47
             }
           ]
         },
@@ -716,27 +824,32 @@
             {
               "name": "莆田城厢万达店",
               "stage": "正常期",
-              "address": "福建省莆田市城厢区G324"
+              "address": "福建省莆田市城厢区G324",
+              "tableCount": 34
             },
             {
               "name": "莆田荔城益田假日店",
               "stage": "竞争期",
-              "address": "福建省莆田市荔城区镇海南街"
+              "address": "福建省莆田市荔城区镇海南街",
+              "tableCount": 39
             },
             {
               "name": "泉州丰泽尚柏奥莱店",
               "stage": "正常期",
-              "address": "福建省泉州市丰泽区安吉南路"
+              "address": "福建省泉州市丰泽区安吉南路",
+              "tableCount": 51
             },
             {
               "name": "泉州晋江宝龙店",
               "stage": "竞争期",
-              "address": "福建省泉州市晋江市世纪大道518-33号"
+              "address": "福建省泉州市晋江市世纪大道518-33号",
+              "tableCount": 50
             },
             {
               "name": "泉州浦西万达店",
               "stage": "竞争期",
-              "address": "福建省泉州市丰泽区泉州金街"
+              "address": "福建省泉州市丰泽区泉州金街",
+              "tableCount": 58
             }
           ]
         },
@@ -749,37 +862,44 @@
             {
               "name": "厦门湖里拾尚里店",
               "stage": "会员免费期",
-              "address": "福建省厦门市湖里区枋湖北二路"
+              "address": "福建省厦门市湖里区枋湖北二路",
+              "tableCount": 31
             },
             {
               "name": "厦门湖里万达店",
               "stage": "正常期",
-              "address": "福建省厦门市湖里区湖里金街"
+              "address": "福建省厦门市湖里区湖里金街",
+              "tableCount": 42
             },
             {
               "name": "厦门欢乐颂店",
               "stage": "正常期",
-              "address": "福建省厦门市思明区七星西路3-2号"
+              "address": "福建省厦门市思明区七星西路3-2号",
+              "tableCount": 49
             },
             {
               "name": "厦门集美万达店",
               "stage": "竞争期",
-              "address": "福建省厦门市集美区银江路137-63号"
+              "address": "福建省厦门市集美区银江路137-63号",
+              "tableCount": 50
             },
             {
               "name": "厦门同安宝龙店",
               "stage": "正常期",
-              "address": "福建省厦门市同安区环城南路"
+              "address": "福建省厦门市同安区环城南路",
+              "tableCount": 30
             },
             {
               "name": "厦门西雅图店",
               "stage": "正常期",
-              "address": "福建省厦门市海沧区钟林路"
+              "address": "福建省厦门市海沧区钟林路",
+              "tableCount": 37
             },
             {
               "name": "厦门禹悦汇店",
               "stage": "竞争期",
-              "address": "福建省厦门市思明区厦禾路878-888号"
+              "address": "福建省厦门市思明区厦禾路878-888号",
+              "tableCount": 41
             }
           ]
         },
@@ -792,42 +912,50 @@
             {
               "name": "上海奉贤传悦坊店",
               "stage": "正常期",
-              "address": "上海市奉贤区望园南路"
+              "address": "上海市奉贤区望园南路",
+              "tableCount": 52
             },
             {
               "name": "上海金山都乐汇店",
               "stage": "免费期",
-              "address": "上海市金山区海汇街"
+              "address": "上海市金山区海汇街",
+              "tableCount": 48
             },
             {
               "name": "上海马桥万达店",
               "stage": "竞争期",
-              "address": "上海市闵行区富文路"
+              "address": "上海市闵行区富文路",
+              "tableCount": 31
             },
             {
               "name": "上海闵行颛桥万达店",
               "stage": "正常期",
-              "address": "上海市闵行区颛兴东路"
+              "address": "上海市闵行区颛兴东路",
+              "tableCount": 44
             },
             {
               "name": "上海七宝宝龙店",
               "stage": "正常期",
-              "address": "上海市闵行区漕宝路3299弄15-1号临"
+              "address": "上海市闵行区漕宝路3299弄15-1号临",
+              "tableCount": 38
             },
             {
               "name": "上海青浦吾悦店",
               "stage": "竞争期",
-              "address": "上海市青浦区淀山湖大道150弄81号"
+              "address": "上海市青浦区淀山湖大道150弄81号",
+              "tableCount": 51
             },
             {
               "name": "上海松江亚繁亚店",
               "stage": "竞争期",
-              "address": "上海市松江区莘松路1266号"
+              "address": "上海市松江区莘松路1266号",
+              "tableCount": 39
             },
             {
               "name": "上海徐汇正大乐城店",
               "stage": "正常期",
-              "address": "上海市徐汇区中山南二路669号"
+              "address": "上海市徐汇区中山南二路669号",
+              "tableCount": 45
             }
           ]
         },
@@ -840,37 +968,44 @@
             {
               "name": "上海宝山大华虎城店",
               "stage": "正常期",
-              "address": "上海市宝山区大华二路"
+              "address": "上海市宝山区大华二路",
+              "tableCount": 38
             },
             {
               "name": "上海宝山吉浦天地店",
               "stage": "正常期",
-              "address": "上海市宝山区吉浦路519-4号临"
+              "address": "上海市宝山区吉浦路519-4号临",
+              "tableCount": 37
             },
             {
               "name": "上海江桥万达店",
               "stage": "正常期",
-              "address": "上海市嘉定区金沙江西路1075弄35号"
+              "address": "上海市嘉定区金沙江西路1075弄35号",
+              "tableCount": 42
             },
             {
               "name": "上海静安大融城店",
               "stage": "正常期",
-              "address": "上海市静安区晋城路"
+              "address": "上海市静安区晋城路",
+              "tableCount": 44
             },
             {
               "name": "上海普陀绿地店",
               "stage": "正常期",
-              "address": "上海市普陀区曹杨路"
+              "address": "上海市普陀区曹杨路",
+              "tableCount": 42
             },
             {
               "name": "上海普陀新邻天地店",
               "stage": "竞争期",
-              "address": "上海市普陀区白丽路263号"
+              "address": "上海市普陀区白丽路263号",
+              "tableCount": 32
             },
             {
               "name": "上海徐汇光启城店",
               "stage": "正常期",
-              "address": "上海市徐汇区凯进路"
+              "address": "上海市徐汇区凯进路",
+              "tableCount": 54
             }
           ]
         },
@@ -883,27 +1018,32 @@
             {
               "name": "上海宝山美兰湖店",
               "stage": "正常期",
-              "address": "上海市宝山区富强村路"
+              "address": "上海市宝山区富强村路",
+              "tableCount": 39
             },
             {
               "name": "上海宝山万达店",
               "stage": "竞争期",
-              "address": "上海市宝山区高迎路"
+              "address": "上海市宝山区高迎路",
+              "tableCount": 51
             },
             {
               "name": "上海嘉定宝龙店",
               "stage": "竞争期",
-              "address": "上海市嘉定区德富路1062号"
+              "address": "上海市嘉定区德富路1062号",
+              "tableCount": 34
             },
             {
               "name": "上海嘉定大橘店",
               "stage": "正常期",
-              "address": "上海市嘉定区胜竹路2162号"
+              "address": "上海市嘉定区胜竹路2162号",
+              "tableCount": 40
             },
             {
               "name": "上海嘉定青年汇店",
               "stage": "正常期",
-              "address": "上海市嘉定区樱花路"
+              "address": "上海市嘉定区樱花路",
+              "tableCount": 36
             }
           ]
         },
@@ -916,27 +1056,32 @@
             {
               "name": "上海浦东新大陆店",
               "stage": "正常期",
-              "address": "上海市浦东新区商城路"
+              "address": "上海市浦东新区商城路",
+              "tableCount": 45
             },
             {
               "name": "上海浦东亿丰店",
               "stage": "竞争期",
-              "address": "上海市浦东新区云台路"
+              "address": "上海市浦东新区云台路",
+              "tableCount": 44
             },
             {
               "name": "上海浦东永乐汇店",
               "stage": "竞争期",
-              "address": "上海市浦东新区梓康路"
+              "address": "上海市浦东新区梓康路",
+              "tableCount": 42
             },
             {
               "name": "上海杨浦蓝海店",
               "stage": "正常期",
-              "address": "上海市杨浦区黄兴路1770号"
+              "address": "上海市杨浦区黄兴路1770号",
+              "tableCount": 38
             },
             {
               "name": "上海杨浦七巧国店",
               "stage": "正常期",
-              "address": "上海市杨浦区隆昌路599号"
+              "address": "上海市杨浦区隆昌路599号",
+              "tableCount": 42
             }
           ]
         },
@@ -949,52 +1094,62 @@
             {
               "name": "海口龙华阳光城店",
               "stage": "正常期",
-              "address": "海南省海口市龙华区金龙路"
+              "address": "海南省海口市龙华区金龙路",
+              "tableCount": 56
             },
             {
               "name": "深圳宝安宝立方店",
               "stage": "正常期",
-              "address": "广东省深圳市宝安区前进二路10号"
+              "address": "广东省深圳市宝安区前进二路10号",
+              "tableCount": 39
             },
             {
               "name": "深圳宝安海雅缤纷城店",
               "stage": "竞争期",
-              "address": "广东省深圳市宝安区宝农北巷"
+              "address": "广东省深圳市宝安区宝农北巷",
+              "tableCount": 37
             },
             {
               "name": "深圳凤凰天誉店",
               "stage": "正常期",
-              "address": "广东省深圳市宝安区前进二路"
+              "address": "广东省深圳市宝安区前进二路",
+              "tableCount": 43
             },
             {
               "name": "深圳福田大中华店",
               "stage": "正常期",
-              "address": "广东省深圳市福田区中心五路"
+              "address": "广东省深圳市福田区中心五路",
+              "tableCount": 39
             },
             {
               "name": "深圳福田绿景店",
               "stage": "正常期",
-              "address": "广东省深圳市福田区沙嘴一坊"
+              "address": "广东省深圳市福田区沙嘴一坊",
+              "tableCount": 58
             },
             {
               "name": "深圳京基百纳店",
               "stage": "正常期",
-              "address": "广东省深圳市宝安区民福路"
+              "address": "广东省深圳市宝安区民福路",
+              "tableCount": 50
             },
             {
               "name": "深圳龙岗万达店",
               "stage": "正常期",
-              "address": "广东省深圳市龙岗区华南二道"
+              "address": "广东省深圳市龙岗区华南二道",
+              "tableCount": 50
             },
             {
               "name": "深圳罗湖区天河店",
               "stage": "正常期",
-              "address": "广东省深圳市罗湖区布心路辅路"
+              "address": "广东省深圳市罗湖区布心路辅路",
+              "tableCount": 42
             },
             {
               "name": "深圳南山悦方店",
               "stage": "正常期",
-              "address": "广东省深圳市南山区同悦路18-5号"
+              "address": "广东省深圳市南山区同悦路18-5号",
+              "tableCount": 42
             }
           ]
         },
@@ -1007,22 +1162,26 @@
             {
               "name": "武汉洪山银泰店",
               "stage": "正常期",
-              "address": "湖北省武汉市洪山区珞喻路辅路"
+              "address": "湖北省武汉市洪山区珞喻路辅路",
+              "tableCount": 37
             },
             {
               "name": "武汉江汉华发中城店",
               "stage": "正常期",
-              "address": "湖北省武汉市江汉区淮海路"
+              "address": "湖北省武汉市江汉区淮海路",
+              "tableCount": 42
             },
             {
               "name": "武汉江汉CFD时代店",
               "stage": "正常期",
-              "address": "湖北省武汉市江汉区新华路"
+              "address": "湖北省武汉市江汉区新华路",
+              "tableCount": 37
             },
             {
               "name": "武汉菱角湖万达店",
               "stage": "竞争期",
-              "address": "湖北省武汉市江汉区唐家墩路5-1号"
+              "address": "湖北省武汉市江汉区唐家墩路5-1号",
+              "tableCount": 59
             }
           ]
         },
@@ -1035,22 +1194,26 @@
             {
               "name": "长沙方圆荟店",
               "stage": "正常期",
-              "address": "湖南省长沙市开福区欣彤路"
+              "address": "湖南省长沙市开福区欣彤路",
+              "tableCount": 44
             },
             {
               "name": "长沙吾悦广场店",
               "stage": "正常期",
-              "address": "湖南省长沙市雨花区花侯路"
+              "address": "湖南省长沙市雨花区花侯路",
+              "tableCount": 36
             },
             {
               "name": "长沙银盆岭万达店",
               "stage": "正常期",
-              "address": "湖南省长沙市岳麓区银盆南路57号"
+              "address": "湖南省长沙市岳麓区银盆南路57号",
+              "tableCount": 53
             },
             {
               "name": "长沙岳麓万象城店",
               "stage": "竞争期",
-              "address": "湖南省长沙市岳麓区桐兴巷"
+              "address": "湖南省长沙市岳麓区桐兴巷",
+              "tableCount": 37
             }
           ]
         },
@@ -1063,27 +1226,32 @@
             {
               "name": "贵阳观山湖万达店",
               "stage": "正常期",
-              "address": "贵州省贵阳市观山湖区云潭南路"
+              "address": "贵州省贵阳市观山湖区云潭南路",
+              "tableCount": 44
             },
             {
               "name": "南宁青秀航洋城店",
               "stage": "免费期",
-              "address": "广西壮族自治区南宁市青秀区航景巷"
+              "address": "广西壮族自治区南宁市青秀区航景巷",
+              "tableCount": 50
             },
             {
               "name": "南宁青秀万达店",
               "stage": "竞争期",
-              "address": "广西壮族自治区南宁市青秀区东葛路"
+              "address": "广西壮族自治区南宁市青秀区东葛路",
+              "tableCount": 44
             },
             {
               "name": "青岛李沧万达店",
               "stage": "正常期",
-              "address": "山东省青岛市李沧区巨峰路176号"
+              "address": "山东省青岛市李沧区巨峰路176号",
+              "tableCount": 51
             },
             {
               "name": "青岛CBD万达店",
               "stage": "竞争期",
-              "address": "山东省青岛市市北区徐州路185号"
+              "address": "山东省青岛市市北区徐州路185号",
+              "tableCount": 48
             }
           ]
         }
@@ -1091,4 +1259,3 @@
     }
   ]
 }
-
