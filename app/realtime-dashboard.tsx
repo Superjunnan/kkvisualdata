@@ -9,6 +9,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 import type { EChartsOption } from 'echarts';
 import chinaGeoJson from 'china-map-geojson/lib/china.js';
 import storeDirectorySource from './data/store-directory.json';
+import BusinessMap from './business-map';
 
 echarts.use([BarChart, EffectScatterChart, LineChart, ScatterChart, GeoComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -658,6 +659,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       }],
     };
   }, [administrativeMap, mapScopeKey, selectedArea, selectedRegion, selectedRegionRecord]);
+  void mapOption;
 
   const revenueOption = useMemo<EChartsOption>(() => ({
     animationDuration: 700,
@@ -843,11 +845,21 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         <section className="rt2-panel rt2-map-panel">
           <div className="rt2-section-head"><h2>{mapTitle}</h2></div>
           <div className="rt2-map-body">
-            <EChartCanvas option={mapOption} className="rt2-china-map" onPointClick={handleMapClick} />
+            <BusinessMap
+              className="rt2-china-map"
+              selectedArea={selectedArea}
+              selectedRegion={selectedRegion}
+              administrativeGeoJson={administrativeMap?.key === mapScopeKey ? administrativeMap.geoJson : null}
+              regions={directoryRegions}
+              stores={storePerformance}
+              onSelectArea={(area) => handleMapClick(area)}
+              onSelectRegion={(regionName) => handleMapClick(regionName)}
+              onSelectStore={(storeName) => handleMapClick(storeName)}
+            />
             <ScopeCascader compact selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} />
             <div className="rt2-map-stats"><span>大区<b>{selectedArea === '全国' ? 3 : 1}</b></span><span>区域<b>{summary.regions}</b></span><span>营业门店<b>{summary.stores}</b></span><span>筹备中<b>{summary.preparing}</b></span></div>
             <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span><span><i className="point" />真实门店坐标</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />{selectedRegion ? '区县行政边界' : '市级行政边界'}</span><span><i className="point" />{selectedRegion ? '真实门店坐标' : '二级区域'}</span></>}</div>
-            <a className="rt2-map-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">门店坐标 © OpenStreetMap contributors · WGS84</a>
+            <a className="rt2-map-attribution" href="https://openfreemap.org/" target="_blank" rel="noreferrer">道路底图 © OpenFreeMap / OpenMapTiles / OpenStreetMap · WGS84</a>
             <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
               <b className="rt2-sea-title">南海诸岛</b>
               <span className="rt2-sea-group dongsha" aria-hidden="true"><i /></span>
