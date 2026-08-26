@@ -15,7 +15,7 @@ echarts.use([BarChart, EffectScatterChart, LineChart, ScatterChart, GeoComponent
 
 type RealtimeDashboardProps = {
   onToast: (message: string) => void;
-  onBack: () => void;
+  onBack?: () => void;
 };
 
 type ChartClick = { name?: string };
@@ -77,6 +77,10 @@ const regionAdministrativeNames: Record<string, string[]> = {
 const directoryRegions: DirectoryRegion[] = storeDirectorySource.areas.flatMap((area) => area.regions.map((region) => ({
   ...region,
   area: area.name as BusinessAreaName,
+  stores: region.stores.map((store) => ({
+    ...store,
+    coordinatePrecision: store.coordinatePrecision as DirectoryStore['coordinatePrecision'],
+  })),
 })));
 
 function stableProgress(label: string, minimum: number, spread: number) {
@@ -278,7 +282,9 @@ function EChartCanvas({ option, className, onPointClick }: { option: EChartsOpti
     if (!containerRef.current) return;
     const chart = echarts.init(containerRef.current, undefined, { renderer: 'canvas' });
     chart.setOption(option);
-    const handleClick = (params: ChartClick) => params.name && onPointClick?.(params.name);
+    const handleClick = (params: ChartClick) => {
+      if (params.name) onPointClick?.(params.name);
+    };
     chart.on('click', handleClick);
     const resizeObserver = new ResizeObserver(() => chart.resize());
     resizeObserver.observe(containerRef.current);
@@ -588,7 +594,8 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     return {
       tooltip: {
         trigger: 'item', backgroundColor: 'rgba(5,31,25,.96)', borderColor: '#2d7562', textStyle: { color: '#e9fff8' },
-        formatter: (params: { name?: string; value?: number | number[] }) => {
+        formatter: (rawParams: unknown) => {
+          const params = rawParams as { name?: string };
           if (params.name && params.name in areaGroups) return `${params.name}<br/>经营范围`;
           const store = params.name ? storeDirectoryByName.get(params.name) : undefined;
           if (store) {
@@ -813,7 +820,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
 
   return <section ref={boardRef} className="realtime-board realtime-v2">
     <header className="rt2-header">
-      <div className="rt-actions"><ScopeCascader selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} /><button className="rt2-fullscreen-button" onClick={toggleFullscreen}>{isFullscreen ? '↙ 退出全屏' : '⛶ 全屏'}</button>{!isFullscreen && <button onClick={onBack}>← 返回业务看板</button>}</div>
+      <div className="rt-actions"><ScopeCascader selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} /><button className="rt2-fullscreen-button" onClick={toggleFullscreen}>{isFullscreen ? '↙ 退出全屏' : '⛶ 全屏'}</button>{!isFullscreen && onBack && <button onClick={onBack}>← 返回业务看板</button>}</div>
       <h1><span className="brand-mark logo-mark rt2-title-logo"><img src="/kk-logo-transparent.png?v=20260824" alt="KK品牌 Logo" /></span><span>KK实时经营大屏<small>REAL-TIME BUSINESS COMMAND CENTER</small></span></h1>
       <div className="rt2-clock"><b>{clock}</b><small><i /> 每 30s 自动刷新</small></div>
     </header>
