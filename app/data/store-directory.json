@@ -1523,18 +1523,9 @@
         {
           "name": "深圳区域",
           "totalStores": 12,
-          "operatingStores": 10,
+          "operatingStores": 9,
           "preparingStores": 0,
           "stores": [
-            {
-              "name": "海口龙华阳光城店",
-              "stage": "正常期",
-              "address": "海南省海口市龙华区金龙路",
-              "tableCount": 56,
-              "longitude": 110.3152848,
-              "latitude": 20.0246978,
-              "coordinatePrecision": "road"
-            },
             {
               "name": "深圳宝安宝立方店",
               "stage": "正常期",

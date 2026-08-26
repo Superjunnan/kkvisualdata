@@ -122,16 +122,34 @@ function boundsForCoordinates(coordinates: [number, number][]) {
   return bounds;
 }
 
-function fitScope(map: MapLibreMap, selectedArea: AreaName, selectedRegion: string | null, stores: MapStore[]) {
+function geometryCoordinates(value: unknown, output: [number, number][] = []) {
+  if (!Array.isArray(value)) return output;
+  if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
+    output.push([value[0], value[1]]);
+    return output;
+  }
+  value.forEach((item) => geometryCoordinates(item, output));
+  return output;
+}
+
+function storeFinancialMetrics(store: MapStore) {
+  const hash = [...store.name].reduce((total, character, index) => total + character.charCodeAt(0) * (index + 11), 0);
+  const tables = store.tableCount ?? 36;
+  const revenue = Number((tables * (1.48 + (hash % 31) / 100)).toFixed(1));
+  const profit = Number((revenue * (.17 + (hash % 10) / 100)).toFixed(1));
+  const progress = Number((82 + (hash % 371) / 10).toFixed(1));
+  const profitTarget = Number((profit / (progress / 100)).toFixed(1));
+  return { revenue, profit, profitTarget, progress };
+}
+
+function fitScope(map: MapLibreMap, selectedArea: AreaName, selectedRegion: string | null, stores: MapStore[], administrativeData: AdministrativeGeoJson) {
   map.stop();
   const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 720;
-  if (selectedArea === '全国') {
-    map.fitBounds([[73.2, 17.2], [135.3, 53.8]], { padding: { top: 78, right: 46, bottom: 52, left: 46 }, maxZoom: 4, duration, bearing: 0, pitch: 0 });
-    return;
-  }
-  const coordinates = stores.filter((store) => Number.isFinite(store.longitude) && Number.isFinite(store.latitude)).map((store) => [store.longitude as number, store.latitude as number] as [number, number]);
+  const storeCoordinates = stores.filter((store) => Number.isFinite(store.longitude) && Number.isFinite(store.latitude)).map((store) => [store.longitude as number, store.latitude as number] as [number, number]);
+  const boundaryCoordinates = administrativeData.features.filter((feature) => feature.properties.highlighted === 1).flatMap((feature) => geometryCoordinates(feature.geometry.coordinates));
+  const coordinates = boundaryCoordinates.length ? [...boundaryCoordinates, ...storeCoordinates] : storeCoordinates;
   if (!coordinates.length) {
-    map.easeTo({ center: areaBubbleFallbacks[selectedArea], zoom: selectedRegion ? 10.2 : 6.2, duration, bearing: 0, pitch: 0 });
+    map.easeTo({ center: selectedArea === '全国' ? [112, 30] : areaBubbleFallbacks[selectedArea], zoom: selectedArea === '全国' ? 4.2 : selectedRegion ? 10.2 : 6.2, duration, bearing: 0, pitch: 0 });
     return;
   }
   if (coordinates.length === 1) {
@@ -141,9 +159,12 @@ function fitScope(map: MapLibreMap, selectedArea: AreaName, selectedRegion: stri
   const bounds = boundsForCoordinates(coordinates);
   if (!bounds) return;
   const isHeadquarters = selectedArea === '总部直管' && !selectedRegion;
+  const isNationwide = selectedArea === '全国';
   map.fitBounds(bounds, {
-    padding: { top: selectedRegion ? 94 : 86, right: 94, bottom: 92, left: 138 },
-    maxZoom: selectedRegion ? 12.2 : isHeadquarters ? 5.1 : 8.15,
+    padding: isNationwide
+      ? { top: 76, right: 142, bottom: 74, left: 96 }
+      : { top: selectedRegion ? 104 : 88, right: 88, bottom: 84, left: 88 },
+    maxZoom: isNationwide ? 4.85 : selectedRegion ? 12.2 : isHeadquarters ? 5.1 : 8.15,
     duration,
     bearing: 0,
     pitch: 0,
@@ -177,8 +198,12 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
         const name = feature.properties.name ?? '';
         let featureArea: BusinessAreaName | undefined;
         if (selectedArea === '全国') {
-          featureArea = regions.find((region) => (regionAdministrativeNames[region.name] ?? []).includes(name)
-            || region.stores.some((store) => store.address?.includes(name)))?.area;
+          const adcode = Number(feature.properties.adcode ?? 0);
+          const provinceLevel = adcode > 0 && adcode % 10000 === 0;
+          if (!provinceLevel) {
+            featureArea = regions.find((region) => (regionAdministrativeNames[region.name] ?? []).includes(name)
+              || region.stores.some((store) => store.address?.includes(name)))?.area;
+          }
         }
         const highlighted = selectedArea === '全国'
           ? Boolean(featureArea)
@@ -260,6 +285,7 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
       fadeDuration: 0,
     });
     mapRef.current = map;
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-left');
     map.on('load', () => {
       map.addSource('kk-administrative', { type: 'geojson', data: initialSourcesRef.current.administrativeData as never });
       map.addLayer({ id: 'kk-administrative-fill', type: 'fill', source: 'kk-administrative', paint: { 'fill-color': ['get', 'fillColor'], 'fill-opacity': ['get', 'fillOpacity'] } }, 'road-casing-major');
@@ -287,7 +313,7 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
     (map.getSource('kk-administrative') as maplibregl.GeoJSONSource | undefined)?.setData(administrativeData as never);
     (map.getSource('kk-stores') as maplibregl.GeoJSONSource | undefined)?.setData(storeData as never);
     (map.getSource('kk-bubbles') as maplibregl.GeoJSONSource | undefined)?.setData(bubbleData as never);
-    fitScope(map, selectedArea, selectedRegion, scopedStores);
+    fitScope(map, selectedArea, selectedRegion, scopedStores, administrativeData as AdministrativeGeoJson);
     setTooltip(null);
   }, [administrativeData, bubbleData, loaded, scopedStores, selectedArea, selectedRegion, storeData]);
 
@@ -310,7 +336,7 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
       lastTooltipStoreRef.current = store.name;
       const width = containerRef.current?.clientWidth ?? 0;
       const height = containerRef.current?.clientHeight ?? 0;
-      setTooltip({ x: Math.min(event.point.x + 14, Math.max(14, width - 292)), y: Math.min(event.point.y + 14, Math.max(14, height - 170)), store });
+      setTooltip({ x: Math.min(event.point.x + 14, Math.max(14, width - 304)), y: Math.min(event.point.y + 14, Math.max(14, height - 248)), store });
     };
     const handleLeave = () => {
       setTooltip(null);
@@ -337,14 +363,23 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
     };
   }, [loaded, onSelectArea, onSelectRegion, onSelectStore, stores]);
 
+  const tooltipMetrics = tooltip ? storeFinancialMetrics(tooltip.store) : null;
+
   return <div className={`${className} rt2-maplibre`}>
     <div ref={containerRef} className="rt2-maplibre-canvas" />
     {!loaded && <div className="rt2-map-loading"><i />正在加载道路与门店地图…</div>}
-    {tooltip && <div className="rt2-map-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
+    {tooltip && tooltipMetrics && <div className="rt2-map-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
       <b>{tooltip.store.name}</b>
       <span>{tooltip.store.area} · {tooltip.store.region}</span>
       <span>台桌数：<strong>{tooltip.store.tableCount ? `${tooltip.store.tableCount} 张` : '待补充'}</strong></span>
       <span>经营阶段：<strong>{tooltip.store.stage}</strong></span>
+      <div className="rt2-map-tooltip-metrics">
+        <span>本月营收<strong>¥{tooltipMetrics.revenue}万</strong></span>
+        <span>本月利润<strong>¥{tooltipMetrics.profit}万</strong></span>
+        <span>利润目标<strong>¥{tooltipMetrics.profitTarget}万</strong></span>
+        <span>完成进度<strong>{tooltipMetrics.progress}%</strong></span>
+      </div>
+      <div className={`rt2-map-tooltip-progress ${tooltipMetrics.progress < 90 ? 'lagging' : ''}`}><i style={{ width: `${Math.min(tooltipMetrics.progress, 100)}%` }} /></div>
       <small>{tooltip.store.address ?? '暂无地址'}</small>
     </div>}
   </div>;

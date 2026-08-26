@@ -868,8 +868,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
             <ScopeCascader compact selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} />
             <div className="rt2-map-stats"><span>大区<b>{selectedArea === '全国' ? 3 : 1}</b></span><span>区域<b>{summary.regions}</b></span><span>营业门店<b>{summary.stores}</b></span><span>筹备中<b>{summary.preparing}</b></span></div>
             <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span><span><i className="point" />真实门店坐标</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />{selectedRegion ? '区县行政边界' : '市级行政边界'}</span><span><i className="point" />{selectedRegion ? '真实门店坐标' : '二级区域'}</span></>}</div>
-            <a className="rt2-map-attribution" href="https://openfreemap.org/" target="_blank" rel="noreferrer">道路底图 © OpenFreeMap / OpenMapTiles / OpenStreetMap · WGS84</a>
-            <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
+            {selectedArea === '全国' && !selectedRegion && <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
               <b className="rt2-sea-title">南海诸岛</b>
               <span className="rt2-sea-group dongsha" aria-hidden="true"><i /></span>
               <span className="rt2-sea-group xisha" aria-hidden="true"><i /></span>
@@ -877,7 +876,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
               <span className="rt2-sea-group huangyan" aria-hidden="true"><i /></span>
               <span className="rt2-sea-group nansha" aria-hidden="true"><i /></span>
               <span className="rt2-sea-group zengmu" aria-hidden="true"><i /></span>
-            </button>
+            </button>}
           </div>
           <footer><span>当前范围 <b>{scopeLabel} {summary.rate}%</b></span><span>二级区域 <b>{summary.regions} 个</b></span><span>营业门店 <b>{summary.stores} 家</b></span></footer>
         </section>
