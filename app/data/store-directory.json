@@ -15,31 +15,46 @@
               "name": "杭州金沙天街店",
               "stage": "正常期",
               "address": "浙江省杭州市钱塘区金沙大道",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 120.4915019,
+              "latitude": 30.3131149,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州九堡金海城店",
               "stage": "竞争期",
               "address": "浙江省杭州市上城区杭海路",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 120.2629956,
+              "latitude": 30.3116727,
+              "coordinatePrecision": "road"
             },
             {
               "name": "杭州七堡花园城店",
               "stage": "竞争期",
               "address": "浙江省杭州市上城区九和路",
-              "tableCount": 29
+              "tableCount": 29,
+              "longitude": 120.2390929,
+              "latitude": 30.3036132,
+              "coordinatePrecision": "road"
             },
             {
               "name": "杭州上城天虹店",
               "stage": "正常期",
               "address": "浙江省杭州市上城区顺福路303号",
-              "tableCount": 35
+              "tableCount": 35,
+              "longitude": 120.2052999,
+              "latitude": 30.2680119,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州下沙金沙湖店",
               "stage": "竞争期",
               "address": "浙江省杭州市钱塘区天城东路230号",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 120.3096331,
+              "latitude": 30.3070962,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -53,31 +68,46 @@
               "name": "杭州拱墅万达店",
               "stage": "正常期",
               "address": "浙江省杭州市拱墅区祥泰街",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 120.1153715,
+              "latitude": 30.3327785,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州临平欢乐城店",
               "stage": "竞争期",
               "address": "浙江省杭州市临平区迎宾路",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 120.3004193,
+              "latitude": 30.3995751,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州西溪银泰店",
               "stage": "正常期",
               "address": "浙江省杭州市西湖区弘德路",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 120.0995976,
+              "latitude": 30.1489555,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州余杭宝龙店",
               "stage": "正常期",
               "address": "浙江省杭州市余杭区余杭塘路",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 119.9821526,
+              "latitude": 30.2811481,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州余杭万达店",
               "stage": "正常期",
               "address": "浙江省杭州市余杭区文一西路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 119.9930874,
+              "latitude": 30.2840257,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -91,25 +121,37 @@
               "name": "杭州滨江宝龙店",
               "stage": "正常期",
               "address": "浙江省杭州市滨江区火炬大道",
-              "tableCount": 55
+              "tableCount": 55,
+              "longitude": 120.1627563,
+              "latitude": 30.1902866,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "杭州滨江乐游城店",
               "stage": "正常期",
               "address": "浙江省杭州市滨江区滨和路",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 120.2096314,
+              "latitude": 30.2009594,
+              "coordinatePrecision": "road"
             },
             {
               "name": "杭州萧山加州店",
               "stage": "竞争期",
               "address": "浙江省杭州市萧山区金鸡路",
-              "tableCount": 32
+              "tableCount": 32,
+              "longitude": 120.2472873,
+              "latitude": 30.2168695,
+              "coordinatePrecision": "road"
             },
             {
               "name": "杭州萧山金帝店",
               "stage": "竞争期",
               "address": "浙江省杭州市萧山区市心中路",
-              "tableCount": 47
+              "tableCount": 47,
+              "longitude": 120.2637755,
+              "latitude": 30.1739233,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -123,31 +165,46 @@
               "name": "金华金义宝龙店",
               "stage": "正常期",
               "address": "浙江省金华市金东区金港大道",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 119.8667149,
+              "latitude": 29.2172978,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "金华义乌万达店",
               "stage": "正常期",
               "address": "浙江省金华市义乌市新科路",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 120.0417764,
+              "latitude": 29.2787798,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "金华义乌旺地广场店",
               "stage": "竞争期",
               "address": "浙江省金华市义乌市工人北路",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 120.0905856,
+              "latitude": 29.3286382,
+              "coordinatePrecision": "road"
             },
             {
               "name": "金华义乌新光汇店",
               "stage": "竞争期",
               "address": "浙江省金华市义乌市福田路",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 120.1028779,
+              "latitude": 29.3284559,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "绍兴诸暨宝龙店",
               "stage": "正常期",
               "address": "浙江省绍兴市诸暨市艮塔西路",
-              "tableCount": 52
+              "tableCount": 52,
+              "longitude": 120.1958125,
+              "latitude": 29.7300365,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -161,37 +218,55 @@
               "name": "宁波慈溪爱琴海店",
               "stage": "竞争期",
               "address": "浙江省宁波市慈溪市新城大道北路辅路",
-              "tableCount": 33
+              "tableCount": 33,
+              "longitude": 121.2658899,
+              "latitude": 30.1832783,
+              "coordinatePrecision": "road"
             },
             {
               "name": "宁波慈溪银泰店",
               "stage": "正常期",
               "address": "浙江省宁波市慈溪市糖坊路78号",
-              "tableCount": 52
+              "tableCount": 52,
+              "longitude": 121.2062608,
+              "latitude": 30.1815557,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "宁波高新宝龙店",
               "stage": "竞争期",
               "address": "浙江省宁波市鄞州区创苑路",
-              "tableCount": 31
+              "tableCount": 31,
+              "longitude": 121.6268832,
+              "latitude": 29.883902,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "宁波鄞州培罗成店",
               "stage": "正常期",
               "address": "浙江省宁波市鄞州区金和路下应段277号",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 121.5815524,
+              "latitude": 29.852899,
+              "coordinatePrecision": "road"
             },
             {
               "name": "宁波鄞州万达店",
               "stage": "竞争期",
               "address": "浙江省宁波市鄞州区四明中路999号1B-36号",
-              "tableCount": 32
+              "tableCount": 32,
+              "longitude": 121.5428244,
+              "latitude": 29.8267958,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "宁波鄞州银泰店",
               "stage": "正常期",
               "address": "浙江省宁波市鄞州区陈姜线",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 121.6180023,
+              "latitude": 29.856556,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -205,37 +280,55 @@
               "name": "宁波北仑博地店",
               "stage": "正常期",
               "address": "浙江省宁波市北仑区灵江路",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 121.8064208,
+              "latitude": 29.9017452,
+              "coordinatePrecision": "road"
             },
             {
               "name": "宁波北仑银泰店",
               "stage": "正常期",
               "address": "浙江省宁波市北仑区中河路427号",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 121.8271183,
+              "latitude": 29.8977922,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "宁波江北缤纷城店",
               "stage": "正常期",
               "address": "浙江省宁波市江北区人民路186号",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 121.5601365,
+              "latitude": 29.8883454,
+              "coordinatePrecision": "road"
             },
             {
               "name": "宁波鄞州港隆店",
               "stage": "正常期",
               "address": "浙江省宁波市鄞州区明新路",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 121.6234189,
+              "latitude": 29.8767255,
+              "coordinatePrecision": "road"
             },
             {
               "name": "宁波鄞州宏泰店",
               "stage": "竞争期",
               "address": "浙江省宁波市鄞州区宁穿路1202号宏泰广场",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 121.6254132,
+              "latitude": 29.8597486,
+              "coordinatePrecision": "road"
             },
             {
               "name": "宁波鄞州k11店",
               "stage": "正常期",
               "address": "浙江省宁波市鄞州区铸坊街",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 121.5597016,
+              "latitude": 29.8716835,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -249,43 +342,64 @@
               "name": "绍兴柯桥宝龙店",
               "stage": "竞争期",
               "address": "浙江省绍兴市柯桥区湖中路11号",
-              "tableCount": 33
+              "tableCount": 33,
+              "longitude": 120.4939849,
+              "latitude": 30.0822169,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "绍兴柯桥蓝天店",
               "stage": "正常期",
               "address": "浙江省绍兴市柯桥区群贤路1857号",
-              "tableCount": 49
+              "tableCount": 49,
+              "longitude": 120.3909675,
+              "latitude": 30.1233597,
+              "coordinatePrecision": "road"
             },
             {
               "name": "绍兴上虞大通店",
               "stage": "竞争期",
               "address": "浙江省绍兴市上虞区市民大道",
-              "tableCount": 32
+              "tableCount": 32,
+              "longitude": 120.8751884,
+              "latitude": 30.0358532,
+              "coordinatePrecision": "road"
             },
             {
               "name": "绍兴上虞万达店",
               "stage": "正常期",
               "address": "浙江省绍兴市上虞区称山北路",
-              "tableCount": 49
+              "tableCount": 49,
+              "longitude": 120.8398318,
+              "latitude": 30.0559742,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "绍兴越城世茂店",
               "stage": "正常期",
               "address": "浙江省绍兴市越城区范蠡路16号",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 120.5990949,
+              "latitude": 29.9988445,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "绍兴越城苏宁店",
               "stage": "正常期",
               "address": "浙江省绍兴市越城区横湖路",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 120.5750635,
+              "latitude": 30.0484003,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "绍兴越城迎恩门店",
               "stage": "正常期",
               "address": "浙江省绍兴市越城区浴龙路",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 120.5592232,
+              "latitude": 30.0186835,
+              "coordinatePrecision": "road"
             }
           ]
         }
@@ -304,37 +418,55 @@
               "name": "常州飞龙吾悦店",
               "stage": "正常期",
               "address": "江苏省常州市新北区飞龙中路",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 119.9350422,
+              "latitude": 31.8156878,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "常州金坛吾悦店",
               "stage": "竞争期",
               "address": "江苏省常州市金坛区横一路",
-              "tableCount": 46
+              "tableCount": 46,
+              "longitude": 119.5902693,
+              "latitude": 31.7319064,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "常州溧阳万达店",
               "stage": "竞争期",
               "address": "江苏省常州市溧阳市南大街",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 119.4884498,
+              "latitude": 31.4034097,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "常州龙湖天街店",
               "stage": "正常期",
               "address": "江苏省常州市钟楼区勤业路",
-              "tableCount": 46
+              "tableCount": 46,
+              "longitude": 119.9085191,
+              "latitude": 31.7962563,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "常州武进万达店",
               "stage": "竞争期",
               "address": "江苏省常州市武进区花园街",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 119.9424182,
+              "latitude": 31.7344868,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "湖州长兴万达店",
               "stage": "正常期",
               "address": "浙江省湖州市长兴县忻湖路",
-              "tableCount": 35
+              "tableCount": 35,
+              "longitude": 119.8986553,
+              "latitude": 31.0382977,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -348,25 +480,37 @@
               "name": "合肥百大心悦城店",
               "stage": "竞争期",
               "address": "安徽省合肥市包河区紫云路辅路",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 117.2961789,
+              "latitude": 31.7427724,
+              "coordinatePrecision": "road"
             },
             {
               "name": "合肥包河方圆荟店",
               "stage": "正常期",
               "address": "安徽省合肥市包河区福州路",
-              "tableCount": 32
+              "tableCount": 32,
+              "longitude": 117.2835991,
+              "latitude": 31.7443679,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "合肥包河万达店",
               "stage": "竞争期",
               "address": "安徽省合肥市包河区包河金街",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 117.2965323,
+              "latitude": 31.7077415,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "合肥天鹅湖万达店",
               "stage": "竞争期",
               "address": "安徽省合肥市蜀山区天鹅湖金街6-124号",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 117.2157497,
+              "latitude": 31.8219617,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -380,37 +524,55 @@
               "name": "丹阳吾悦广场店",
               "stage": "竞争期",
               "address": "江苏省镇江市丹阳市金陵西路辅路",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 119.6016511,
+              "latitude": 31.9969987,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "南京河西天街店",
               "stage": "正常期",
               "address": "江苏省南京市建邺区云龙山路",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 118.733426,
+              "latitude": 31.992388,
+              "coordinatePrecision": "road"
             },
             {
               "name": "南京建邺万达店",
               "stage": "筹备期",
-              "address": "浙江省杭州市萧山区建设三路",
-              "tableCount": 0
+              "address": "江苏省南京市建邺区江东中路98号",
+              "tableCount": 0,
+              "longitude": 118.73085,
+              "latitude": 32.035,
+              "coordinatePrecision": "reviewed"
             },
             {
               "name": "南京同曦百货店",
               "stage": "正常期",
               "address": "江苏省南京市江宁区双龙大道672号",
-              "tableCount": 52
+              "tableCount": 52,
+              "longitude": 118.8194996,
+              "latitude": 31.9130654,
+              "coordinatePrecision": "road"
             },
             {
               "name": "南京喜玛拉雅店",
               "stage": "正常期",
               "address": "江苏省南京市雨花台区博爱街",
-              "tableCount": 48
+              "tableCount": 48,
+              "longitude": 118.8032975,
+              "latitude": 31.971379,
+              "coordinatePrecision": "road"
             },
             {
               "name": "镇江宝龙店",
               "stage": "正常期",
               "address": "江苏省镇江市丹徒区金谷东路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 119.4454265,
+              "latitude": 32.1269697,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -424,31 +586,46 @@
               "name": "苏州昆山金鹰店",
               "stage": "正常期",
               "address": "江苏省苏州市昆山市金鹰国际步行街",
-              "tableCount": 32
+              "tableCount": 32,
+              "longitude": 120.9661361,
+              "latitude": 31.3752571,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "苏州昆山天虹店",
               "stage": "竞争期",
               "address": "江苏省苏州市昆山市珑庭路",
-              "tableCount": 47
+              "tableCount": 47,
+              "longitude": 120.946568,
+              "latitude": 31.3596232,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "苏州吴中久光店",
               "stage": "免费期",
               "address": "江苏省苏州市吴中区旺墩路",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 120.7101913,
+              "latitude": 31.3210272,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "苏州吴中天虹店",
               "stage": "筹备期",
-              "address": "浙江省杭州市萧山区建设三路",
-              "tableCount": 0
+              "address": "江苏省苏州市吴中区苏雅路388号",
+              "tableCount": 0,
+              "longitude": 120.664724,
+              "latitude": 31.316073,
+              "coordinatePrecision": "reviewed"
             },
             {
               "name": "苏州吴中尹山湖店",
               "stage": "免费期",
               "address": "江苏省苏州市吴中区清禾路",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 120.6993552,
+              "latitude": 31.2458675,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -462,25 +639,37 @@
               "name": "苏州姑苏星光耀店",
               "stage": "正常期",
               "address": "江苏省苏州市姑苏区虎池路路1583号",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 120.55442,
+              "latitude": 31.3445296,
+              "coordinatePrecision": "road"
             },
             {
               "name": "苏州石路天虹店",
               "stage": "竞争期",
               "address": "江苏省苏州市姑苏区金门路",
-              "tableCount": 49
+              "tableCount": 49,
+              "longitude": 120.585726,
+              "latitude": 31.3109688,
+              "coordinatePrecision": "road"
             },
             {
               "name": "苏州吴江吾悦店",
               "stage": "竞争期",
               "address": "江苏省苏州市吴江区吾悦大道",
-              "tableCount": 49
+              "tableCount": 49,
+              "longitude": 120.6135966,
+              "latitude": 31.1400272,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "苏州胥江龙湖店",
               "stage": "竞争期",
               "address": "江苏省苏州市姑苏区胥波路",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 120.5943685,
+              "latitude": 31.292406,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -494,37 +683,55 @@
               "name": "南通如皋万达店",
               "stage": "正常期",
               "address": "江苏省南通市如皋市解放东路",
-              "tableCount": 35
+              "tableCount": 35,
+              "longitude": 120.5812499,
+              "latitude": 32.3815183,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "无锡滨湖万达店",
               "stage": "会员免费期",
               "address": "江苏省无锡市滨湖区万千巷",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 120.2623308,
+              "latitude": 31.5641338,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "无锡梁溪崇安寺店",
               "stage": "正常期",
               "address": "江苏省无锡市梁溪区方巷11号",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 120.294195,
+              "latitude": 31.5730543,
+              "coordinatePrecision": "road"
             },
             {
               "name": "无锡梁溪方圆荟店",
               "stage": "正常期",
               "address": "江苏省无锡市梁溪区贡湖大道23号",
-              "tableCount": 46
+              "tableCount": 46,
+              "longitude": 120.2855816,
+              "latitude": 31.538592,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "张家港万达店",
               "stage": "竞争期",
               "address": "江苏省苏州市张家港市长泾路307号",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 120.5709131,
+              "latitude": 31.8732466,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "张家港吾悦店",
               "stage": "竞争期",
               "address": "江苏省苏州市张家港市S340",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 120.5360835,
+              "latitude": 31.8399866,
+              "coordinatePrecision": "poi"
             }
           ]
         }
@@ -543,43 +750,64 @@
               "name": "成都成华王府井店",
               "stage": "正常期",
               "address": "四川省成都市武侯区科华中路辅路",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 104.0734154,
+              "latitude": 30.6213539,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "成都九方花园城店",
               "stage": "正常期",
               "address": "四川省成都市武侯区府城大道中段",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 104.0547622,
+              "latitude": 30.5909099,
+              "coordinatePrecision": "road"
             },
             {
               "name": "成都苏宁店",
               "stage": "正常期",
               "address": "四川省成都市武侯区泰和一街",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 104.0637358,
+              "latitude": 30.6037884,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "成都SM店",
               "stage": "正常期",
               "address": "四川省成都市成华区建兴路",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 104.1125747,
+              "latitude": 30.673383,
+              "coordinatePrecision": "road"
             },
             {
               "name": "重庆渝北爱琴海店",
               "stage": "免费期",
               "address": "重庆市渝北区人和隧道",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 106.5094597,
+              "latitude": 29.6273593,
+              "coordinatePrecision": "reviewed"
             },
             {
               "name": "重庆渝北爱融荟店",
               "stage": "正常期",
               "address": "重庆市渝北区新南路429号",
-              "tableCount": 33
+              "tableCount": 33,
+              "longitude": 106.5004504,
+              "latitude": 29.6034672,
+              "coordinatePrecision": "road"
             },
             {
               "name": "重庆渝中印象城店",
               "stage": "正常期",
               "address": "重庆市渝中区嘉陵江滨江路",
-              "tableCount": 31
+              "tableCount": 31,
+              "longitude": 106.5139362,
+              "latitude": 29.5528975,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -593,37 +821,55 @@
               "name": "东莞东城万达店",
               "stage": "正常期",
               "address": "广东省东莞市东纵路",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 113.6675293,
+              "latitude": 22.946577,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "东莞厚街万达店",
               "stage": "正常期",
               "address": "广东省东莞市体育路",
-              "tableCount": 53
+              "tableCount": 53,
+              "longitude": 113.6675293,
+              "latitude": 22.946577,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "东莞虎门万达店",
               "stage": "正常期",
               "address": "广东省东莞市社岗南路",
-              "tableCount": 53
+              "tableCount": 53,
+              "longitude": 113.6675293,
+              "latitude": 22.946577,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "东莞汇一城店",
               "stage": "竞争期",
               "address": "广东省东莞市鸿福路190号",
-              "tableCount": 46
+              "tableCount": 46,
+              "longitude": 113.7417271,
+              "latitude": 23.0182947,
+              "coordinatePrecision": "road"
             },
             {
               "name": "东莞长安鸿海店",
               "stage": "正常期",
               "address": "广东省东莞市东门中路61号",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 113.8055025,
+              "latitude": 22.813274,
+              "coordinatePrecision": "road"
             },
             {
               "name": "东莞长安万达店",
               "stage": "正常期",
               "address": "广东省东莞市东门中路",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 113.6675293,
+              "latitude": 22.946577,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -637,43 +883,64 @@
               "name": "佛山南海万达店",
               "stage": "竞争期",
               "address": "广东省佛山市南海区永胜西路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 113.1521079,
+              "latitude": 23.0660395,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "佛山顺德海骏达店",
               "stage": "竞争期",
               "address": "广东省佛山市顺德区京桂线",
-              "tableCount": 55
+              "tableCount": 55,
+              "longitude": 113.3243858,
+              "latitude": 22.7717189,
+              "coordinatePrecision": "road"
             },
             {
               "name": "佛山天虹店",
               "stage": "正常期",
               "address": "广东省佛山市禅城区X518(旧)",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 113.1173438,
+              "latitude": 23.0120197,
+              "coordinatePrecision": "road"
             },
             {
               "name": "中山古镇华丰汇店",
               "stage": "竞争期",
               "address": "广东省中山市富兴南路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 113.1812543,
+              "latitude": 22.609241,
+              "coordinatePrecision": "road"
             },
             {
               "name": "中山天悦城店",
               "stage": "正常期",
               "address": "广东省中山市翠景街",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 113.3467085,
+              "latitude": 22.5252119,
+              "coordinatePrecision": "road"
             },
             {
               "name": "中山小榄汇丰城店",
               "stage": "正常期",
               "address": "广东省中山市怡丰东路",
-              "tableCount": 48
+              "tableCount": 48,
+              "longitude": 113.4084596,
+              "latitude": 22.5132519,
+              "coordinatePrecision": "road"
             },
             {
               "name": "珠海香洲宝龙店",
               "stage": "竞争期",
               "address": "广东省珠海市香洲区科技一路",
-              "tableCount": 47
+              "tableCount": 47,
+              "longitude": 113.5472119,
+              "latitude": 22.3843215,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -687,31 +954,46 @@
               "name": "福州仓山欢乐颂店",
               "stage": "竞争期",
               "address": "福建省福州市仓山区浦上大道",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 119.26712,
+              "latitude": 26.0402078,
+              "coordinatePrecision": "road"
             },
             {
               "name": "福州晋安东二环泰禾店",
               "stage": "竞争期",
               "address": "福建省福州市晋安区化工路辅路",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 119.3403238,
+              "latitude": 26.0920342,
+              "coordinatePrecision": "road"
             },
             {
               "name": "福州世欧广场店",
               "stage": "竞争期",
               "address": "福建省福州市晋安区晋连路1号",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 119.3242362,
+              "latitude": 26.0734694,
+              "coordinatePrecision": "road"
             },
             {
               "name": "福州台江市民广场店",
               "stage": "正常期",
               "address": "福建省福州市台江区长汀街",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 119.2765679,
+              "latitude": 26.06129,
+              "coordinatePrecision": "reviewed"
             },
             {
               "name": "福州台江万达店",
               "stage": "正常期",
               "address": "福建省福州市台江区曙光路158-2号",
-              "tableCount": 49
+              "tableCount": 49,
+              "longitude": 119.337731,
+              "latitude": 26.055496,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -725,67 +1007,100 @@
               "name": "广州白云嘉丰店",
               "stage": "免费期",
               "address": "广东省广州市白云区鹤龙二路68号",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 113.2813643,
+              "latitude": 23.2494676,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州番禺万科里店",
               "stage": "正常期",
               "address": "广东省广州市番禺区盛兴大街79号基盛万科里中央公园B区",
-              "tableCount": 47
+              "tableCount": 47,
+              "longitude": 113.3495931,
+              "latitude": 23.0101994,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "广州番禺旺地广场店",
               "stage": "正常期",
               "address": "广东省广州市番禺区汇智二路212号",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 113.3412953,
+              "latitude": 23.0118528,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州海珠万达店",
               "stage": "正常期",
               "address": "广东省广州市海珠区广州大道南978号",
-              "tableCount": 53
+              "tableCount": 53,
+              "longitude": 113.3082912,
+              "latitude": 23.0861685,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "广州海珠燕汇店",
               "stage": "正常期",
               "address": "广东省广州市海珠区江燕路108-2号",
-              "tableCount": 33
+              "tableCount": 33,
+              "longitude": 113.272479,
+              "latitude": 23.0837028,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州荔湾柴宝里店",
               "stage": "正常期",
               "address": "广东省广州市荔湾区西湾路",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 113.2365398,
+              "latitude": 23.1497883,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州南沙环宇城店",
               "stage": "正常期",
               "address": "广东省广州市南沙区美心路",
-              "tableCount": 30
+              "tableCount": 30,
+              "longitude": 113.4434348,
+              "latitude": 22.7991674,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州南沙万达店",
               "stage": "正常期",
               "address": "广东省广州市南沙区环市大道中28号",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 113.5304517,
+              "latitude": 22.7998174,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州天河电脑城店",
               "stage": "竞争期",
               "address": "广东省广州市天河区天河路500号",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 113.3241729,
+              "latitude": 23.1366814,
+              "coordinatePrecision": "road"
             },
             {
               "name": "广州天河天誉店",
               "stage": "正常期",
               "address": "广东省广州市天河区林和中路154号",
-              "tableCount": 46
+              "tableCount": 46,
+              "longitude": 113.3201094,
+              "latitude": 23.1464902,
+              "coordinatePrecision": "road"
             },
             {
               "name": "肇庆鼎湖万达店",
               "stage": "正常期",
               "address": "广东省肇庆市鼎湖区东进大道",
-              "tableCount": 35
+              "tableCount": 35,
+              "longitude": 112.5670456,
+              "latitude": 23.1422059,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -799,19 +1114,28 @@
               "name": "海口龙湖天街店",
               "stage": "正常期",
               "address": "海南省海口市龙华区博巷三路",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 110.3288023,
+              "latitude": 19.9999239,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "海口龙华阳光城店",
               "stage": "正常期",
               "address": "海南省海口市龙华区金龙路",
-              "tableCount": 56
+              "tableCount": 56,
+              "longitude": 110.3152848,
+              "latitude": 20.0246978,
+              "coordinatePrecision": "road"
             },
             {
               "name": "海口琼山日月店",
               "stage": "正常期",
               "address": "海南省海口市琼山区大英山西五街",
-              "tableCount": 47
+              "tableCount": 47,
+              "longitude": 110.3442576,
+              "latitude": 20.0175053,
+              "coordinatePrecision": "reviewed"
             }
           ]
         },
@@ -825,31 +1149,46 @@
               "name": "莆田城厢万达店",
               "stage": "正常期",
               "address": "福建省莆田市城厢区G324",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 118.9898242,
+              "latitude": 25.4215461,
+              "coordinatePrecision": "road"
             },
             {
               "name": "莆田荔城益田假日店",
               "stage": "竞争期",
               "address": "福建省莆田市荔城区镇海南街",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 119.021622,
+              "latitude": 25.428814,
+              "coordinatePrecision": "poi-complex"
             },
             {
               "name": "泉州丰泽尚柏奥莱店",
               "stage": "正常期",
               "address": "福建省泉州市丰泽区安吉南路",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 118.658735,
+              "latitude": 24.915184,
+              "coordinatePrecision": "poi-complex"
             },
             {
               "name": "泉州晋江宝龙店",
               "stage": "竞争期",
               "address": "福建省泉州市晋江市世纪大道518-33号",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 118.5628073,
+              "latitude": 24.8051305,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "泉州浦西万达店",
               "stage": "竞争期",
               "address": "福建省泉州市丰泽区泉州金街",
-              "tableCount": 58
+              "tableCount": 58,
+              "longitude": 118.5947215,
+              "latitude": 24.8851799,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -863,43 +1202,64 @@
               "name": "厦门湖里拾尚里店",
               "stage": "会员免费期",
               "address": "福建省厦门市湖里区枋湖北二路",
-              "tableCount": 31
+              "tableCount": 31,
+              "longitude": 118.1413119,
+              "latitude": 24.5228127,
+              "coordinatePrecision": "road"
             },
             {
               "name": "厦门湖里万达店",
               "stage": "正常期",
               "address": "福建省厦门市湖里区湖里金街",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 118.1724987,
+              "latitude": 24.5073987,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "厦门欢乐颂店",
               "stage": "正常期",
               "address": "福建省厦门市思明区七星西路3-2号",
-              "tableCount": 49
+              "tableCount": 49,
+              "longitude": 118.0914688,
+              "latitude": 24.4891962,
+              "coordinatePrecision": "road"
             },
             {
               "name": "厦门集美万达店",
               "stage": "竞争期",
               "address": "福建省厦门市集美区银江路137-63号",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 118.087776,
+              "latitude": 24.5761741,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "厦门同安宝龙店",
               "stage": "正常期",
               "address": "福建省厦门市同安区环城南路",
-              "tableCount": 30
+              "tableCount": 30,
+              "longitude": 118.1486479,
+              "latitude": 24.7184105,
+              "coordinatePrecision": "road"
             },
             {
               "name": "厦门西雅图店",
               "stage": "正常期",
               "address": "福建省厦门市海沧区钟林路",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 118.0241769,
+              "latitude": 24.4905028,
+              "coordinatePrecision": "road"
             },
             {
               "name": "厦门禹悦汇店",
               "stage": "竞争期",
               "address": "福建省厦门市思明区厦禾路878-888号",
-              "tableCount": 41
+              "tableCount": 41,
+              "longitude": 118.089171,
+              "latitude": 24.4668635,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -913,49 +1273,73 @@
               "name": "上海奉贤传悦坊店",
               "stage": "正常期",
               "address": "上海市奉贤区望园南路",
-              "tableCount": 52
+              "tableCount": 52,
+              "longitude": 121.4858599,
+              "latitude": 30.9125282,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海金山都乐汇店",
               "stage": "免费期",
               "address": "上海市金山区海汇街",
-              "tableCount": 48
+              "tableCount": 48,
+              "longitude": 121.3333952,
+              "latitude": 30.75331,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海马桥万达店",
               "stage": "竞争期",
               "address": "上海市闵行区富文路",
-              "tableCount": 31
+              "tableCount": 31,
+              "longitude": 121.4014096,
+              "latitude": 31.0730564,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海闵行颛桥万达店",
               "stage": "正常期",
               "address": "上海市闵行区颛兴东路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 121.4014096,
+              "latitude": 31.0730564,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海七宝宝龙店",
               "stage": "正常期",
               "address": "上海市闵行区漕宝路3299弄15-1号临",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 121.350519,
+              "latitude": 31.1602708,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海青浦吾悦店",
               "stage": "竞争期",
               "address": "上海市青浦区淀山湖大道150弄81号",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 121.0900406,
+              "latitude": 31.1453554,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海松江亚繁亚店",
               "stage": "竞争期",
               "address": "上海市松江区莘松路1266号",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 121.3362673,
+              "latitude": 31.0958939,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海徐汇正大乐城店",
               "stage": "正常期",
               "address": "上海市徐汇区中山南二路669号",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 121.4535393,
+              "latitude": 31.18837,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -969,43 +1353,64 @@
               "name": "上海宝山大华虎城店",
               "stage": "正常期",
               "address": "上海市宝山区大华二路",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 121.4101941,
+              "latitude": 31.2745479,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海宝山吉浦天地店",
               "stage": "正常期",
               "address": "上海市宝山区吉浦路519-4号临",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 121.4860252,
+              "latitude": 31.317936,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海江桥万达店",
               "stage": "正常期",
               "address": "上海市嘉定区金沙江西路1075弄35号",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 121.319509,
+              "latitude": 31.2388277,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海静安大融城店",
               "stage": "正常期",
               "address": "上海市静安区晋城路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 121.4227943,
+              "latitude": 31.2814008,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海普陀绿地店",
               "stage": "正常期",
               "address": "上海市普陀区曹杨路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 121.410302,
+              "latitude": 31.2442662,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海普陀新邻天地店",
               "stage": "竞争期",
               "address": "上海市普陀区白丽路263号",
-              "tableCount": 32
+              "tableCount": 32,
+              "longitude": 121.3442363,
+              "latitude": 31.2819439,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海徐汇光启城店",
               "stage": "正常期",
               "address": "上海市徐汇区凯进路",
-              "tableCount": 54
+              "tableCount": 54,
+              "longitude": 121.4242356,
+              "latitude": 31.1864847,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -1019,31 +1424,46 @@
               "name": "上海宝山美兰湖店",
               "stage": "正常期",
               "address": "上海市宝山区富强村路",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 121.3453224,
+              "latitude": 31.4036902,
+              "coordinatePrecision": "reviewed"
             },
             {
               "name": "上海宝山万达店",
               "stage": "竞争期",
               "address": "上海市宝山区高迎路",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 121.4425322,
+              "latitude": 31.3257381,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海嘉定宝龙店",
               "stage": "竞争期",
               "address": "上海市嘉定区德富路1062号",
-              "tableCount": 34
+              "tableCount": 34,
+              "longitude": 121.2561225,
+              "latitude": 31.3476791,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "上海嘉定大橘店",
               "stage": "正常期",
               "address": "上海市嘉定区胜竹路2162号",
-              "tableCount": 40
+              "tableCount": 40,
+              "longitude": 121.2584569,
+              "latitude": 31.4052759,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海嘉定青年汇店",
               "stage": "正常期",
               "address": "上海市嘉定区樱花路",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 121.2787624,
+              "latitude": 31.3300955,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -1057,31 +1477,46 @@
               "name": "上海浦东新大陆店",
               "stage": "正常期",
               "address": "上海市浦东新区商城路",
-              "tableCount": 45
+              "tableCount": 45,
+              "longitude": 121.5194475,
+              "latitude": 31.2352882,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海浦东亿丰店",
               "stage": "竞争期",
               "address": "上海市浦东新区云台路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 121.5011949,
+              "latitude": 31.1707744,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海浦东永乐汇店",
               "stage": "竞争期",
               "address": "上海市浦东新区梓康路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 121.5668079,
+              "latitude": 31.1244579,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海杨浦蓝海店",
               "stage": "正常期",
               "address": "上海市杨浦区黄兴路1770号",
-              "tableCount": 38
+              "tableCount": 38,
+              "longitude": 121.5210666,
+              "latitude": 31.2831701,
+              "coordinatePrecision": "road"
             },
             {
               "name": "上海杨浦七巧国店",
               "stage": "正常期",
               "address": "上海市杨浦区隆昌路599号",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 121.5395109,
+              "latitude": 31.2774057,
+              "coordinatePrecision": "road"
             }
           ]
         },
@@ -1095,61 +1530,91 @@
               "name": "海口龙华阳光城店",
               "stage": "正常期",
               "address": "海南省海口市龙华区金龙路",
-              "tableCount": 56
+              "tableCount": 56,
+              "longitude": 110.3152848,
+              "latitude": 20.0246978,
+              "coordinatePrecision": "road"
             },
             {
               "name": "深圳宝安宝立方店",
               "stage": "正常期",
               "address": "广东省深圳市宝安区前进二路10号",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 113.8871607,
+              "latitude": 22.5830511,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "深圳宝安海雅缤纷城店",
               "stage": "竞争期",
               "address": "广东省深圳市宝安区宝农北巷",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 113.90362,
+              "latitude": 22.5649204,
+              "coordinatePrecision": "road"
             },
             {
               "name": "深圳凤凰天誉店",
               "stage": "正常期",
               "address": "广东省深圳市宝安区前进二路",
-              "tableCount": 43
+              "tableCount": 43,
+              "longitude": 113.8713142,
+              "latitude": 22.6007975,
+              "coordinatePrecision": "road"
             },
             {
               "name": "深圳福田大中华店",
               "stage": "正常期",
               "address": "广东省深圳市福田区中心五路",
-              "tableCount": 39
+              "tableCount": 39,
+              "longitude": 114.0560429,
+              "latitude": 22.5334499,
+              "coordinatePrecision": "road"
             },
             {
               "name": "深圳福田绿景店",
               "stage": "正常期",
               "address": "广东省深圳市福田区沙嘴一坊",
-              "tableCount": 58
+              "tableCount": 58,
+              "longitude": 114.0315012,
+              "latitude": 22.5231851,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "深圳京基百纳店",
               "stage": "正常期",
               "address": "广东省深圳市宝安区民福路",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 113.7998995,
+              "latitude": 22.730592,
+              "coordinatePrecision": "road"
             },
             {
               "name": "深圳龙岗万达店",
               "stage": "正常期",
               "address": "广东省深圳市龙岗区华南二道",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 114.2836888,
+              "latitude": 22.6947676,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "深圳罗湖区天河店",
               "stage": "正常期",
               "address": "广东省深圳市罗湖区布心路辅路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 114.1261174,
+              "latitude": 22.5770802,
+              "coordinatePrecision": "road"
             },
             {
               "name": "深圳南山悦方店",
               "stage": "正常期",
               "address": "广东省深圳市南山区同悦路18-5号",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 113.9403908,
+              "latitude": 22.5843541,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -1163,25 +1628,37 @@
               "name": "武汉洪山银泰店",
               "stage": "正常期",
               "address": "湖北省武汉市洪山区珞喻路辅路",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 114.3510349,
+              "latitude": 30.5286942,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "武汉江汉华发中城店",
               "stage": "正常期",
               "address": "湖北省武汉市江汉区淮海路",
-              "tableCount": 42
+              "tableCount": 42,
+              "longitude": 114.2424735,
+              "latitude": 30.6024397,
+              "coordinatePrecision": "road"
             },
             {
               "name": "武汉江汉CFD时代店",
               "stage": "正常期",
               "address": "湖北省武汉市江汉区新华路",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 114.2620384,
+              "latitude": 30.610192,
+              "coordinatePrecision": "road"
             },
             {
               "name": "武汉菱角湖万达店",
               "stage": "竞争期",
               "address": "湖北省武汉市江汉区唐家墩路5-1号",
-              "tableCount": 59
+              "tableCount": 59,
+              "longitude": 114.263562,
+              "latitude": 30.6126699,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -1195,25 +1672,37 @@
               "name": "长沙方圆荟店",
               "stage": "正常期",
               "address": "湖南省长沙市开福区欣彤路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 112.9736375,
+              "latitude": 28.2552548,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "长沙吾悦广场店",
               "stage": "正常期",
               "address": "湖南省长沙市雨花区花侯路",
-              "tableCount": 36
+              "tableCount": 36,
+              "longitude": 113.0535381,
+              "latitude": 28.1584519,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "长沙银盆岭万达店",
               "stage": "正常期",
               "address": "湖南省长沙市岳麓区银盆南路57号",
-              "tableCount": 53
+              "tableCount": 53,
+              "longitude": 112.9110119,
+              "latitude": 28.2346688,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "长沙岳麓万象城店",
               "stage": "竞争期",
               "address": "湖南省长沙市岳麓区桐兴巷",
-              "tableCount": 37
+              "tableCount": 37,
+              "longitude": 112.9457275,
+              "latitude": 28.2217416,
+              "coordinatePrecision": "poi"
             }
           ]
         },
@@ -1227,35 +1716,56 @@
               "name": "贵阳观山湖万达店",
               "stage": "正常期",
               "address": "贵州省贵阳市观山湖区云潭南路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 106.6035029,
+              "latitude": 26.6138918,
+              "coordinatePrecision": "road"
             },
             {
               "name": "南宁青秀航洋城店",
               "stage": "免费期",
               "address": "广西壮族自治区南宁市青秀区航景巷",
-              "tableCount": 50
+              "tableCount": 50,
+              "longitude": 108.3824382,
+              "latitude": 22.8176998,
+              "coordinatePrecision": "road"
             },
             {
               "name": "南宁青秀万达店",
               "stage": "竞争期",
               "address": "广西壮族自治区南宁市青秀区东葛路",
-              "tableCount": 44
+              "tableCount": 44,
+              "longitude": 108.3660359,
+              "latitude": 22.8331873,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "青岛李沧万达店",
               "stage": "正常期",
               "address": "山东省青岛市李沧区巨峰路176号",
-              "tableCount": 51
+              "tableCount": 51,
+              "longitude": 120.4328287,
+              "latitude": 36.1627343,
+              "coordinatePrecision": "poi"
             },
             {
               "name": "青岛CBD万达店",
               "stage": "竞争期",
               "address": "山东省青岛市市北区徐州路185号",
-              "tableCount": 48
+              "tableCount": 48,
+              "longitude": 120.3739318,
+              "latitude": 36.0880171,
+              "coordinatePrecision": "poi"
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "coordinateSource": {
+    "generatedAt": "2026-08-26",
+    "provider": "OpenStreetMap Nominatim + reviewed public POI references",
+    "datum": "WGS84",
+    "coverage": "168/168"
+  }
 }

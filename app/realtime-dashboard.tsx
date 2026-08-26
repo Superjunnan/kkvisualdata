@@ -20,7 +20,15 @@ type RealtimeDashboardProps = {
 type ChartClick = { name?: string };
 type AreaName = '全国' | '浙江大区' | '苏皖大区' | '总部直管';
 type BusinessAreaName = Exclude<AreaName, '全国'>;
-type DirectoryStore = { name: string; stage: string; address?: string; tableCount?: number };
+type DirectoryStore = {
+  name: string;
+  stage: string;
+  address?: string;
+  tableCount?: number;
+  longitude?: number;
+  latitude?: number;
+  coordinatePrecision?: 'poi' | 'road' | 'reviewed' | 'poi-complex';
+};
 type DirectoryRegion = {
   name: string;
   area: BusinessAreaName;
@@ -121,14 +129,6 @@ const regionMapViews: Record<string, RegionMapView> = {
   福州区域: { center: [119.3, 26.07], zoom: 5.3 }, 泉州区域: { center: [118.68, 24.87], zoom: 4.9 }, 厦门区域: { center: [118.09, 24.48], zoom: 5.4 },
   武汉区域: { center: [114.31, 30.59], zoom: 5.3 }, 长沙区域: { center: [112.94, 28.23], zoom: 5.3 }, 海口区域: { center: [110.2, 20.04], zoom: 5.2 }, 川渝区域: { center: [105.4, 30.15], zoom: 3.4 }, 总经办代管: { center: [112.1, 28.4], zoom: 1.8 },
 };
-const storeCityCenters: [string, [number, number]][] = [
-  ['杭州', [120.15, 30.27]], ['宁波', [121.55, 29.87]], ['金华', [119.65, 29.08]], ['义乌', [120.08, 29.31]], ['绍兴', [120.58, 30.03]],
-  ['南京', [118.8, 32.06]], ['苏州', [120.58, 31.3]], ['常州', [119.97, 31.81]], ['无锡', [120.31, 31.49]], ['合肥', [117.23, 31.82]], ['湖州', [120.09, 30.89]], ['南通', [120.89, 31.98]], ['镇江', [119.42, 32.19]],
-  ['上海', [121.47, 31.23]], ['广州', [113.26, 23.13]], ['深圳', [114.06, 22.54]], ['佛山', [113.12, 23.02]], ['东莞', [113.75, 23.02]], ['中山', [113.39, 22.52]], ['珠海', [113.58, 22.27]], ['肇庆', [112.47, 23.05]],
-  ['福州', [119.3, 26.07]], ['泉州', [118.68, 24.87]], ['莆田', [119.0, 25.45]], ['厦门', [118.09, 24.48]], ['武汉', [114.31, 30.59]], ['长沙', [112.94, 28.23]], ['海口', [110.2, 20.04]],
-  ['成都', [104.07, 30.67]], ['重庆', [106.55, 29.56]], ['贵阳', [106.63, 26.65]], ['南宁', [108.37, 22.82]], ['青岛', [120.38, 36.07]],
-];
-
 const areaBubbles = [
   { name: '浙江大区', value: [120.35, 29.35] },
   { name: '苏皖大区', value: [118.35, 32.2] },
@@ -471,8 +471,19 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
     echarts.registerMap('kk-china', chinaGeoJson as never);
     const areaConfig = selectedArea === '全国' ? null : areaGroups[selectedArea];
     const detailedGeoJson = selectedArea !== '全国' && administrativeMap?.key === mapScopeKey ? administrativeMap.geoJson : null;
-    const mapName = detailedGeoJson ? `kk-${mapScopeKey}` : 'kk-china';
-    if (detailedGeoJson) echarts.registerMap(mapName, detailedGeoJson as never);
+    const normalizeProvinceName = (name: string) => name.replace(/(?:壮族|回族|维吾尔)?自治区$|特别行政区$|省$|市$/, '');
+    const chinaAdministrativeGeoJson = chinaGeoJson as unknown as AdministrativeGeoJson;
+    const renderedGeoJson = detailedGeoJson && selectedArea !== '全国'
+      ? selectedRegion ? detailedGeoJson : {
+        type: 'FeatureCollection' as const,
+        features: [
+          ...chinaAdministrativeGeoJson.features.filter((feature) => !areaConfig?.provinces.includes(normalizeProvinceName(feature.properties.name ?? ''))),
+          ...detailedGeoJson.features,
+        ],
+      }
+      : null;
+    const mapName = renderedGeoJson ? `kk-${mapScopeKey}-faithful` : 'kk-china';
+    if (renderedGeoJson) echarts.registerMap(mapName, renderedGeoJson as never);
     const regionView = selectedRegion ? regionMapViews[selectedRegion] : undefined;
     const featurePoint = (feature: AdministrativeFeature) => feature.properties.centroid ?? feature.properties.center;
     const allDistrictPoints = detailedGeoJson?.features.map(featurePoint).filter((point): point is [number, number] => Boolean(point)) ?? [];
@@ -498,9 +509,11 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       }
     }
     const selectedDistrictPoints = detailedGeoJson?.features.filter((feature) => selectedDistrictNames.includes(feature.properties.name ?? '')).map(featurePoint).filter((point): point is [number, number] => Boolean(point)) ?? [];
-    const selectedMapCenter: [number, number] | undefined = selectedDistrictPoints.length ? [
-      selectedDistrictPoints.reduce((sum, point) => sum + point[0], 0) / selectedDistrictPoints.length,
-      selectedDistrictPoints.reduce((sum, point) => sum + point[1], 0) / selectedDistrictPoints.length,
+    const selectedStoreCoordinates = selectedRegionRecord?.stores.filter((store) => Number.isFinite(store.longitude) && Number.isFinite(store.latitude)).map((store) => [store.longitude as number, store.latitude as number] as [number, number]) ?? [];
+    const selectedFocusPoints = selectedStoreCoordinates.length ? selectedStoreCoordinates : selectedDistrictPoints;
+    const selectedMapCenter: [number, number] | undefined = selectedFocusPoints.length ? [
+      selectedFocusPoints.reduce((sum, point) => sum + point[0], 0) / selectedFocusPoints.length,
+      selectedFocusPoints.reduce((sum, point) => sum + point[1], 0) / selectedFocusPoints.length,
     ] : regionView?.center;
     const coordinateSpan = (points: [number, number][]) => {
       if (!points.length) return [1, 1] as const;
@@ -509,10 +522,10 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       return [Math.max(.12, Math.max(...longitudes) - Math.min(...longitudes)), Math.max(.12, Math.max(...latitudes) - Math.min(...latitudes))] as const;
     };
     const [allLongitudeSpan, allLatitudeSpan] = coordinateSpan(allDistrictPoints);
-    const [selectedLongitudeSpan, selectedLatitudeSpan] = coordinateSpan(selectedDistrictPoints);
-    const selectedRegionZoom = Math.min(3.2, Math.max(1.05, .72 * Math.min(allLongitudeSpan / selectedLongitudeSpan, allLatitudeSpan / selectedLatitudeSpan)));
+    const [selectedLongitudeSpan, selectedLatitudeSpan] = coordinateSpan(selectedFocusPoints);
+    const selectedRegionZoom = Math.min(4.6, Math.max(1.2, .78 * Math.min(allLongitudeSpan / selectedLongitudeSpan, allLatitudeSpan / selectedLatitudeSpan)));
     const areaView: { center?: [number, number]; zoom: number } = detailedGeoJson
-      ? selectedRegion ? { center: selectedMapCenter, zoom: selectedRegionZoom } : selectedArea === '浙江大区' ? { center: [120.15, 29.35], zoom: 1.03 } : selectedArea === '苏皖大区' ? { center: [118.8, 32], zoom: 1.02 } : { center: [112, 27.3], zoom: .94 }
+      ? selectedRegion ? { center: selectedMapCenter, zoom: selectedRegionZoom } : selectedArea === '浙江大区' ? { center: [120.15, 29.35], zoom: 4.05 } : selectedArea === '苏皖大区' ? { center: [118.8, 31.8], zoom: 2.85 } : { center: [108.7, 31], zoom: .97 }
       : regionView ?? (selectedArea === '浙江大区' ? { center: [120.15, 29.8], zoom: 4 } : selectedArea === '苏皖大区' ? { center: [118.8, 31.8], zoom: 3 } : selectedArea === '总部直管' ? { center: [112.8, 27.1], zoom: 1.35 } : { center: undefined, zoom: .92 });
     const areaEntries = Object.entries(areaGroups) as [BusinessAreaName, (typeof areaGroups)[BusinessAreaName]][];
     const areaRegions = selectedArea === '全国' ? [] : directoryRegions.filter((region) => region.area === selectedArea);
@@ -521,45 +534,42 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       const name = feature.properties.name ?? '';
       return Boolean(name && (areaAdministrativeNames.has(name) || areaRegions.some((region) => region.stores.some((store) => store.address?.includes(name)))));
     }).map((feature) => feature.properties.name ?? '') ?? []);
-    const activeRegions = regionPerformance.filter((region) => selectedArea !== '全国' && !selectedRegion && region.area === selectedArea).map((region) => {
+    const activeRegions = regionPerformance.filter((region) => selectedArea !== '全国' && !selectedRegion && region.area === selectedArea).map((region, index) => {
       const fallbackCenter = areaBubbles.find((area) => area.name === region.area)?.value ?? [110, 30];
       const view = regionMapViews[region.name] ?? { center: [...fallbackCenter] as [number, number], zoom: 1.5 };
+      const coordinates = region.stores.filter((store) => Number.isFinite(store.longitude) && Number.isFinite(store.latitude));
+      const expectedAdministrativeNames = regionAdministrativeNames[region.name] ?? [];
+      const alignedCoordinates = coordinates.filter((store) => expectedAdministrativeNames.some((name) => store.address?.includes(name)));
+      const centerCoordinates = alignedCoordinates.length ? alignedCoordinates : coordinates;
+      const center: [number, number] = coordinates.length ? [
+        centerCoordinates.reduce((sum, store) => sum + (store.longitude as number), 0) / centerCoordinates.length,
+        centerCoordinates.reduce((sum, store) => sum + (store.latitude as number), 0) / centerCoordinates.length,
+      ] : view.center;
+      const labelPositions = ['right', 'left', 'top', 'bottom'] as const;
       return {
         name: region.name,
-        value: [...view.center, region.operatingStores],
+        value: [...center, region.operatingStores],
+        label: { position: labelPositions[index % labelPositions.length], distance: 5 },
         itemStyle: { color: areaGroups[region.area].color, borderColor: '#effffb', borderWidth: 1, shadowColor: areaGroups[region.area].color, shadowBlur: 8 },
       };
     });
-    const storePoints = selectedRegionRecord && detailedGeoJson ? selectedRegionRecord.stores.map((store, index) => {
-      const matchedFeature = detailedGeoJson.features.find((feature) => {
-        const districtName = feature.properties.name ?? '';
-        return Boolean(districtName && store.address?.includes(districtName));
-      });
-      const basePoint = matchedFeature ? featurePoint(matchedFeature) : selectedMapCenter ?? regionView?.center;
-      if (!basePoint) return null;
-      const hash = [...store.name].reduce((sum, character, characterIndex) => sum + character.charCodeAt(0) * (characterIndex + 11), 0);
-      const angle = (hash % 360) * Math.PI / 180;
-      const radius = .018 + (index % 4) * .009;
+    const storePoints = selectedRegionRecord && detailedGeoJson ? selectedRegionRecord.stores.map((store) => {
+      if (!Number.isFinite(store.longitude) || !Number.isFinite(store.latitude)) return null;
       return {
         name: store.name,
-        value: [basePoint[0] + Math.cos(angle) * radius, basePoint[1] + Math.sin(angle) * radius, store.tableCount ?? 0],
+        value: [store.longitude as number, store.latitude as number, store.tableCount ?? 0],
         itemStyle: { color: '#f0a24d', borderColor: '#fff9ed', borderWidth: 1.4, shadowColor: '#f0a24d', shadowBlur: 10 },
       };
     }).filter((store): store is NonNullable<typeof store> => Boolean(store)) : [];
-    const nationwideStorePoints = selectedArea === '全国' ? storePerformance.map((store, index) => {
-      const storeText = `${store.name}${store.address ?? ''}`;
-      const cityCenter = storeCityCenters.find(([city]) => storeText.includes(city))?.[1];
-      const fallbackCenter = regionMapViews[store.region]?.center ?? areaBubbles.find((area) => area.name === store.area)?.value ?? [110, 30];
-      const basePoint = cityCenter ?? fallbackCenter;
+    const nationwideStorePoints = selectedArea === '全国' ? storePerformance.map((store) => {
+      if (!Number.isFinite(store.longitude) || !Number.isFinite(store.latitude)) return null;
       const hash = [...store.name].reduce((sum, character, characterIndex) => sum + character.charCodeAt(0) * (characterIndex + 13), 0);
-      const angle = (hash % 360) * Math.PI / 180;
-      const radius = .07 + (hash % 15) * .018 + (index % 4) * .012;
       return {
         name: store.name,
-        value: [basePoint[0] + Math.cos(angle) * radius, basePoint[1] + Math.sin(angle) * radius, store.tableCount ?? 0],
+        value: [store.longitude as number, store.latitude as number, store.tableCount ?? 0],
         itemStyle: { color: areaGroups[store.area].color, opacity: .38 + (hash % 4) * .1, shadowColor: '#dffff4', shadowBlur: 5 },
       };
-    }) : [];
+    }).filter((store): store is NonNullable<typeof store> => Boolean(store)) : [];
     const bubbleData = selectedArea === '全国' ? areaBubbles.map((area) => ({
       name: area.name,
       value: [...area.value, 24],
@@ -571,7 +581,10 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         formatter: (params: { name?: string; value?: number | number[] }) => {
           if (params.name && params.name in areaGroups) return `${params.name}<br/>经营范围`;
           const store = params.name ? storeDirectoryByName.get(params.name) : undefined;
-          if (store) return `${store.name}<br/>台桌数：${store.tableCount ? `${store.tableCount} 张` : '待补充'}<br/>经营阶段：${store.stage}<br/>地址：${store.address ?? '暂无地址'}`;
+          if (store) {
+            const precisionLabel = store.coordinatePrecision === 'poi' ? '商场 / POI' : store.coordinatePrecision === 'poi-complex' ? '商业体复核' : store.coordinatePrecision === 'road' ? '道路地址' : '人工复核';
+            return `${store.name}<br/>台桌数：${store.tableCount ? `${store.tableCount} 张` : '待补充'}<br/>经营阶段：${store.stage}<br/>地址：${store.address ?? '暂无地址'}<br/>定位精度：${precisionLabel}`;
+          }
           const region = params.name ? regionDirectoryByName.get(params.name) : undefined;
           if (region) return `${region.name}<br/>${region.area}<br/>营业门店：${region.operatingStores} 家 · 门店总数：${region.totalStores} 家`;
           if (detailedGeoJson && params.name) {
@@ -584,19 +597,29 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         },
       },
       geo: {
-        map: mapName, roam: selectedArea !== '全国', scaleLimit: { min: .55, max: 9 }, center: selectedArea === '全国' ? undefined : areaView.center, zoom: selectedArea === '全国' ? .92 : areaView.zoom, top: 16, bottom: 8, left: 8, right: 8,
+        map: mapName,
+        roam: selectedArea !== '全国',
+        scaleLimit: { min: .55, max: 9 },
+        aspectScale: 1,
+        layoutCenter: ['50%', selectedRegion ? '52%' : '51%'],
+        layoutSize: selectedArea === '全国' ? '96%' : selectedRegion ? '114%' : selectedArea === '总部直管' ? '98%' : '112%',
+        center: selectedArea === '全国' ? undefined : areaView.center,
+        zoom: selectedArea === '全国' ? .96 : areaView.zoom,
         label: { show: false },
         itemStyle: { areaColor: '#7f918a', borderColor: '#bdcbc6', borderWidth: .8, shadowColor: 'rgba(5,36,29,.16)', shadowBlur: 6 },
-        emphasis: { label: { show: true, color: '#102f28', fontSize: 12, fontWeight: 700 }, itemStyle: { areaColor: '#a7b7b1', borderColor: '#f5fffc', shadowBlur: 14 } },
+        emphasis: { label: { show: false }, itemStyle: { areaColor: '#91a39d', borderColor: '#e5f4ef', shadowBlur: 10 } },
         select: { itemStyle: { areaColor: areaConfig?.color ?? '#4ebc9d' }, label: { color: '#fff' } },
-        regions: detailedGeoJson && selectedArea !== '全国' ? detailedGeoJson.features.map((feature, index) => {
+        regions: renderedGeoJson && detailedGeoJson && selectedArea !== '全国' ? renderedGeoJson.features.map((feature, index) => {
           const name = feature.properties.name ?? '';
+          const detailedFeature = detailedGeoJson.features.some((item) => item.properties.name === name && item.properties.adcode === feature.properties.adcode);
           const highlighted = selectedRegion ? selectedDistrictNames.includes(name) : administrativeNamesWithStores.has(name);
           const palette = areaCityPalettes[selectedArea];
+          const contextColor = selectedRegion ? '#45625a' : detailedFeature ? '#597068' : '#72847e';
           return {
             name,
-            itemStyle: { areaColor: highlighted ? selectedRegion ? areaGroups[selectedArea].color : palette[index % palette.length] : '#657770', borderColor: highlighted ? '#effffb' : '#879a93', borderWidth: highlighted ? 1.4 : .5, opacity: highlighted ? 1 : .24 },
+            itemStyle: { areaColor: highlighted ? selectedRegion ? areaGroups[selectedArea].color : palette[index % palette.length] : contextColor, borderColor: highlighted ? '#effffb' : '#8ea19a', borderWidth: highlighted ? 1.4 : .55, opacity: highlighted ? 1 : selectedRegion ? .62 : detailedFeature ? .54 : .3 },
             label: { show: highlighted, color: '#effffb', fontSize: selectedRegion ? 9.5 : 8.5, fontWeight: selectedRegion ? 700 : 550, textShadowColor: '#12352d', textShadowBlur: 4 },
+            emphasis: { itemStyle: { areaColor: highlighted ? areaGroups[selectedArea].color : contextColor, opacity: highlighted ? 1 : selectedRegion ? .68 : .42 }, label: { show: highlighted, color: '#effffb' } },
           };
         }) : Object.keys(provinceProgress).map((name) => {
           const provinceArea = areaEntries.find(([, config]) => config.provinces.includes(name))?.[0];
@@ -608,11 +631,12 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       },
       series: [{
         name: '二级区域', type: 'effectScatter', coordinateSystem: 'geo', data: activeRegions,
-        symbolSize: (value: number[]) => Math.max(8, Math.min(18, 7 + Math.sqrt(value[2]) * 2.2)),
-        rippleEffect: { brushType: 'stroke', scale: 3 },
-        label: { show: selectedArea !== '全国', formatter: '{b}', position: 'right', color: '#effffb', fontSize: 9, fontWeight: 500, textShadowColor: '#06251f', textShadowBlur: 4 },
+        symbolSize: (value: number[]) => Math.max(7, Math.min(selectedArea === '总部直管' ? 13 : 16, 6 + Math.sqrt(value[2]) * 1.8)),
+        rippleEffect: { brushType: 'stroke', scale: 2.35 },
+        label: { show: selectedArea !== '全国', formatter: '{b}', position: 'right', color: '#effffb', fontSize: selectedArea === '总部直管' ? 8 : 9, fontWeight: 600, textShadowColor: '#06251f', textShadowBlur: 4 },
+        labelLayout: { hideOverlap: true, moveOverlap: 'shiftY' },
         itemStyle: { color: '#d0a15d', shadowColor: '#d0a15d', shadowBlur: 9 },
-        emphasis: { scale: 1.35 }, zlevel: 2,
+        emphasis: { scale: 1.35, label: { show: true, fontSize: 10, fontWeight: 700 } }, zlevel: 2,
       }, {
         name: '门店网点', type: 'scatter', coordinateSystem: 'geo', data: storePoints,
         symbol: 'circle', symbolSize: (value: number[]) => Math.max(7, Math.min(12, 5 + Math.sqrt(Math.max(1, value[2])) * .8)),
@@ -620,11 +644,11 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
         emphasis: { scale: 1.55, itemStyle: { borderWidth: 2, shadowBlur: 18 } }, zlevel: 5,
       }, {
         name: '全国门店', type: 'scatter', coordinateSystem: 'geo', data: nationwideStorePoints,
-        symbol: 'circle', symbolSize: 3.2, label: { show: false },
+        symbol: 'circle', symbolSize: 2.8, label: { show: false },
         emphasis: { scale: 2.2, itemStyle: { opacity: 1, shadowBlur: 12 } }, zlevel: 1,
       }, {
         name: '门店微光', type: 'effectScatter', coordinateSystem: 'geo', data: nationwideStorePoints.filter((_, index) => index % 5 === 0),
-        symbolSize: 2.4, showEffectOn: 'render', rippleEffect: { brushType: 'fill', period: 7, scale: 2.8, number: 1 },
+        symbolSize: 2, showEffectOn: 'render', rippleEffect: { brushType: 'fill', period: 7, scale: 2.5, number: 1 },
         label: { show: false }, itemStyle: { opacity: .5 }, silent: true, zlevel: 2,
       }, {
         name: '大区气泡', type: 'effectScatter', coordinateSystem: 'geo', data: bubbleData,
@@ -822,7 +846,8 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
             <EChartCanvas option={mapOption} className="rt2-china-map" onPointClick={handleMapClick} />
             <ScopeCascader compact selectedArea={selectedArea} selectedRegion={selectedRegion} onSelectArea={selectAreaScope} onSelectRegion={selectRegionScope} />
             <div className="rt2-map-stats"><span>大区<b>{selectedArea === '全国' ? 3 : 1}</b></span><span>区域<b>{summary.regions}</b></span><span>营业门店<b>{summary.stores}</b></span><span>筹备中<b>{summary.preparing}</b></span></div>
-            <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span><span><i className="point" />门店网点</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />{selectedRegion ? '区县行政边界' : '市级行政边界'}</span><span><i className="point" />{selectedRegion ? '门店网点' : '二级区域'}</span></>}</div>
+            <div className="rt2-map-legend">{selectedArea === '全国' ? <><span><i className="zhejiang" />浙江大区</span><span><i className="suwan" />苏皖大区</span><span><i className="direct" />总部直管</span><span><i className="other" />其他区域</span><span><i className="point" />真实门店坐标</span></> : <><span><i className={selectedArea === '浙江大区' ? 'zhejiang' : selectedArea === '苏皖大区' ? 'suwan' : 'direct'} />{selectedArea}</span><span><i className="boundary" />{selectedRegion ? '区县行政边界' : '市级行政边界'}</span><span><i className="point" />{selectedRegion ? '真实门店坐标' : '二级区域'}</span></>}</div>
+            <a className="rt2-map-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">门店坐标 © OpenStreetMap contributors · WGS84</a>
             <button className="rt2-south-sea" aria-label="南海诸岛位置示意图" onClick={() => onToast('南海诸岛 · 当前暂无直营网点')}>
               <b className="rt2-sea-title">南海诸岛</b>
               <span className="rt2-sea-group dongsha" aria-hidden="true"><i /></span>
