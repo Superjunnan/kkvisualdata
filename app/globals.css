@@ -292,9 +292,8 @@ body { font-family:Inter,"SF Pro Display","PingFang SC","Microsoft YaHei",Arial,
 .rt2-maplibre .maplibregl-canvas { outline:0; }
 .rt2-maplibre .maplibregl-canvas-container { cursor:grab; }
 .rt2-maplibre .maplibregl-canvas-container:active { cursor:grabbing; }
-.rt2-maplibre .maplibregl-ctrl-top-left { top:48px; left:8px; }
-.rt2-maplibre .maplibregl-ctrl-attrib.maplibregl-compact { min-height:20px; color:#8da8a0; background:rgba(6,31,26,.78); border:1px solid rgba(80,121,110,.5); border-radius:4px; box-shadow:none; font-size:9px; backdrop-filter:blur(4px); }
-.rt2-maplibre .maplibregl-ctrl-attrib-button { filter:invert(.82) sepia(.15) saturate(.6) hue-rotate(105deg); }
+.rt2-map-source-link { position:absolute; z-index:6; top:7px; left:7px; width:12px; height:12px; display:grid; place-items:center; color:#d9eee7; background:rgba(5,35,29,.32); border:1px solid currentColor; border-radius:50%; font:700 8px/1 Arial,sans-serif; text-decoration:none; opacity:.12; transition:opacity .18s ease,transform .18s ease; }
+.rt2-map-source-link:hover,.rt2-map-source-link:focus-visible { opacity:.68; transform:scale(1.08); outline:none; }
 .rt2-map-loading { position:absolute; z-index:3; inset:0; display:flex; align-items:center; justify-content:center; gap:9px; color:#9bbab1; background:rgba(5,35,29,.88); font-size:11px; letter-spacing:.05em; }
 .rt2-map-loading i { width:15px; height:15px; border:2px solid rgba(99,203,173,.24); border-top-color:#63cbad; border-radius:50%; animation:rt2-map-loading .8s linear infinite; }
 @keyframes rt2-map-loading { to { transform:rotate(360deg); } }

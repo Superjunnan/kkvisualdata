@@ -285,7 +285,6 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
       fadeDuration: 0,
     });
     mapRef.current = map;
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-left');
     map.on('load', () => {
       map.addSource('kk-administrative', { type: 'geojson', data: initialSourcesRef.current.administrativeData as never });
       map.addLayer({ id: 'kk-administrative-fill', type: 'fill', source: 'kk-administrative', paint: { 'fill-color': ['get', 'fillColor'], 'fill-opacity': ['get', 'fillOpacity'] } }, 'road-casing-major');
@@ -367,6 +366,14 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
 
   return <div className={`${className} rt2-maplibre`}>
     <div ref={containerRef} className="rt2-maplibre-canvas" />
+    <a
+      className="rt2-map-source-link"
+      href="https://openfreemap.org/"
+      target="_blank"
+      rel="noreferrer"
+      aria-label="查看地图数据来源"
+      title="地图数据来源"
+    >i</a>
     {!loaded && <div className="rt2-map-loading"><i />正在加载道路与门店地图…</div>}
     {tooltip && tooltipMetrics && <div className="rt2-map-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
       <b>{tooltip.store.name}</b>
