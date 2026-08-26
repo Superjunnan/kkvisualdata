@@ -57,12 +57,6 @@ const areaColors: Record<BusinessAreaName, { color: string; light: string }> = {
   总部直管: { color: '#d39a5d', light: '#dfb681' },
 };
 
-const areaProvinceNames: Record<BusinessAreaName, string[]> = {
-  浙江大区: ['浙江'],
-  苏皖大区: ['江苏', '安徽'],
-  总部直管: ['上海', '福建', '山东', '湖北', '湖南', '广东', '广西', '海南', '重庆', '四川', '贵州'],
-};
-
 const regionAdministrativeNames: Record<string, string[]> = {
   杭州一区: ['杭州市'], 杭州二区: ['杭州市'], 杭州三区: ['杭州市'], 金华区域: ['金华市', '绍兴市'], 宁波一区: ['宁波市'], 宁波二区: ['宁波市'], 绍兴区域: ['绍兴市'],
   常州区域: ['常州市', '湖州市'], 合肥区域: ['合肥市'], 南京区域: ['南京市', '镇江市'], 苏州一区: ['苏州市'], 苏州二区: ['苏州市'], 无锡区域: ['无锡市', '南通市', '苏州市'],
@@ -84,29 +78,21 @@ const baseMapStyle = {
     openmaptiles: {
       type: 'vector',
       url: 'https://tiles.openfreemap.org/planet',
+      maxzoom: 12,
       attribution: '<a href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> <a href="https://www.openmaptiles.org/" target="_blank">© OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
     },
   },
   glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
   layers: [
     { id: 'background', type: 'background', paint: { 'background-color': '#072a23' } },
-    { id: 'landcover', type: 'fill', source: 'openmaptiles', 'source-layer': 'landcover', paint: { 'fill-color': ['match', ['get', 'class'], 'wood', '#163b32', 'grass', '#173d33', 'wetland', '#123b35', '#10342c'], 'fill-opacity': 0.34 } },
-    { id: 'park', type: 'fill', source: 'openmaptiles', 'source-layer': 'park', minzoom: 7, paint: { 'fill-color': '#17473b', 'fill-opacity': 0.34 } },
     { id: 'water', type: 'fill', source: 'openmaptiles', 'source-layer': 'water', paint: { 'fill-color': '#041f1c', 'fill-opacity': 0.94 } },
-    { id: 'waterway', type: 'line', source: 'openmaptiles', 'source-layer': 'waterway', minzoom: 6, paint: { 'line-color': '#26645b', 'line-opacity': 0.58, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.35, 12, 1.2] } },
-    { id: 'base-boundary', type: 'line', source: 'openmaptiles', 'source-layer': 'boundary', minzoom: 4, paint: { 'line-color': '#54776e', 'line-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.22, 10, 0.5], 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 0.35, 10, 0.9] } },
-    { id: 'road-casing-major', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 4, filter: ['match', ['get', 'class'], ['motorway', 'trunk', 'primary'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#163f37', 'line-opacity': 0.9, 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 0.8, 8, 2.1, 12, 5.2] } },
-    { id: 'road-major', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 4, filter: ['match', ['get', 'class'], ['motorway', 'trunk', 'primary'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['match', ['get', 'class'], 'motorway', '#78bfa2', 'trunk', '#68ac93', '#5b927f'], 'line-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.35, 7, 0.72, 11, 0.88], 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 0.35, 8, 1.15, 12, 3.1] } },
-    { id: 'road-casing-secondary', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 6, filter: ['match', ['get', 'class'], ['secondary', 'tertiary'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#153a33', 'line-opacity': 0.85, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.7, 10, 2, 14, 4.2] } },
-    { id: 'road-secondary', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 6, filter: ['match', ['get', 'class'], ['secondary', 'tertiary'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#4e806f', 'line-opacity': ['interpolate', ['linear'], ['zoom'], 6, 0.25, 9, 0.62, 13, 0.76], 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.3, 10, 1.05, 14, 2.4] } },
-    { id: 'road-minor', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 8, filter: ['match', ['get', 'class'], ['minor', 'service'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#52766c', 'line-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0.12, 12, 0.48, 15, 0.68], 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.25, 12, 0.7, 15, 1.4] } },
-    { id: 'building', type: 'fill', source: 'openmaptiles', 'source-layer': 'building', minzoom: 12, paint: { 'fill-color': '#35584f', 'fill-opacity': 0.34, 'fill-outline-color': '#466c62' } },
+    { id: 'waterway', type: 'line', source: 'openmaptiles', 'source-layer': 'waterway', minzoom: 7.5, filter: ['match', ['get', 'class'], ['river', 'canal'], true, false], paint: { 'line-color': '#26645b', 'line-opacity': 0.5, 'line-width': ['interpolate', ['linear'], ['zoom'], 7.5, 0.35, 12, 1] } },
+    { id: 'base-boundary', type: 'line', source: 'openmaptiles', 'source-layer': 'boundary', minzoom: 6, paint: { 'line-color': '#54776e', 'line-opacity': 0.34, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.35, 11, 0.75] } },
+    { id: 'road-casing-major', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 5.5, filter: ['match', ['get', 'class'], ['motorway', 'trunk', 'primary'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#153a33', 'line-opacity': 0.86, 'line-width': ['interpolate', ['linear'], ['zoom'], 5.5, 0.75, 9, 2, 12, 4.2] } },
+    { id: 'road-major', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 5.5, filter: ['match', ['get', 'class'], ['motorway', 'trunk', 'primary'], true, false], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['match', ['get', 'class'], 'motorway', '#71b89d', 'trunk', '#639b87', '#578270'], 'line-opacity': 0.72, 'line-width': ['interpolate', ['linear'], ['zoom'], 5.5, 0.3, 9, 1.05, 12, 2.6] } },
+    { id: 'road-secondary', type: 'line', source: 'openmaptiles', 'source-layer': 'transportation', minzoom: 9.5, filter: ['==', ['get', 'class'], 'secondary'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#4e7569', 'line-opacity': 0.44, 'line-width': ['interpolate', ['linear'], ['zoom'], 9.5, 0.35, 12, 0.8] } },
   ],
 } as StyleSpecification;
-
-function normalizeAdministrativeName(name: string) {
-  return name.replace(/(?:壮族|回族|维吾尔)?自治区$|特别行政区$|省$|市$/, '');
-}
 
 function averageCoordinate(stores: Array<{ longitude?: number; latitude?: number }>, fallback: [number, number]): [number, number] {
   const coordinates = stores.filter((store) => Number.isFinite(store.longitude) && Number.isFinite(store.latitude));
@@ -169,12 +155,19 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
   const mapRef = useRef<MapLibreMap | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [tooltip, setTooltip] = useState<TooltipState>(null);
+  const lastTooltipStoreRef = useRef<string | null>(null);
   const selectedRegionRecord = useMemo(() => selectedRegion ? regions.find((region) => region.name === selectedRegion) : undefined, [regions, selectedRegion]);
   const scopedStores = useMemo(() => stores.filter((store) => (selectedArea === '全国' || store.area === selectedArea) && (!selectedRegion || store.region === selectedRegion)), [selectedArea, selectedRegion, stores]);
   const selectedNames = useMemo(() => selectedAdministrativeNames(selectedRegionRecord, administrativeGeoJson), [administrativeGeoJson, selectedRegionRecord]);
 
   const administrativeData = useMemo(() => {
-    const source = selectedArea === '全国' ? chinaGeoJson as unknown as AdministrativeGeoJson : administrativeGeoJson;
+    const source = selectedArea === '全国' ? {
+      type: 'FeatureCollection' as const,
+      features: [
+        ...(chinaGeoJson as unknown as AdministrativeGeoJson).features,
+        ...(administrativeGeoJson?.features ?? []),
+      ],
+    } : administrativeGeoJson;
     if (!source) return { type: 'FeatureCollection' as const, features: [] };
     const areaRegions = regions.filter((region) => region.area === selectedArea);
     const areaAdministrativeNames = new Set(areaRegions.flatMap((region) => regionAdministrativeNames[region.name] ?? []));
@@ -184,8 +177,8 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
         const name = feature.properties.name ?? '';
         let featureArea: BusinessAreaName | undefined;
         if (selectedArea === '全国') {
-          const normalized = normalizeAdministrativeName(name);
-          featureArea = (Object.entries(areaProvinceNames) as [BusinessAreaName, string[]][]).find(([, names]) => names.includes(normalized))?.[0];
+          featureArea = regions.find((region) => (regionAdministrativeNames[region.name] ?? []).includes(name)
+            || region.stores.some((store) => store.address?.includes(name)))?.area;
         }
         const highlighted = selectedArea === '全国'
           ? Boolean(featureArea)
@@ -264,6 +257,7 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
       pitchWithRotate: false,
       touchPitch: false,
       renderWorldCopies: false,
+      fadeDuration: 0,
     });
     mapRef.current = map;
     map.on('load', () => {
@@ -272,10 +266,8 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
       map.addLayer({ id: 'kk-administrative-outline', type: 'line', source: 'kk-administrative', paint: { 'line-color': ['case', ['==', ['get', 'highlighted'], 1], '#e8fff8', '#709088'], 'line-opacity': ['get', 'lineOpacity'], 'line-width': ['case', ['==', ['get', 'highlighted'], 1], ['interpolate', ['linear'], ['zoom'], 4, 1, 10, 2.1], 0.7] } });
       map.addLayer({ id: 'kk-administrative-label', type: 'symbol', source: 'kk-administrative', minzoom: 5.2, filter: ['==', ['get', 'labelVisible'], 1], layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Regular'], 'text-size': ['interpolate', ['linear'], ['zoom'], 5, 10, 10, 13], 'text-allow-overlap': false, 'text-padding': 4 }, paint: { 'text-color': '#e8fff8', 'text-halo-color': '#092e27', 'text-halo-width': 1.5, 'text-halo-blur': 0.5 } });
       map.addSource('kk-stores', { type: 'geojson', data: initialSourcesRef.current.storeData as never });
-      map.addLayer({ id: 'kk-store-glow', type: 'circle', source: 'kk-stores', paint: { 'circle-color': '#f0a24d', 'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 2.4, 8, 7, 13, 12], 'circle-blur': 0.75, 'circle-opacity': ['*', ['get', 'opacity'], 0.42] } });
       map.addLayer({ id: 'kk-store-points', type: 'circle', source: 'kk-stores', paint: { 'circle-color': ['match', ['get', 'area'], '浙江大区', '#6dd1b3', '苏皖大区', '#d0dbc6', '总部直管', '#eea75c', '#f0a24d'], 'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 1.4, 6, 2.7, 9, 4.5, 13, 6.5], 'circle-opacity': ['get', 'opacity'], 'circle-stroke-color': '#fff9ed', 'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 4, 0, 8, 1.2] } });
       map.addSource('kk-bubbles', { type: 'geojson', data: initialSourcesRef.current.bubbleData as never });
-      map.addLayer({ id: 'kk-bubble-glow', type: 'circle', source: 'kk-bubbles', paint: { 'circle-color': ['get', 'color'], 'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 17, 8, 23], 'circle-blur': 0.72, 'circle-opacity': 0.32 } });
       map.addLayer({ id: 'kk-bubbles', type: 'circle', source: 'kk-bubbles', paint: { 'circle-color': ['get', 'color'], 'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 7, 8, 11], 'circle-opacity': 0.9, 'circle-stroke-color': '#f4fffc', 'circle-stroke-width': 2 } });
       map.addLayer({ id: 'kk-bubble-labels', type: 'symbol', source: 'kk-bubbles', layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Regular'], 'text-size': ['interpolate', ['linear'], ['zoom'], 3, 10, 8, 13], 'text-offset': [0, -1.55], 'text-anchor': 'bottom', 'text-allow-overlap': false, 'text-padding': 4 }, paint: { 'text-color': '#f1fff9', 'text-halo-color': '#082b24', 'text-halo-width': 1.7, 'text-halo-blur': 0.5 } });
       setLoaded(true);
@@ -306,19 +298,23 @@ export default function BusinessMap({ className = '', selectedArea, selectedRegi
     const handleMove = (event: maplibregl.MapMouseEvent) => {
       const feature = map.queryRenderedFeatures(event.point, { layers: ['kk-store-points'] })[0];
       if (!feature?.properties?.name) {
-        setTooltip(null);
+        if (lastTooltipStoreRef.current) setTooltip(null);
+        lastTooltipStoreRef.current = null;
         map.getCanvas().style.cursor = '';
         return;
       }
       const store = storeByName.get(feature.properties.name as string);
       if (!store) return;
       map.getCanvas().style.cursor = 'pointer';
+      if (lastTooltipStoreRef.current === store.name) return;
+      lastTooltipStoreRef.current = store.name;
       const width = containerRef.current?.clientWidth ?? 0;
       const height = containerRef.current?.clientHeight ?? 0;
       setTooltip({ x: Math.min(event.point.x + 14, Math.max(14, width - 292)), y: Math.min(event.point.y + 14, Math.max(14, height - 170)), store });
     };
     const handleLeave = () => {
       setTooltip(null);
+      lastTooltipStoreRef.current = null;
       map.getCanvas().style.cursor = '';
     };
     const handleClick = (event: maplibregl.MapMouseEvent) => {

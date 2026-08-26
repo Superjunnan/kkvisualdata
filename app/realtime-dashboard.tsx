@@ -445,7 +445,6 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
   }, [selectedArea, selectedRegion]);
 
   useEffect(() => {
-    if (selectedArea === '全国') return;
     let cancelled = false;
     const cached = administrativeMapCache.get(mapScopeKey);
     if (cached) {
@@ -454,21 +453,31 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       });
       return () => { cancelled = true; };
     }
-    const adcodes = selectedRegion ? regionMapAdcodes[selectedRegion] ?? [] : areaProvinceAdcodes[selectedArea];
+    const adcodes = selectedArea === '全国'
+      ? [...new Set(businessAreas.flatMap((area) => areaProvinceAdcodes[area]))]
+      : selectedRegion ? regionMapAdcodes[selectedRegion] ?? [] : areaProvinceAdcodes[selectedArea];
     Promise.all(adcodes.map(async (adcode) => {
       const response = await fetch(`/api/geo?adcode=${adcode}`);
       if (!response.ok) throw new Error(`行政边界数据加载失败：${adcode}`);
       return response.json() as Promise<AdministrativeGeoJson>;
     })).then((collections) => {
       if (cancelled) return;
-      const geoJson: AdministrativeGeoJson = { type: 'FeatureCollection', features: collections.flatMap((collection) => collection.features) };
+      const allFeatures = collections.flatMap((collection) => collection.features);
+      const managedNames = new Set(directoryRegions.flatMap((region) => regionAdministrativeNames[region.name] ?? []));
+      const geoJson: AdministrativeGeoJson = {
+        type: 'FeatureCollection',
+        features: selectedArea === '全国' ? allFeatures.filter((feature) => {
+          const name = feature.properties.name ?? '';
+          return managedNames.has(name) || directoryRegions.some((region) => region.stores.some((store) => store.address?.includes(name)));
+        }) : allFeatures,
+      };
       administrativeMapCache.set(mapScopeKey, geoJson);
       setAdministrativeMap({ key: mapScopeKey, geoJson });
     }).catch(() => undefined);
     return () => { cancelled = true; };
   }, [mapScopeKey, selectedArea, selectedRegion]);
 
-  const mapOption = useMemo<EChartsOption>(() => {
+  const buildLegacyMapOption = useCallback((): EChartsOption => {
     echarts.registerMap('kk-china', chinaGeoJson as never);
     const areaConfig = selectedArea === '全国' ? null : areaGroups[selectedArea];
     const detailedGeoJson = selectedArea !== '全国' && administrativeMap?.key === mapScopeKey ? administrativeMap.geoJson : null;
@@ -659,7 +668,7 @@ export default function RealtimeDashboard({ onToast, onBack }: RealtimeDashboard
       }],
     };
   }, [administrativeMap, mapScopeKey, selectedArea, selectedRegion, selectedRegionRecord]);
-  void mapOption;
+  void buildLegacyMapOption;
 
   const revenueOption = useMemo<EChartsOption>(() => ({
     animationDuration: 700,
